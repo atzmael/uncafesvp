@@ -23,6 +23,7 @@
   "dependencies": {
     "gsap": "^2.1.3",
     "src": "^1.1.2",
-    "three": "^0.110.0"
+    "three": "^0.110.0",
+    "three-gltf-loader": "^1.109.0"
   }
 }

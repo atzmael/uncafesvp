@@ -2,6 +2,6 @@
  * Import js files here
  */
 
+import EntryPoint from "./three/EntryPoint.js"
 
-
-console.log('Main js ready');
+window.entryPoint = EntryPoint()
