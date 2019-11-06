@@ -1,0 +1,9 @@
+# Front
+node_modules/
+.DS_Store
+._*
+.idea/
+.package-lock.json
+build
+npm-debug.log
+.env
