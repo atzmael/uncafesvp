@@ -1,9 +1,14 @@
-# Front
+# Dev env
 node_modules/
-.DS_Store
-._*
-.idea/
 .package-lock.json
-build
+dist/
+.cache
 npm-debug.log
 .env
+
+# Editor
+.idea/
+
+# OS
+.DS_Store
+._*
