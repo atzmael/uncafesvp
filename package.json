@@ -17,8 +17,11 @@
     "@babel/preset-react": "^7.7.0",
     "autoprefixer": "^9.7.1",
     "cssnano": "^4.1.10",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-svelte": "^4.0.4",
     "postcss-modules": "^1.4.1",
-    "sass": "^1.23.3"
+    "sass": "^1.23.3",
+    "svelte": "^3.12.1"
   },
   "dependencies": {
     "gsap": "^2.1.3",
