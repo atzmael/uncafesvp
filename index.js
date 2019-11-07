@@ -1,9 +1,8 @@
-import './src/assets/scss/main.scss';
-import './src/assets/js/main.js';
-import './src/svelte-app.js';
+import "./src/scss/main.scss"
+import "./src/svelte-app.js"
 
 if (module.hot) {
-	module.hot.accept()
+    module.hot.accept()
 }
 
-console.log("Parcel ready");
+console.log("Parcel ready")

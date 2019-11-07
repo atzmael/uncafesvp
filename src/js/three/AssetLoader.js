@@ -48,6 +48,7 @@ const AssetsLoader = () => {
                 resolve()
             })
         } else {
+            //TODO: use reject properly
             reject("Can't load texture")
         }
     }

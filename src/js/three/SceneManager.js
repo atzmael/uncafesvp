@@ -1,9 +1,13 @@
 import * as THREE from "three"
 import Cube from "./Cube.js"
 
-const EntryPoint = () => {
-    const container = document.querySelector("#container")
-    // document.body.appendChild(container)
+const SceneManager = (container) => {
+    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    container.appendChild(renderer.domElement)
+
+    const scene = new THREE.Scene()
 
     const camera = new THREE.PerspectiveCamera(
         45,
@@ -13,27 +17,17 @@ const EntryPoint = () => {
     )
     camera.position.z = 10
 
-    const scene = new THREE.Scene()
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(window.devicePixelRatio)
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    container.appendChild(renderer.domElement)
-
     const render = () => {
         renderer.render(scene, camera)
     }
 
-    const onWindowResize = () => {
+    const onCanvasResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight
         camera.updateProjectionMatrix()
         renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
-    window.addEventListener("resize", onWindowResize.bind(this), false)
-    onWindowResize()
-
-    renderer.animate(render.bind(this))
+    renderer.animate(render)
 
     // TODO: load "dist/assets/3D/vertical_placeholder.glb" using AssetLoader and display just nearby the 1,1,1 threejs cube
     let cube = Cube()
@@ -43,6 +37,10 @@ const EntryPoint = () => {
     cube.position.x = 1
 
     render()
+
+    return {
+        onCanvasResize
+    }
 }
 
-export default EntryPoint
+export default SceneManager
