@@ -34,7 +34,7 @@ const SceneManager = (container) => {
 
     scene.add(cube)
 
-    cube.position.x = 1
+    window.guiFunc.addMeshToGui(cube)
 
     render()
 
