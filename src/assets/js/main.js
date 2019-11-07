@@ -4,4 +4,4 @@
 
 import EntryPoint from "./three/EntryPoint.js"
 
-window.entryPoint = EntryPoint()
+//window.entryPoint = EntryPoint()
