@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import Cube from "./Cube.js"
+import GUI from "../GUI.js"
 
 const SceneManager = (container) => {
     const renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -34,7 +35,7 @@ const SceneManager = (container) => {
 
     scene.add(cube)
 
-    window.guiFunc.addMeshToGui(cube)
+    GUI.addMeshToGui(cube)
 
     render()
 
