@@ -2,20 +2,20 @@
   import { onMount, onDestroy } from "svelte";
   import onWindowResize from "../js/onWindowResize.js";
 
-  import EntryPoint from "../js/three/EntryPoint.js";
+  import SceneManager from "../js/three/SceneManager.js";
 
   export let assets;
 
   let canvas;
-  let entryPoint;
+  let sceneManager;
 
   onMount(() => {
-    entryPoint = EntryPoint(canvas);
-    entryPoint.onWindowResize();
+    sceneManager = SceneManager(canvas);
+    sceneManager.onCanvasResize();
   });
 
   onWindowResize(() => {
-    entryPoint.onWindowResize();
+    sceneManager.onCanvasResize();
   });
 </script>
 
