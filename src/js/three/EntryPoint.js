@@ -1,7 +1,7 @@
 import SceneManager from "./SceneManager.js"
 
-const EntryPoint = (container) => {
-    const sceneManager = SceneManager(container)
+const EntryPoint = (canvas) => {
+    const sceneManager = SceneManager(canvas)
 
     const onWindowResize = () => {
         sceneManager.onCanvasResize()

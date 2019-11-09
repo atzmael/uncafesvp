@@ -13,6 +13,9 @@ const GUI = () => {
         } else if (object.type == "Mesh") {
             folder = folders[object.name]
             folder.add(object, "visible")
+            folder.add(object.position, "x")
+            folder.add(object.position, "y")
+            folder.add(object.position, "z")
         }
     }
 
