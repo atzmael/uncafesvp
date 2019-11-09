@@ -7,6 +7,8 @@ const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
     let height = canvas.parentNode.offsetHeight // assuming canvas height: 100%
 
+    let activeXpStageIndx = 0
+
     const buildRenderer = ({ width, height }) => {
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
@@ -35,13 +37,24 @@ const SceneManager = (canvas) => {
 
     // TODO: load "dist/assets/3D/vertical_placeholder.glb" using AssetLoader and display just nearby the 1,1,1 threejs cube
     let cube = Cube()
-    let bgPlane = BgPlane(camera)
-
     scene.add(cube.mesh)
+
+    let bgPlane = BgPlane(camera)
+    camera.add(bgPlane.mesh)
     scene.add(camera) // this is needed to add objects attached to camera in the scene
 
     // GUI.addMeshToGui(cube)
     GUI.addMeshToGui(bgPlane.mesh)
+
+    const nextXpStage = () => {
+        activeXpStageIndx += 1
+        console.log(activeXpStageIndx)
+        // TODO: activeXpStageIndx = Math.min(activeXpStageIndx + 1, XpStages.length);
+    }
+    const previousXpStage = () => {
+        activeXpStageIndx = Math.max(activeXpStageIndx - 1, 0)
+        console.log(activeXpStageIndx)
+    }
 
     const onCanvasResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight
@@ -57,7 +70,9 @@ const SceneManager = (canvas) => {
     renderer.setAnimationLoop(mainLoop)
 
     return {
-        onCanvasResize
+        onCanvasResize,
+        nextXpStage,
+        previousXpStage
     }
 }
 

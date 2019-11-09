@@ -6,7 +6,7 @@ const ChosableItem = ({ model, options = {} }) => {
     }
 
     const update = (time) => {
-        //TODO: floating ?
+        //TODO: floating in midair ?
     }
 
     return {

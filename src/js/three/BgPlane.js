@@ -38,8 +38,6 @@ const BgPlane = (activeCamera) => {
     planeMesh.position.z = -(activeCamera.far * 0.99999)
     scaleToFitCanvas()
 
-    activeCamera.add(planeMesh)
-
     const update = () => {
         // planeMat.uniforms.time.value = Date.now()
     }

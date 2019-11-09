@@ -6,6 +6,8 @@
 
   export let assets;
 
+  const isDebugging = true;
+
   let canvas;
   let sceneManager;
 
@@ -17,6 +19,13 @@
   onWindowResize(() => {
     sceneManager.onCanvasResize();
   });
+
+  const nextHandle = () => {
+    sceneManager.nextXpStage();
+  };
+  const previousHandle = () => {
+    sceneManager.previousXpStage();
+  };
 </script>
 
 <style>
@@ -29,6 +38,11 @@
     width: 100%;
   }
 </style>
+
+{#if isDebugging}
+  <button on:click={previousHandle}>PREVIOUS</button>
+  <button on:click={nextHandle}>NEXT</button>
+{/if}
 
 <div class={`canvas-container`}>
   <canvas bind:this={canvas} />
