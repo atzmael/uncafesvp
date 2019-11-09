@@ -33,21 +33,22 @@ const SceneManager = (canvas) => {
     )
     camera.position.z = 10
 
-    const onCanvasResize = () => {
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-        renderer.setSize(window.innerWidth, window.innerHeight)
-    }
-
     // TODO: load "dist/assets/3D/vertical_placeholder.glb" using AssetLoader and display just nearby the 1,1,1 threejs cube
     let cube = Cube()
     let bgPlane = BgPlane(camera)
 
-    // scene.add(cube)
+    scene.add(cube.mesh)
     scene.add(camera) // this is needed to add objects attached to camera in the scene
 
     // GUI.addMeshToGui(cube)
-    GUI.addMeshToGui(bgPlane.planeMesh)
+    GUI.addMeshToGui(bgPlane.mesh)
+
+    const onCanvasResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
+        // bgPlane.onCanvasResize()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+    }
 
     const mainLoop = (time) => {
         bgPlane.update()

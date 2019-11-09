@@ -6,12 +6,12 @@ const GUI = () => {
     const folders = []
     let folder
 
-    const addMeshToGui = (object, folderName = undefined) => {
-        addFolder(object.name)
+    const addMeshToGui = (object, folderName = object.name) => {
+        addFolder(folderName)
         if (object.type == "light") {
-            folders[object.name].add(object, "color")
+            folders[folderName].add(object, "color")
         } else if (object.type == "Mesh") {
-            folder = folders[object.name]
+            folder = folders[folderName]
             folder.add(object, "visible")
             folder.add(object.position, "x")
             folder.add(object.position, "y")

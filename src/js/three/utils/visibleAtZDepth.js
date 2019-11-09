@@ -11,9 +11,9 @@ const visibleHeightAtZDepth = (depth, camera) => {
     return 2 * Math.tan(vFOV / 2) * Math.abs(depth)
 }
 
-const visibleWidthAtZDepth = (depth, camera) => {
-    const height = visibleHeightAtZDepth(depth, camera)
-    return height * camera.aspect
-}
+// const visibleWidthAtZDepth = (depth, camera) => {
+//     const height = visibleHeightAtZDepth(depth, camera)
+//     return height * camera.aspect
+// }
 
-export { visibleHeightAtZDepth, visibleWidthAtZDepth }
+export { visibleHeightAtZDepth /*visibleWidthAtZDepth*/ }
