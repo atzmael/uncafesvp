@@ -8,6 +8,9 @@ const AssetsLoader = () => {
     const textureLoader = new THREE.TextureLoader()
 
     const load = (path, ref, childArr) => {
+        if (!path || !ref) {
+            throw "Trying to load an asset, but missing arguments"
+        }
         const extension = path.substr(path.indexOf("."))
         // console.log("chemin : ", path)
         if (extension === ".gltf" || extension === ".glb") {
@@ -17,34 +20,28 @@ const AssetsLoader = () => {
         }
     }
 
-    const loadGLTF = (path, ref, childArr) => {
+    const loadGLTF = (path, ref, childArr = ["scene"]) => {
         return new Promise((resolve, reject) => {
-            if (path && ref) {
-                gltfLoader.load(path, (gltf) => {
-                    if (childArr) {
-                        let object = gltf
-                        childArr.forEach((child, index) => {
-                            object = object[child]
-                        })
-                        assets[ref] = object
-                    } else {
-                        assets[ref] = gltf
-                    }
-                    // console.log("resolved:", ref)
+            gltfLoader.load(
+                path,
+                (gltf) => {
+                    let object = gltf
+                    childArr.forEach((child, index) => {
+                        object = object[child]
+                    })
+                    assets[ref] = object
                     resolve()
-                })
-            } else {
-                reject("Can't load GLTF")
-            }
+                },
+                (xhr) =>
+                    console.log(`${ref}: ${(xhr.loaded / xhr.total) * 100}% loaded`),
+                (err) => reject(`Failed to load GLTF with path ${path}`)
+            )
         })
     }
 
     const loadTexture = (path, ref) => {
-        if (!path || !ref) {
-            throw "Trying to load a texture with missing arguments"
-        }
         return new Promise((resolve, reject) => {
-            const texture = textureLoader.load(
+            textureLoader.load(
                 path,
                 (t) => {
                     assets[ref] = t
@@ -52,7 +49,7 @@ const AssetsLoader = () => {
                 },
                 undefined, // onProgress callback currently not supported
                 (err) => {
-                    reject(`Can't load texture with path '${path}'`)
+                    reject(`Failed to load texture with path '${path}'`)
                 }
             )
         })

@@ -12,7 +12,8 @@
 
   const loadAssets = () => {
     const loader = AssetLoader();
-    loader.load("/assets/3D/vertical_placeholder.glb", "modeltest", ["scene"]);
+    loader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
+    loader.load("/assets/3D/gobelet_carton.glb", "gobelet");
     loader.load("/assets/maps/test.jpg", "maptest");
     loader.onComplete(a => (loadedAssets = a));
   };

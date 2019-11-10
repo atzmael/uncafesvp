@@ -34,9 +34,13 @@ const SceneManager = (canvas) => {
         1000
     )
 
-    // TODO: load "dist/assets/3D/vertical_placeholder.glb" using AssetLoader and display just nearby the 1,1,1 threejs cube
-    let cube = Cube()
-    scene.add(cube.mesh)
+    // let cube = Cube()
+    // scene.add(cube.mesh)
+
+    let ambiLight = new THREE.AmbientLight("white", 0.1)
+    // scene.add(ambiLight)
+    let hemiLight = new THREE.HemisphereLight("white", "red", 0.7)
+    scene.add(hemiLight)
 
     let bgPlane = BgPlane(camera)
     camera.add(bgPlane.mesh)
@@ -52,7 +56,8 @@ const SceneManager = (canvas) => {
      */
     const updateAssets = (assets) => {
         for (let [assetName, asset] of Object.entries(assets)) {
-            if (assetName === "modeltest") scene.add(assets[assetName])
+            // if (assetName === "modeltest") scene.add(asset)
+            if (assetName === "gobelet") scene.add(asset)
         }
     }
 
