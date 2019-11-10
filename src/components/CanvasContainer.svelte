@@ -1,6 +1,7 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, afterUpdate } from "svelte";
   import onWindowResize from "../js/onWindowResize.js";
+  import Debugger from "./Debugger.svelte";
 
   import SceneManager from "../js/three/SceneManager.js";
 
@@ -11,6 +12,12 @@
   let canvas;
   let sceneManager;
 
+  afterUpdate(() => {
+    if (Object.keys(assets).length > 0) {
+      sceneManager.updateAssets(assets);
+    }
+  });
+
   onMount(() => {
     sceneManager = SceneManager(canvas);
     sceneManager.onCanvasResize();
@@ -19,13 +26,6 @@
   onWindowResize(() => {
     sceneManager.onCanvasResize();
   });
-
-  const nextHandle = () => {
-    sceneManager.nextXpStage();
-  };
-  const previousHandle = () => {
-    sceneManager.previousXpStage();
-  };
 </script>
 
 <style>
@@ -40,8 +40,7 @@
 </style>
 
 {#if isDebugging}
-  <button on:click={previousHandle}>PREVIOUS</button>
-  <button on:click={nextHandle}>NEXT</button>
+  <Debugger {sceneManager} />
 {/if}
 
 <div class={`canvas-container`}>

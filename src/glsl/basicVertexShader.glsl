@@ -3,11 +3,11 @@
 uniform float time;
 // attribute vec3 position;
 // attribute vec3 normal;
-varying vec3 vNormal;
+// varying vec3 vNormal;
 varying vec2 vUv;
 
 void main() {
-    vNormal = normal;
+    // vNormal = normal;
     vUv = uv;
 
     gl_Position = projectionMatrix * modelViewMatrix *

@@ -33,7 +33,6 @@ const SceneManager = (canvas) => {
         1,
         1000
     )
-    camera.position.z = 10
 
     // TODO: load "dist/assets/3D/vertical_placeholder.glb" using AssetLoader and display just nearby the 1,1,1 threejs cube
     let cube = Cube()
@@ -43,16 +42,27 @@ const SceneManager = (canvas) => {
     camera.add(bgPlane.mesh)
     scene.add(camera) // this is needed to add objects attached to camera in the scene
 
+    camera.position.z = 20
+
     // GUI.addMeshToGui(cube)
     GUI.addMeshToGui(bgPlane.mesh)
 
-    const nextXpStage = () => {
-        activeXpStageIndx += 1
-        console.log(activeXpStageIndx)
-        // TODO: activeXpStageIndx = Math.min(activeXpStageIndx + 1, XpStages.length);
+    /**
+     * @param {Object} assets
+     */
+    const updateAssets = (assets) => {
+        for (let [assetName, asset] of Object.entries(assets)) {
+            if (assetName === "modeltest") scene.add(assets[assetName])
+        }
     }
-    const previousXpStage = () => {
-        activeXpStageIndx = Math.max(activeXpStageIndx - 1, 0)
+
+    const changeXpStage = (change = "next") => {
+        // TODO: Math.min with number of max stages
+        if (change == "next") activeXpStageIndx += 1
+        else if (change == "prev")
+            activeXpStageIndx = Math.max(activeXpStageIndx - 1, 0)
+        else if (typeof change == "number") activeXpStageIndx = Math.max(change, 0)
+        else throw `Could not changeXpStage to ${change}`
         console.log(activeXpStageIndx)
     }
 
@@ -71,8 +81,8 @@ const SceneManager = (canvas) => {
 
     return {
         onCanvasResize,
-        nextXpStage,
-        previousXpStage
+        changeXpStage,
+        updateAssets
     }
 }
 

@@ -40,17 +40,22 @@ const AssetsLoader = () => {
     }
 
     const loadTexture = (path, ref) => {
-        if (path && ref) {
-            return new Promise((resolve) => {
-                const texture = textureLoader.load(path)
-                assets[ref] = texture
-                // console.log("resolved:", ref)
-                resolve()
-            })
-        } else {
-            //TODO: use reject properly
-            reject("Can't load texture")
+        if (!path || !ref) {
+            throw "Trying to load a texture with missing arguments"
         }
+        return new Promise((resolve, reject) => {
+            const texture = textureLoader.load(
+                path,
+                (t) => {
+                    assets[ref] = t
+                    resolve()
+                },
+                undefined, // onProgress callback currently not supported
+                (err) => {
+                    reject(`Can't load texture with path '${path}'`)
+                }
+            )
+        })
     }
 
     const onComplete = (callback) => {
