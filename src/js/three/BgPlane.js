@@ -21,7 +21,7 @@ const BgPlane = (activeCamera) => {
         fragmentShader: basicFragmentShader
     })
 
-    // TODO: do NOT add to camera
+    // TODO:OPTIMIZE: do NOT add to camera
     // (not good to position in 3D space and recalculate 3D stuff,
     // when we could just remove projection and view matrices from vertexshader)
     // This implies to find a way to change renderOrder (or other parameter to draw BEHIND 3D scene?)

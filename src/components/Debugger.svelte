@@ -1,7 +1,13 @@
 <script>
-  export let sceneManager;
+  import { createEventDispatcher } from "svelte";
 
-  const debug = { xpStage: 2 };
+  export let currentXpStage;
+
+  let dispatch = createEventDispatcher();
+
+  const emitNewXpStage = (stage = "next") => {
+    dispatch("emitNewXpStage", { stage });
+  };
 </script>
 
 <style>
@@ -13,11 +19,9 @@
 </style>
 
 <div class="debug-ui">
-  <button on:click={() => sceneManager.changeXpStage('prev')}>PREV</button>
-  <button on:click={() => sceneManager.changeXpStage('next')}>NEXT</button>
+  <button on:click={() => emitNewXpStage('prev')}>PREV</button>
+  <button on:click={() => emitNewXpStage('next')}>NEXT</button>
   <br />
-  <button on:click={() => sceneManager.changeXpStage(debug.xpStage)}>
-    GO TO
-  </button>
-  <input type="number" bind:value={debug.xpStage} min="0" max="10" />
+  <button on:click={() => emitNewXpStage(currentXpStage)}>GO TO</button>
+  <input type="number" value={currentXpStage} min="0" max="10" />
 </div>

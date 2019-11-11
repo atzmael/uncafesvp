@@ -61,14 +61,10 @@ const SceneManager = (canvas) => {
         }
     }
 
+    // TODO: use ChosableItem.js
+
     const changeXpStage = (change = "next") => {
-        // TODO: Math.min with number of max stages
-        if (change == "next") activeXpStageIndx += 1
-        else if (change == "prev")
-            activeXpStageIndx = Math.max(activeXpStageIndx - 1, 0)
-        else if (typeof change == "number") activeXpStageIndx = Math.max(change, 0)
-        else throw `Could not changeXpStage to ${change}`
-        console.log(activeXpStageIndx)
+        console.warn("TODO: threejs logic when the xPstage changes")
     }
 
     const onCanvasResize = () => {

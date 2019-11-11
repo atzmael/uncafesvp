@@ -1,13 +1,11 @@
 <script>
   import { onMount, onDestroy, afterUpdate } from "svelte";
   import onWindowResize from "../js/onWindowResize.js";
-  import Debugger from "./Debugger.svelte";
 
   import SceneManager from "../js/three/SceneManager.js";
 
   export let assets;
-
-  const isDebugging = true;
+  export let currentXpStage;
 
   let canvas;
   let sceneManager;
@@ -38,10 +36,6 @@
     width: 100%;
   }
 </style>
-
-{#if isDebugging}
-  <Debugger {sceneManager} />
-{/if}
 
 <div class={`canvas-container`}>
   <canvas bind:this={canvas} />
