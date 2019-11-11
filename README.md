@@ -15,7 +15,7 @@ Search for '`TODO:`' in the repo to find pending/optimizable features.
 To build, use :
 
 ```
-npm build
+npm run build
 ```
 
 then the `dist` folder should be usable for deployment.

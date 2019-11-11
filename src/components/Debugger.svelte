@@ -16,10 +16,15 @@
     top: 5px;
     left: 5px;
   }
+  .info-text {
+    color: black;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0.2em;
+  }
 </style>
 
 <div class="debug-ui">
   <button on:click={() => emitNewXpStage('prev')}>PREV</button>
   <button on:click={() => emitNewXpStage('next')}>NEXT</button>
-  <p>Current XP stage : {currentXpStage}</p>
+  <p class="info-text">Current XP stage : {currentXpStage}</p>
 </div>

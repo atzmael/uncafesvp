@@ -1,4 +1,7 @@
 import * as THREE from "three"
+import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
+import { Camera } from "three"
+
 /**
  * This adds the model to the parent (ex: in the scene)
  * @param {THREE.Object3D} model
@@ -9,6 +12,7 @@ import * as THREE from "three"
 const StagedItem = (
   model,
   parent,
+  camera,
   options = {
     stage: 1,
     position: new THREE.Vector3(0, 0, 0)
@@ -16,14 +20,15 @@ const StagedItem = (
 ) => {
   if (model == null) console.warn("StagedItem didn't receive a model")
 
-  const positionFromCanvasSize = () => {
+  const positionFromCamera = () => {
     const newPos = model.position.copy(options.position)
-    newPos.x *= window.innerWidth * 0.006 // TODO: do a proper units remapping, use canvas instead of window
-    newPos.y *= window.innerHeight * 0.006 // TODO: do a proper units remapping, use canvas instead of window
+    const heightUnit = visibleHeightAtZDepth(model.position.z, camera) * 0.33
+    newPos.y *= heightUnit
+    newPos.x *= heightUnit * camera.aspect
   }
 
   const onCanvasResize = () => {
-    positionFromCanvasSize()
+    positionFromCamera()
   }
 
   const focusedAnimate = () => {
@@ -35,7 +40,7 @@ const StagedItem = (
     //TODO: floating in midair ?
   }
 
-  positionFromCanvasSize()
+  positionFromCamera()
   parent.add(model)
 
   return {

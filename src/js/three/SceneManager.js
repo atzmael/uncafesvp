@@ -21,47 +21,55 @@ const SceneManager = (canvas) => {
     return renderer
   }
 
+  const buildLights = () => {
+    const lightGroup = new THREE.Group()
+
+    const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
+    lightGroup.add(ambiLight)
+
+    const hemiLight = new THREE.HemisphereLight(0xff0000, 0x0000aa, 0.4)
+    lightGroup.add(hemiLight)
+    const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
+    hemiLight.add(hemiLightHelper)
+    GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
+
+    return lightGroup
+  }
+
   const renderer = buildRenderer({ width, height })
-
   const scene = new THREE.Scene()
-
   const camera = new THREE.PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
     1,
     1000
   )
+  camera.position.z = 18
 
   const stagedItems = []
 
-  // let ambiLight = new THREE.AmbientLight("white", 0.1)
-  // scene.add(ambiLight)
-  let hemiLight = new THREE.HemisphereLight("white", "red", 0.7)
-  scene.add(hemiLight)
+  const lightGroup = buildLights()
+  scene.add(lightGroup)
 
-  let bgPlane = BgPlane(camera)
-  camera.add(bgPlane.mesh)
-  scene.add(camera) // this is needed to add objects attached to camera in the scene // TODO: remove this line (check BgPlane.js)
-
-  camera.position.z = 20
-
-  // GUI.addMeshToGui(cube)
-  GUI.addMeshToGui(bgPlane.mesh)
+  let bgPlane = BgPlane()
+  scene.add(bgPlane.mesh)
 
   const updateAssets = (assets) => {
+    // TODO: clean this part
     assets.forEach((asset) => {
       if (asset instanceof THREE.Object3D) {
         // TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
         if (asset.name == "gobelet") {
           stagedItems.push(
-            StagedItem(asset, scene, {
+            StagedItem(asset, scene, camera, {
               position: new THREE.Vector3(1, 0, 0)
               // TODO: use stage option
             })
           )
         } else if (asset.name == "lait") {
+          GUI.addObject3D(asset)
           stagedItems.push(
-            StagedItem(asset, scene, {
+            StagedItem(asset, scene, camera, {
               position: new THREE.Vector3(-1, 0, 0)
               // TODO: use stage option
             })
@@ -72,7 +80,7 @@ const SceneManager = (canvas) => {
           )
         }
       }
-      if (asset instanceof THREE.Texture) console.log(asset)
+      if (asset instanceof THREE.Texture) bgPlane.setTexture(asset)
     })
   }
 
@@ -83,12 +91,12 @@ const SceneManager = (canvas) => {
   const onCanvasResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
-    bgPlane.onCanvasResize()
+    bgPlane.onCanvasResize(camera)
     stagedItems.forEach((item) => item.onCanvasResize())
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  const mainLoop = (time) => {
+  const mainLoop = () => {
     bgPlane.update()
     stagedItems.forEach((item) => item.update())
     renderer.render(scene, camera)

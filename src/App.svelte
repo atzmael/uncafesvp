@@ -5,6 +5,7 @@
   import Debugger from "./components/Debugger.svelte";
   import CanvasContainer from "./components/CanvasContainer.svelte";
 
+  // TODO: use store for debugging variables ?
   const isDebugging = true;
 
   let loadedAssets = {};
@@ -39,10 +40,7 @@
     else throw `Could not changeXpStage to ${e.detail.stage}`;
   };
 
-  onMount(() => {
-    loadAssets();
-  });
-
+  // TODO: use a store (one source of truth for all assets) ?
   const loadAssets = () => {
     const loader = AssetLoader();
     // loader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
@@ -52,6 +50,10 @@
     // TODO: onLoading(() => {}) to display loading state to user
     loader.onComplete(assets => (loadedAssets = assets));
   };
+
+  onMount(() => {
+    loadAssets();
+  });
 </script>
 
 <!-- TODO: <Loader/> to display loading state to user -->

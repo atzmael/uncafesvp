@@ -1,4 +1,4 @@
-//uniform mat4 projectionMatrix;
+// uniform mat4 projectionMatrix;
 // uniform mat4 modelViewMatrix;
 uniform float time;
 // attribute vec3 position;
@@ -10,6 +10,6 @@ void main() {
     // vNormal = normal;
     vUv = uv;
 
-    gl_Position = projectionMatrix * modelViewMatrix *
+    gl_Position = // projectionMatrix * modelViewMatrix *
                 vec4(position * 2. , 1.0);
 }
