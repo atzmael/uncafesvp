@@ -37,7 +37,6 @@
     else if (typeof e.detail.stage == "number")
       xpStageManager.currentIndx = Math.max(e.detail.stage, 0);
     else throw `Could not changeXpStage to ${e.detail.stage}`;
-    console.log("currentXpStageIndx : ", xpStageManager.currentIndx);
   };
 
   onMount(() => {
@@ -49,7 +48,7 @@
     // loader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
     loader.load("/assets/3D/gobelet_carton.glb", "gobelet");
     loader.load("/assets/3D/lait.glb", "lait");
-    loader.load("/assets/maps/test.jpg", "maptest");
+    loader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest");
     // TODO: onLoading(() => {}) to display loading state to user
     loader.onComplete(assets => (loadedAssets = assets));
   };
@@ -59,8 +58,8 @@
 {#if isDebugging}
   <Debugger
     on:emitNewXpStage={handleChangeXpStage}
-    currentXpStage={xpStageManager.currentIndx} />
+    currentXpStage={xpStageManager.list[xpStageManager.currentIndx]} />
 {/if}
 <CanvasContainer
   assets={loadedAssets}
-  currentXpStage={xpStageManager.currentIndx} />
+  currentXpStage={xpStageManager.list[xpStageManager.currentIndx]} />
