@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy, afterUpdate } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import onWindowResize from "../js/onWindowResize.js";
 
   import SceneManager from "../js/three/SceneManager.js";
@@ -10,11 +10,9 @@
   let canvas;
   let sceneManager;
 
-  afterUpdate(() => {
-    if (assets.length > 0) {
-      sceneManager.updateAssets(assets);
-    }
-  });
+  $: if (assets.length > 0) {
+    sceneManager.updateAssets(assets);
+  }
 
   onMount(() => {
     sceneManager = SceneManager(canvas);
