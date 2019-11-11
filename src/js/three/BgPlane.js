@@ -34,6 +34,7 @@ const BgPlane = (activeCamera) => {
     }
 
     const planeMesh = new THREE.Mesh(planeGeo, planeMat)
+    planeMesh.name = "bgPlane" // needed for GUI
     planeMesh.position.z = -(activeCamera.far * 0.99999)
     scaleToFitCanvas()
 

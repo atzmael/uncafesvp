@@ -2,8 +2,6 @@ import GLTFLoader from "three-gltf-loader"
 import * as THREE from "three"
 
 const AssetsLoader = () => {
-    // TODO: transform assets into an array, and use 'name' some other way...
-    // (implies changing some functions everywhere assets are used)
     const assets = []
     const promises = []
     const gltfLoader = new GLTFLoader()
@@ -82,6 +80,9 @@ const AssetsLoader = () => {
 
     // TODO: add sound loader
 
+    /**
+     * @param {function} callback called when all promises are resolved (all assets are loaded)
+     */
     const onComplete = (callback) => {
         // console.log("promises : ", promises)
         Promise.all(promises)

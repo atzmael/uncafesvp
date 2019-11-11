@@ -6,7 +6,12 @@ const GUI = () => {
     const folders = []
     let folder
 
-    const addMeshToGui = (object, folderName = object.name) => {
+    const addMeshToGui = (object, folderName) => {
+        if (folderName == null) {
+            if (object.name) folderName = object.name
+            else
+                throw "Can't add GUI folder without a name (add on object or in function's arguments)"
+        }
         addFolder(folderName)
         if (object.type == "light") {
             folders[folderName].add(object, "color")
