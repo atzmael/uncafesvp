@@ -46,16 +46,16 @@
 
   const loadAssets = () => {
     const loader = AssetLoader();
-    loader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
+    // loader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
     loader.load("/assets/3D/gobelet_carton.glb", "gobelet");
+    loader.load("/assets/3D/lait.glb", "lait");
     loader.load("/assets/maps/test.jpg", "maptest");
-    // TODO: loader.onLoading(() => {}) to display loading state to user
-    loader.onComplete(a => (loadedAssets = a));
+    // TODO: onLoading(() => {}) to display loading state to user
+    loader.onComplete(assets => (loadedAssets = assets));
   };
 </script>
 
 <!-- TODO: <Loader/> to display loading state to user -->
-
 {#if isDebugging}
   <Debugger
     on:emitNewXpStage={handleChangeXpStage}

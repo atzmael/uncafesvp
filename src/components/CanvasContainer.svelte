@@ -11,7 +11,7 @@
   let sceneManager;
 
   afterUpdate(() => {
-    if (Object.keys(assets).length > 0) {
+    if (assets.length > 0) {
       sceneManager.updateAssets(assets);
     }
   });

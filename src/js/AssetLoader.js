@@ -2,58 +2,85 @@ import GLTFLoader from "three-gltf-loader"
 import * as THREE from "three"
 
 const AssetsLoader = () => {
-    const assets = {}
+    // TODO: transform assets into an array, and use 'name' some other way...
+    // (implies changing some functions everywhere assets are used)
+    const assets = []
     const promises = []
     const gltfLoader = new GLTFLoader()
     const textureLoader = new THREE.TextureLoader()
 
-    const load = (path, ref, childArr) => {
-        if (!path || !ref) {
+    const load = (path, name, childArr) => {
+        if (!path || !name) {
             throw "Trying to load an asset, but missing arguments"
         }
         const extension = path.substr(path.indexOf("."))
         // console.log("chemin : ", path)
         if (extension === ".gltf" || extension === ".glb") {
-            promises.push(loadGLTF(path, ref, childArr))
+            promises.push(loadGLTF(path, name, childArr))
         } else if (extension === ".png" || extension === ".jpg") {
-            promises.push(loadTexture(path, ref))
+            promises.push(loadTexture(path, name))
         }
+        // TODO: add sound loader
     }
 
-    const loadGLTF = (path, ref, childArr = ["scene"]) => {
+    /**
+     * This resolves an object instanceof THREE.Object3D, with added properties .name
+     * @param {string} path of the wanted file, from a static folder (ex: dist)
+     * @param {string} name of the asset that will be added into the returned object as a property
+     * @param {string[]} childArr search in gltf structure and return it (ex: ["scene", "bleh"] would return bleh)
+     */
+    const loadGLTF = (path, name, childArr = ["scene"]) => {
         return new Promise((resolve, reject) => {
             gltfLoader.load(
                 path,
+                // onLoaded
                 (gltf) => {
-                    let object = gltf
+                    // this loop searches through the gltf structure and returns the last thing of the childArr
                     childArr.forEach((child, index) => {
-                        object = object[child]
+                        if (gltf[child] == undefined)
+                            throw `Could not find "${child}" in gltf structure`
+                        gltf = gltf[child]
                     })
-                    assets[ref] = object
+                    const addedParams = { name }
+                    const gltfAsset = Object.assign(gltf, addedParams)
+                    assets.push(gltfAsset)
                     resolve()
                 },
-                (xhr) =>
-                    console.log(`${ref}: ${(xhr.loaded / xhr.total) * 100}% loaded`),
-                (err) => reject(`Failed to load GLTF with path ${path}`)
+                // onProgress
+                (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+                // onError
+                (err) => reject(`Failed to load GLTF with path ${path} : \n ${err}`)
             )
         })
     }
 
-    const loadTexture = (path, ref) => {
+    /**
+     * This resolves an object instanceof THREE.Texture, with added property .name
+     * @param {string} path of the wanted file, from a static folder (ex: dist)
+     * @param {string} name of the asset that will be added into the returned object as a property
+     */
+    const loadTexture = (path, name) => {
         return new Promise((resolve, reject) => {
             textureLoader.load(
                 path,
-                (t) => {
-                    assets[ref] = t
+                // onLoaded
+                (texture) => {
+                    const addedParams = { name }
+                    const textureAsset = Object.assign(texture, addedParams)
+                    assets.push(textureAsset)
                     resolve()
                 },
-                undefined, // onProgress callback currently not supported
+                // onProgress callback currently not supported
+                undefined,
+                // onError
                 (err) => {
                     reject(`Failed to load texture with path '${path}'`)
                 }
             )
         })
     }
+
+    // TODO: add sound loader
 
     const onComplete = (callback) => {
         // console.log("promises : ", promises)
