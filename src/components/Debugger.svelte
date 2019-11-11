@@ -21,7 +21,5 @@
 <div class="debug-ui">
   <button on:click={() => emitNewXpStage('prev')}>PREV</button>
   <button on:click={() => emitNewXpStage('next')}>NEXT</button>
-  <br />
-  <button on:click={() => emitNewXpStage(currentXpStage)}>GO TO</button>
-  <input type="number" value={currentXpStage} min="0" max="10" />
+  <p>Current XP stage : {currentXpStage}</p>
 </div>
