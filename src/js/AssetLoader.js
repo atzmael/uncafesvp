@@ -18,8 +18,9 @@ const AssetsLoader = () => {
 			promises.push(loadGLTF(path, name, childArr))
 		} else if (extension === ".png" || extension === ".jpg") {
 			promises.push(loadTexture(path, name))
+		} else if (extension === ".mp3") {
+			promises.push(loadSound(path, name))
 		}
-		// TODO: add sound loader
 	}
 
 	/**
@@ -79,7 +80,7 @@ const AssetsLoader = () => {
 		})
 	}
 
-	// TODO: add sound loader
+	// TODO: work on sound loader
 	const loadSound = (path, ref) => {
 		if(path && ref) {
 			return new Promise((resolve, reject) => {
