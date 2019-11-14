@@ -6,7 +6,6 @@ import fragmentShader from "../../glsl/bgPlane.frag"
 /**
  * Background plane that is always billboarded
  * relatively to the active camera,
- * positionned on its "far" plane
  */
 
 const BgPlane = () => {
@@ -23,13 +22,13 @@ const BgPlane = () => {
   /**
    * @param {THREE.Texture} texture
    */
-  const setTexture = (texture) => {
+  const setTexture = texture => {
     texture.wrapS = THREE.RepeatWrapping
     texture.wrapT = THREE.RepeatWrapping
     planeMat.uniforms.myTexture.value = texture
   }
 
-  const onCanvasResize = (camera) => {
+  const onCanvasResize = camera => {
     // TODO: planeMat.uniforms.aspectRatio.value = camera.aspect
   }
 

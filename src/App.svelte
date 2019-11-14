@@ -8,12 +8,13 @@
   // TODO: use store for debugging variables ?
   const isDebugging = true;
 
-  let loadedAssets = {};
+  // let loadedAssets = {};
+  let loadedAssets = [];
 
   // TODO: do a proper XpStageManager
   // maybe do it in a store ? (check svelte doc for stores)
   let xpStageManager = {
-    currentIndx: 0,
+    currentIndx: 7,
     current: "",
     list: [
       "home",
@@ -47,7 +48,7 @@
     loader.load("/assets/3D/gobelet_carton.glb", "gobelet");
     loader.load("/assets/3D/lait.glb", "lait");
     loader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest");
-    loader.load('/assets/sound/piste1.mp3', 'sound_test');
+    loader.load("/assets/sound/piste1.mp3", "sound_test");
     // TODO: onLoading(() => {}) to display loading state to user
     loader.onComplete(assets => (loadedAssets = assets));
   };
