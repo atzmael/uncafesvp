@@ -2,17 +2,17 @@ import GLTFLoader from "three-gltf-loader"
 import * as THREE from "three"
 
 const AssetsLoader = () => {
-	const assets = []
-	const promises = []
-	const gltfLoader = new GLTFLoader()
+	const assets = [];
+	const promises = [];
+	const gltfLoader = new GLTFLoader();
 	const textureLoader = new THREE.TextureLoader();
-	const audioLoader = new THREE.AudioLoader();
+	const audioListener = new THREE.AudioListener();
 
 	const load = (path, name, childArr) => {
 		if (!path || !name) {
 			throw "Trying to load an asset, but missing arguments"
 		}
-		const extension = path.substr(path.indexOf("."))
+		const extension = path.substr(path.indexOf("."));
 		// console.log("chemin : ", path)
 		if (extension === ".gltf" || extension === ".glb") {
 			promises.push(loadGLTF(path, name, childArr))
@@ -84,11 +84,31 @@ const AssetsLoader = () => {
 	const loadSound = (path, ref) => {
 		if(path && ref) {
 			return new Promise((resolve, reject) => {
-				const sound = audioLoader.load(path, buffer => {
-					sound.setBuffer( buffer );
+				let sound = new THREE.Audio( audioListener );
+				let loader = new THREE.AudioLoader();
+				loader.load(
+					// resource URL
+					path,
 
-					resolve();
-				});
+					// onLoad callback
+					function ( audioBuffer ) {
+						// set the audio object buffer to the loaded object
+						sound.setBuffer( audioBuffer );
+					},
+
+					// onProgress callback
+					function ( xhr ) {
+						if((xhr.loaded / xhr.total * 100) >= 100) {
+							assets[ref] = sound;
+							resolve();
+						}
+					},
+
+					// onError callback
+					function ( err ) {
+						console.log( 'An error happened' );
+					}
+				);
 			})
 		}
 	}
