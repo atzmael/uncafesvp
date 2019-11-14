@@ -6,7 +6,7 @@ const AssetsLoader = () => {
 	const promises = []
 	const gltfLoader = new GLTFLoader()
 	const textureLoader = new THREE.TextureLoader()
-	const audioLoader = new THREE.AudioLoader()
+	const audioListener = new THREE.AudioListener()
 
 	const load = (path, name, childArr) => {
 		if (!path || !name) {
