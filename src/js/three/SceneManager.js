@@ -5,14 +5,14 @@ import GUI from "../GUI.js"
 import AssetsLoader from "../AssetLoader.js"
 import Stats from "stats.js/src/Stats";
 
-const SceneManager = (canvas) => {
+const SceneManager = canvas => {
 	let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
 	let height = canvas.parentNode.offsetHeight // assuming canvas height: 100%
 
-	var stats = new Stats();
-	stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-	document.body.appendChild( stats.dom );
 
+	var stats = new Stats();
+	stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+	document.body.appendChild(stats.dom);
 
 	const buildRenderer = ({width, height}) => {
 		const renderer = new THREE.WebGLRenderer({
@@ -61,15 +61,13 @@ const SceneManager = (canvas) => {
 	let bgPlane = BgPlane()
 	scene.add(bgPlane.mesh)
 
-
-
-	const updateAssets = (assets) => {
+	const updateAssets = assets => {
 		// TODO: clean this part
-		assets.forEach((asset) => {
+		assets.forEach(asset => {
 			if (asset instanceof THREE.Object3D) {
 				// TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
 				if (asset.name == "gobelet") {
-					console.log(scene);
+					GUI.addObject3D(asset)
 					stagedItems.push(
 						StagedItem(asset, scene, camera, {
 							position: new THREE.Vector3(1, 0, 0)
@@ -94,7 +92,7 @@ const SceneManager = (canvas) => {
 		})
 	}
 
-	const changeXpStage = (newXpStage) => {
+	const changeXpStage = newXpStage => {
 		console.warn("TODO: threejs logic when the xpStage changes")
 	}
 
@@ -102,7 +100,7 @@ const SceneManager = (canvas) => {
 		camera.aspect = window.innerWidth / window.innerHeight
 		camera.updateProjectionMatrix()
 		bgPlane.onCanvasResize(camera)
-		stagedItems.forEach((item) => item.onCanvasResize())
+		stagedItems.forEach(item => item.onCanvasResize())
 		renderer.setSize(window.innerWidth, window.innerHeight)
 	}
 
