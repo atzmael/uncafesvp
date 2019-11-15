@@ -9,7 +9,7 @@ const SceneManager = canvas => {
   let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
   let height = canvas.parentNode.offsetHeight // assuming canvas height: 100%
 
-  var stats = new Stats()
+  var stats = Stats()
   stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
   document.body.appendChild(stats.dom)
 
