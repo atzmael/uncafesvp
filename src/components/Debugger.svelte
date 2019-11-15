@@ -13,7 +13,7 @@
 <style>
   .debug-ui {
     position: fixed;
-    top: 5px;
+    top: 50px;
     left: 5px;
   }
   .info-text {

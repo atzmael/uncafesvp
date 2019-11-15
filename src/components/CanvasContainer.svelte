@@ -1,6 +1,9 @@
 <script>
   import { onMount, onDestroy } from "svelte";
+  import onAnimationFrame from "../js/onAnimationFrame.js";
   import onWindowResize from "../js/onWindowResize.js";
+
+  import { time } from "../js/stores";
 
   import SceneManager from "../js/three/SceneManager.js";
 
@@ -17,10 +20,14 @@
   onMount(() => {
     sceneManager = SceneManager(canvas);
     sceneManager.onCanvasResize();
-  });
 
-  onWindowResize(() => {
-    sceneManager.onCanvasResize();
+    onAnimationFrame(() => {
+      sceneManager.update($time);
+    });
+
+    onWindowResize(() => {
+      sceneManager.onCanvasResize();
+    });
   });
 </script>
 

@@ -103,23 +103,22 @@ const SceneManager = canvas => {
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  const mainLoop = () => {
+  const update = time => {
     stats.begin()
-
     // monitored code goes here
 
     bgPlane.update()
-    stagedItems.forEach(item => item.update())
+    stagedItems.forEach(item => item.update(time))
 
     stats.end()
     renderer.render(scene, camera)
   }
-  renderer.setAnimationLoop(mainLoop)
 
   return {
     onCanvasResize,
     changeXpStage,
-    updateAssets
+    updateAssets,
+    update
   }
 }
 

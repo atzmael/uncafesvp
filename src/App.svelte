@@ -3,18 +3,18 @@
   import AssetLoader from "./js/AssetLoader.js";
 
   import Debugger from "./components/Debugger.svelte";
+  import StageUI from "./components/StageUI.svelte";
   import CanvasContainer from "./components/CanvasContainer.svelte";
 
   // TODO: use store for debugging variables ?
   const isDebugging = true;
 
-  // let loadedAssets = {};
   let loadedAssets = [];
 
   // TODO: do a proper XpStageManager
   // maybe do it in a store ? (check svelte doc for stores)
   let xpStageManager = {
-    currentIndx: 7,
+    currentIndx: 0,
     current: "",
     list: [
       "home",
@@ -64,6 +64,7 @@
     on:emitNewXpStage={handleChangeXpStage}
     currentXpStage={xpStageManager.list[xpStageManager.currentIndx]} />
 {/if}
+<StageUI currentXpStage={xpStageManager.list[xpStageManager.currentIndx]} />
 <CanvasContainer
   assets={loadedAssets}
   currentXpStage={xpStageManager.list[xpStageManager.currentIndx]} />
