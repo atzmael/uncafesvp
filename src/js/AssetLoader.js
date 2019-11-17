@@ -1,11 +1,15 @@
 import GLTFLoader from "three-gltf-loader"
+import VideoTextureLoader from "./three/utils/VideoTextureLoader.js"
 import * as THREE from "three"
 
 const AssetsLoader = () => {
   const assets = []
   const promises = []
+
   const gltfLoader = new GLTFLoader()
   const textureLoader = new THREE.TextureLoader()
+  const videoTextureLoader = new VideoTextureLoader()
+
   const audioListener = new THREE.AudioListener()
 
   const load = (path, name, childArr) => {
@@ -18,6 +22,8 @@ const AssetsLoader = () => {
       promises.push(loadGLTF(path, name, childArr))
     } else if (extension === ".png" || extension === ".jpg") {
       promises.push(loadTexture(path, name))
+    } else if (extension === ".mp4" || extension === ".ogv") {
+      promises.push(loadVideoTexture(path, name))
     } else if (extension === ".mp3") {
       promises.push(loadSound(path, name))
     }
@@ -105,6 +111,24 @@ const AssetsLoader = () => {
         undefined,
         // onError
         err => reject(`Failed to load texture with path '${path} :\n${err}'`)
+      )
+    })
+  }
+
+  const loadVideoTexture = (path, name) => {
+    return new Promise((resolve, reject) => {
+      videoTextureLoader.load(
+        path,
+        // onLoaded
+        videoTexture => {
+          const addedParams = { name }
+          const videoTextureAsset = Object.assign(videoTexture, addedParams)
+          assets.push(videoTextureAsset)
+          resolve()
+        },
+        // onError
+        err =>
+          reject(`Failed to load videoTexture with path '${path} :\n${err}'`)
       )
     })
   }

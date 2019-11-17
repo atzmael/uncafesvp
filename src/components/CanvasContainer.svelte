@@ -7,14 +7,16 @@
 
   import SceneManager from "../js/three/SceneManager.js";
 
+  import * as THREE from "three"; // TODO: move this either in the AssetLoader or the SceneManager
+
   export let assets;
   export let currentXpStage;
 
   let canvas;
   let sceneManager;
-  let videoEl;
+  let userInteracted = false;
 
-  $: if (assets.length > 0) {
+  $: if (assets.length > 0 && userInteracted) {
     sceneManager.updateAssets(assets);
   }
 
@@ -46,15 +48,7 @@
   }
 </style>
 
-<video
-  bind:this={videoEl}
-  on:click={() => videoEl.play()}
-  loop
-  crossOrigin="anonymous"
-  webkit-playsinline>
-  <source src="/assets/animations/sequence-png-12fps-720x1080.ogg" />
-  <source src="/assets/animations/sequence-png-12fps-720x1080.mp4" />
-</video>
+<button on:click={() => (userInteracted = true)}>INTERACT WITH ME</button>
 
 <div class="canvas-container">
   <canvas bind:this={canvas} />

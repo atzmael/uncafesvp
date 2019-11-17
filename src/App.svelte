@@ -47,9 +47,11 @@
     // loader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
     loader.load("/assets/3D/gobelet_carton.glb", "gobelet");
     loader.load("/assets/3D/lait.glb", "lait");
+    loader.load("/assets/animations/sequence-png-12fps-720x1080.mp4", "anim");
     loader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest");
     loader.load("/assets/sound/piste1.mp3", "sound_test");
     // TODO: onLoading(() => {}) to display loading state to user
+    // =>  see THREE.LoadingManager in the documentation ?
     loader.onComplete(assets => (loadedAssets = assets));
   };
 

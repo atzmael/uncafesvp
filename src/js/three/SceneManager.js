@@ -61,7 +61,7 @@ const SceneManager = canvas => {
   scene.add(bgPlane.mesh)
 
   const updateAssets = assets => {
-    // TODO: clean this part
+    // TODO: clean this part : for example : create an AssetDispatcher
     assets.forEach(asset => {
       if (asset instanceof THREE.Object3D) {
         // TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
@@ -88,7 +88,14 @@ const SceneManager = canvas => {
           )
         }
       }
-      if (asset instanceof THREE.Texture) bgPlane.setTexture(asset)
+      if (asset.name == "maptest") bgPlane.setTexture(asset)
+      if (asset.name == "anim") {
+        asset.image.play()
+        const animPlaneGeo = new THREE.PlaneBufferGeometry(4, 4, 1)
+        const animPlaneMat = new THREE.MeshBasicMaterial({ map: asset })
+        const animPlane = new THREE.Mesh(animPlaneGeo, animPlaneMat)
+        scene.add(animPlane)
+      }
     })
   }
 
