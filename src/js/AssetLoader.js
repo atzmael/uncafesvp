@@ -119,7 +119,7 @@ const AssetsLoader = () => {
       audioLoader.load(
         // resource URL
         path,
-        // onLoad callback
+        // onLoad callback (when load is completed)
         audioBuffer => {
           // set the audio object buffer to the loaded objectsound
           sound.setBuffer(audioBuffer)

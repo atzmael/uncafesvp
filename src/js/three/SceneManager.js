@@ -83,7 +83,8 @@ const SceneManager = canvas => {
           )
         } else {
           console.warn(
-            "This asset didn't match any name in the if statements : " + asset
+            "This asset didn't match any name in the if statements : ",
+            asset
           )
         }
       }

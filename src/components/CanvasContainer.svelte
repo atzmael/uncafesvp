@@ -12,6 +12,7 @@
 
   let canvas;
   let sceneManager;
+  let videoEl;
 
   $: if (assets.length > 0) {
     sceneManager.updateAssets(assets);
@@ -40,8 +41,21 @@
   .canvas-container {
     width: 100%;
   }
+  video {
+    display: none;
+  }
 </style>
 
-<div class={`canvas-container`}>
+<video
+  bind:this={videoEl}
+  on:click={() => videoEl.play()}
+  loop
+  crossOrigin="anonymous"
+  webkit-playsinline>
+  <source src="/assets/animations/sequence-png-12fps-720x1080.ogg" />
+  <source src="/assets/animations/sequence-png-12fps-720x1080.mp4" />
+</video>
+
+<div class="canvas-container">
   <canvas bind:this={canvas} />
 </div>
