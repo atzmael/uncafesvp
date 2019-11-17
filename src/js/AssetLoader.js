@@ -133,8 +133,6 @@ const AssetsLoader = () => {
     })
   }
 
-  // TODO: (?) const loadVideoTexture = (path, name) => {} ???
-
   // TODO: work on sound loader
   const loadSound = (path, name) => {
     return new Promise((resolve, reject) => {
