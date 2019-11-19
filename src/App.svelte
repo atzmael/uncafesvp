@@ -6,7 +6,11 @@
   import StageUI from "./components/StageUI.svelte";
   import CanvasContainer from "./components/CanvasContainer.svelte";
 
-  import { xpStageIndex, xpStageName } from "./js/stores/xpStageStore.js";
+  import {
+    xpStageIndex,
+    xpStageName,
+    didUserInteract
+  } from "./js/stores/xpStageStore.js";
 
   // TODO: use store for debugging variables ?
   const isDebugging = true;
@@ -26,7 +30,13 @@
     loader.onComplete(assets => (loadedAssets = assets));
   };
 
+  const userInteracted = () => {
+    didUserInteract.set(true);
+    document.removeEventListener("click", userInteracted);
+  };
+
   onMount(() => {
+    document.addEventListener("click", userInteracted);
     loadAssets();
   });
 </script>

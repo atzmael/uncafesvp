@@ -32,3 +32,4 @@ const createStage = () => {
 
 export const xpStageIndex = createStage()
 export const xpStageName = derived(xpStageIndex, ($index) => stageNames[$index])
+export const didUserInteract = writable(false) // usefull to know if we can play media <video> or <audio>

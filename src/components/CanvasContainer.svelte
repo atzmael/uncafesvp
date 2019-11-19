@@ -4,6 +4,7 @@
   import onWindowResize from "../js/onWindowResize.js";
 
   import { time } from "../js/stores/timeStore";
+  import { didUserInteract } from "../js/stores/xpStageStore";
 
   import SceneManager from "../js/three/SceneManager.js";
 
@@ -12,9 +13,9 @@
 
   let canvas;
   let sceneManager;
-  let userInteracted = false;
 
-  $: if (assets.length > 0 && userInteracted) {
+  // TODO: remove didUserInteract from here, and use it only in threejs code to check if we can play the <video> / <audio>
+  $: if (assets.length > 0 && $didUserInteract) {
     sceneManager.updateAssets(assets);
   }
 
@@ -45,8 +46,6 @@
     display: none;
   }
 </style>
-
-<button on:click={() => (userInteracted = true)}>INTERACT WITH ME</button>
 
 <div class="canvas-container">
   <canvas bind:this={canvas} />

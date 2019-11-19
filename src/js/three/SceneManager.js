@@ -2,10 +2,9 @@ import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
-import AssetsLoader from "../AssetLoader.js"
 import Stats from "stats.js/src/Stats"
 
-const SceneManager = canvas => {
+const SceneManager = (canvas) => {
   let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
   let height = canvas.parentNode.offsetHeight // assuming canvas height: 100%
 
@@ -60,9 +59,9 @@ const SceneManager = canvas => {
   let bgPlane = BgPlane()
   scene.add(bgPlane.mesh)
 
-  const updateAssets = assets => {
+  const updateAssets = (assets) => {
     // TODO: clean this part : for example : create an AssetDispatcher
-    assets.forEach(asset => {
+    assets.forEach((asset) => {
       if (asset instanceof THREE.Object3D) {
         // TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
         if (asset.name == "gobelet") {
@@ -99,7 +98,7 @@ const SceneManager = canvas => {
     })
   }
 
-  const changeXpStage = newXpStage => {
+  const changeXpStage = (newXpStage) => {
     console.warn("TODO: threejs logic when the xpStage changes")
   }
 
@@ -107,16 +106,16 @@ const SceneManager = canvas => {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     bgPlane.onCanvasResize(camera)
-    stagedItems.forEach(item => item.onCanvasResize())
+    stagedItems.forEach((item) => item.onCanvasResize())
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  const update = time => {
+  const update = (time) => {
     stats.begin()
     // monitored code goes here
 
     bgPlane.update()
-    stagedItems.forEach(item => item.update(time))
+    stagedItems.forEach((item) => item.update(time))
 
     stats.end()
     renderer.render(scene, camera)

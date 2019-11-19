@@ -1,4 +1,5 @@
 <script>
+  import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore";
   export let currentXpStage;
 </script>
 
@@ -11,16 +12,16 @@
     right: 0;
     display: grid;
     place-content: center center;
+    color: white;
 
-    color: red;
+    background: rgba(127, 127, 127, 0.7);
     font-weight: bold;
-    pointer-events: none;
   }
 </style>
 
-<main>
-  <div>
+{#if $xpStageName === 'home'}
+  <main>
     <p>This is the homepage</p>
-    <button>Next</button>
-  </div>
-</main>
+    <button on:click={xpStageIndex.next}>Next</button>
+  </main>
+{/if}
