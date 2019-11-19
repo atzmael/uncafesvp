@@ -16,6 +16,7 @@
   const isDebugging = true;
 
   let loadedAssets = [];
+  let isLoadingFinished = false;
   // TODO: use a store (one source of truth for all assets) ?
   const loadAssets = () => {
     const loader = AssetLoader();
@@ -27,7 +28,10 @@
     loader.load("/assets/sound/piste1.mp3", "sound_test");
     // TODO: onLoading(() => {}) to display loading state to user
     // =>  see THREE.LoadingManager in the documentation ?
-    loader.onComplete(assets => (loadedAssets = assets));
+    loader.onComplete(assets => {
+      loadedAssets = assets;
+      isLoadingFinished = true;
+    });
   };
 
   const userInteracted = () => {
@@ -45,5 +49,5 @@
 {#if isDebugging}
   <Debugger currentXpStage={xpStageName} />
 {/if}
-<StageUI currentXpStage={xpStageName} />
+<StageUI currentXpStage={xpStageName} {isLoadingFinished} />
 <CanvasContainer assets={loadedAssets} currentXpStage={xpStageName} />
