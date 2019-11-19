@@ -1,13 +1,6 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-
+  import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore.js";
   export let currentXpStage;
-
-  let dispatch = createEventDispatcher();
-
-  const emitNewXpStage = (stage = "next") => {
-    dispatch("emitNewXpStage", { stage });
-  };
 </script>
 
 <style>
@@ -24,7 +17,7 @@
 </style>
 
 <div class="debug-ui">
-  <button on:click={() => emitNewXpStage('prev')}>PREV</button>
-  <button on:click={() => emitNewXpStage('next')}>NEXT</button>
-  <p class="info-text">Current XP stage : {currentXpStage}</p>
+  <button on:click={xpStageIndex.previous}>PREV</button>
+  <button on:click={xpStageIndex.next}>NEXT</button>
+  <p class="info-text">Current XP stage : {$xpStageIndex}</p>
 </div>

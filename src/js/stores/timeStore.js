@@ -1,5 +1,5 @@
-import { readable /*, derived*/ } from "svelte/store"
-import onAnimationFrame from "./onAnimationFrame.js"
+import { readable } from "svelte/store"
+import onAnimationFrame from "../onAnimationFrame.js"
 import * as THREE from "three"
 
 const clock = new THREE.Clock()

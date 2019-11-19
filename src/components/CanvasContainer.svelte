@@ -3,11 +3,9 @@
   import onAnimationFrame from "../js/onAnimationFrame.js";
   import onWindowResize from "../js/onWindowResize.js";
 
-  import { time } from "../js/stores";
+  import { time } from "../js/stores/timeStore";
 
   import SceneManager from "../js/three/SceneManager.js";
-
-  import * as THREE from "three"; // TODO: move this either in the AssetLoader or the SceneManager
 
   export let assets;
   export let currentXpStage;

@@ -12,10 +12,15 @@
     display: grid;
     place-content: center center;
 
+    color: red;
+    font-weight: bold;
     pointer-events: none;
   }
 </style>
 
 <main>
-  <div>THIS IS A UI</div>
+  <div>
+    <p>This is the homepage</p>
+    <button>Next</button>
+  </div>
 </main>
