@@ -36,6 +36,12 @@ const createStage = () => {
   }
 }
 
+// usage : $xpStageIndex or xpStage.method()
 export const xpStageIndex = createStage()
+// usage : $xpStageName
 export const xpStageName = derived(xpStageIndex, ($index) => stageNames[$index])
-export const didUserInteract = writable(false) // usefull to know if we can play media <video> or <audio>
+
+// ----TODO: put didUserInteract in its own store file (?)
+// usage : $didUserInteract to get value, didUserInteract.set( __ ) to set value
+// usefull to know if we can play media <video> or <audio>
+export const didUserInteract = writable(false)
