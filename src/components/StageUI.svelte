@@ -7,6 +7,7 @@
 </script>
 
 <style>
+  /* TODO: use display:grid for all the layouts */
   main {
     position: absolute;
     top: 0;
@@ -24,12 +25,17 @@
   button {
     cursor: pointer;
     transition: all 0.5s;
+    visibility: visible;
+    opacity: 1;
+  }
+  .hidden {
     visibility: hidden;
     opacity: 0;
   }
-  .active {
-    visibility: visible;
-    opacity: 1;
+  .previous-arrow {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
   }
 </style>
 
@@ -37,8 +43,10 @@
   <!-- TODO: Make a custom transition ("fade" is built-in svelte) -->
   <main transition:fade>
     <p>This is the homepage</p>
-    <button on:click={xpStageIndex.next} class:active={isLoadingFinished}>
+    <button on:click={xpStageIndex.next} class:hidden={!isLoadingFinished}>
       Next
     </button>
   </main>
+{:else}
+  <button on:click={xpStageIndex.previous} class="previous-arrow">⬅ ⬅ ⬅</button>
 {/if}

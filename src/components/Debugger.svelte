@@ -20,4 +20,5 @@
   <button on:click={xpStageIndex.previous}>PREV</button>
   <button on:click={xpStageIndex.next}>NEXT</button>
   <p class="info-text">Current XP stage : {$xpStageIndex}</p>
+  <button on:click={xpStageIndex.reset}>RESET</button>
 </div>
