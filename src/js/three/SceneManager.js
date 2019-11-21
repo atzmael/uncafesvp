@@ -65,21 +65,19 @@ const SceneManager = (canvas) => {
       if (asset instanceof THREE.Object3D) {
         // TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
         if (asset.name == "gobelet") {
-          GUI.addObject3D(asset)
-          stagedItems.push(
-            StagedItem(asset, scene, camera, {
-              position: new THREE.Vector3(1, 0, 0)
-              // TODO: use stage option
-            })
-          )
+          const gobeletStageItem = StagedItem(asset, scene, camera, {
+            position: new THREE.Vector3(1, 0, 0)
+            // TODO: use stage option
+          })
+          GUI.addStagedItem(gobeletStageItem)
+          stagedItems.push(gobeletStageItem)
         } else if (asset.name == "lait") {
-          GUI.addObject3D(asset)
-          stagedItems.push(
-            StagedItem(asset, scene, camera, {
-              position: new THREE.Vector3(-1, 0, 0)
-              // TODO: use stage option
-            })
-          )
+          const gobeletStageItem = StagedItem(asset, scene, camera, {
+            position: new THREE.Vector3(-1, 0, 0)
+            // TODO: use stage option
+          })
+          GUI.addStagedItem(gobeletStageItem)
+          stagedItems.push(gobeletStageItem)
         } else {
           console.warn(
             "This asset didn't match any name in the if statements : ",
@@ -114,7 +112,7 @@ const SceneManager = (canvas) => {
     stats.begin()
     // monitored code goes here
 
-    bgPlane.update()
+    bgPlane.update(time)
     stagedItems.forEach((item) => item.update(time))
 
     stats.end()

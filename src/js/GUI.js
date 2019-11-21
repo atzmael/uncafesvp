@@ -1,6 +1,6 @@
 import * as dat from "dat.gui"
 import * as THREE from "three"
-import AssetLoader from "./AssetLoader.js"
+// import AssetLoader from "./AssetLoader.js"
 
 const datGui = new dat.GUI()
 
@@ -31,16 +31,29 @@ const GUI = () => {
     }
   }
 
-  const debuggingLoader = AssetLoader()
-
-  const switchAsset = (assetName, path) => {
-    debuggingLoader.load(path, assetName)
-    // TODO: use a store (check svelte doc)
+  const addStagedItem = (stagedItem, name) => {
+    console.log(stagedItem)
+    if (name == null) {
+      if (stagedItem.model.name) name = stagedItem.model.name
+      else
+        throw "Can't add GUI folder without a name (add on stagedItem.model or in function's arguments)"
+    }
+    folders[name] = datGui.addFolder(name)
+    folder = folders[name]
+    //   folder.add(stagedItem, "visible")
+    const positionFolder = folder.addFolder("basePosition")
+    positionFolder.add(stagedItem.basePos, "x", -10, 10)
+    positionFolder.add(stagedItem.basePos, "y", -10, 10)
+    positionFolder.add(stagedItem.basePos, "z", -10, 10)
+    const rotationFolder = folder.addFolder("rotation")
+    rotationFolder.add(stagedItem.model.rotation, "x", -6.2831853071, 6.2831853071)
+    rotationFolder.add(stagedItem.model.rotation, "y", -6.2831853071, 6.2831853071)
+    rotationFolder.add(stagedItem.model.rotation, "z", -6.2831853071, 6.2831853071)
   }
 
   return {
     addObject3D,
-    switchAsset
+    addStagedItem
   }
 }
 

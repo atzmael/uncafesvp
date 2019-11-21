@@ -19,11 +19,16 @@ const StagedItem = (
 ) => {
   if (model == null) console.warn("StagedItem didn't receive a model")
 
+  let basePos = new THREE.Vector3(0, 0, 0)
+  let floatOffsetPos = new THREE.Vector3(0, 0, 0)
+
   const positionFromCamera = () => {
-    const newPos = model.position.copy(options.position)
     const heightUnit = visibleHeightAtZDepth(model.position.z, camera) * 0.33
-    newPos.y *= heightUnit
-    newPos.x *= heightUnit * camera.aspect
+    basePos.set(
+      options.position.x * heightUnit * camera.aspect,
+      options.position.y * heightUnit,
+      options.position.z
+    )
   }
 
   const onCanvasResize = () => {
@@ -34,9 +39,9 @@ const StagedItem = (
     console.log("TODO: tweens and stuff")
   }
 
-  const update = time => {
-    model.position.y = Math.cos(time * 1.7 + options.position.x) * 0.3
-    //TODO: floating in midair ?
+  const update = (time) => {
+    floatOffsetPos.y = Math.cos(time * 1.7 + options.position.x) * 0.3
+    model.position.copy(basePos).add(floatOffsetPos)
   }
 
   positionFromCamera()
@@ -44,6 +49,7 @@ const StagedItem = (
 
   return {
     model,
+    basePos,
     onCanvasResize,
     focusedAnimate,
     update

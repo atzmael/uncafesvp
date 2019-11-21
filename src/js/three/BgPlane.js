@@ -22,21 +22,18 @@ const BgPlane = () => {
   /**
    * @param {THREE.Texture} texture
    */
-  const setTexture = texture => {
+  const setTexture = (texture) => {
     texture.wrapS = THREE.RepeatWrapping
     texture.wrapT = THREE.RepeatWrapping
     planeMat.uniforms.myTexture.value = texture
   }
 
-  const onCanvasResize = camera => {
+  const onCanvasResize = (camera) => {
     // TODO: planeMat.uniforms.aspectRatio.value = camera.aspect
   }
 
-  const update = () => {
-    // TODO: use time from mainLoop
-    const time = Date.now()
-    // console.log(time)
-    planeMat.uniforms.time.value += 0.01
+  const update = (time) => {
+    planeMat.uniforms.time.value = time
   }
 
   const planeMesh = new THREE.Mesh(planeGeo, planeMat)
