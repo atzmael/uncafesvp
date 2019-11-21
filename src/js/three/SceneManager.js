@@ -66,7 +66,8 @@ const SceneManager = (canvas) => {
         // TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
         if (asset.name == "gobelet") {
           const gobeletStageItem = StagedItem(asset, scene, camera, {
-            position: new THREE.Vector3(1, 0, 0)
+            position: new THREE.Vector3(1, 0, 0),
+            stage: 2
             // TODO: use stage option
           })
           GUI.addStagedItem(gobeletStageItem)
@@ -97,7 +98,7 @@ const SceneManager = (canvas) => {
   }
 
   const changeXpStage = (newXpStage) => {
-    console.warn("TODO: threejs logic when the xpStage changes")
+    stagedItems.forEach((item) => item.checkIfEnterOrLeave(newXpStage))
   }
 
   const onCanvasResize = () => {

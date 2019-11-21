@@ -47,7 +47,7 @@
 
 <!-- TODO: <Loader/> to display loading state to user -->
 {#if isDebugging}
-  <Debugger currentXpStage={xpStageName} />
+  <Debugger />
 {/if}
-<StageUI currentXpStage={xpStageName} {isLoadingFinished} />
-<CanvasContainer assets={loadedAssets} currentXpStage={xpStageName} />
+<StageUI {isLoadingFinished} />
+<CanvasContainer assets={loadedAssets} />

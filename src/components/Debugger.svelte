@@ -1,6 +1,5 @@
 <script>
   import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore.js";
-  export let currentXpStage;
 </script>
 
 <style>
@@ -19,6 +18,6 @@
 <div class="debug-ui">
   <button on:click={xpStageIndex.previous}>PREV</button>
   <button on:click={xpStageIndex.next}>NEXT</button>
-  <p class="info-text">Current XP stage : {$xpStageIndex}</p>
+  <p class="info-text">Current XP stage : {$xpStageIndex}, {$xpStageName}</p>
   <button on:click={xpStageIndex.reset}>RESET</button>
 </div>
