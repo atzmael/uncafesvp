@@ -1,6 +1,5 @@
 import * as THREE from "three"
 import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
-import { isRegExp } from "util"
 
 /**
  * This adds the model to the parent (ex: in the scene)
@@ -14,10 +13,13 @@ const StagedItem = (
   model,
   parent,
   camera,
-  { stage = 1, position = new THREE.Vector3(0, 0, 0) } = {}
+  {
+    stage = 1,
+    position = new THREE.Vector3(0, 0, 0)
+    // TODO: add animPlane
+  } = {}
 ) => {
   if (model == null) console.warn("StagedItem didn't receive a model")
-
   const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
   const getOutOfStagePosOffset = () => new THREE.Vector3(0, getHeightUnit() * -3, 0)
   let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
@@ -59,7 +61,6 @@ const StagedItem = (
     outOffsetPos = new THREE.Vector3(0, 0, 0)
     isInView = true
   }
-
   const leaveView = () => {
     // TODO: tween instead of direct assign
     outOffsetPos = outOfViewMaxOffsetPos

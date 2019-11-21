@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
+import AnimPlane from "./AnimPlane.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
 
@@ -60,6 +61,9 @@ const SceneManager = (canvas) => {
   scene.add(bgPlane.mesh)
 
   const updateAssets = (assets) => {
+    let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
+    scene.add(defaultAnimPlane)
+
     // TODO: clean this part : for example : create an AssetDispatcher
     assets.forEach((asset) => {
       if (asset instanceof THREE.Object3D) {
@@ -87,13 +91,6 @@ const SceneManager = (canvas) => {
         }
       }
       if (asset.name == "maptest") bgPlane.setTexture(asset)
-      if (asset.name == "anim") {
-        asset.image.play()
-        const animPlaneGeo = new THREE.PlaneBufferGeometry(4, 4, 1)
-        const animPlaneMat = new THREE.MeshBasicMaterial({ map: asset })
-        const animPlane = new THREE.Mesh(animPlaneGeo, animPlaneMat)
-        scene.add(animPlane)
-      }
     })
   }
 

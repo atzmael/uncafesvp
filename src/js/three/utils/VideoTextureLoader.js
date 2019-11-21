@@ -23,7 +23,7 @@ VideoTextureLoader.prototype = Object.assign(Object.create(Loader.prototype), {
 
     loader.load(
       url,
-      video => {
+      (video) => {
         videoTexture = new VideoTexture(video)
         if (onLoad !== undefined) {
           onLoad(videoTexture)
