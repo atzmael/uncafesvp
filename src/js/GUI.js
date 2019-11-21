@@ -32,7 +32,6 @@ const GUI = () => {
   }
 
   const addStagedItem = (stagedItem, name) => {
-    console.log(stagedItem)
     if (name == null) {
       if (stagedItem.model.name) name = stagedItem.model.name
       else
@@ -42,9 +41,9 @@ const GUI = () => {
     folder = folders[name]
     //   folder.add(stagedItem, "visible")
     const positionFolder = folder.addFolder("basePosition")
-    positionFolder.add(stagedItem.basePos, "x", -10, 10)
-    positionFolder.add(stagedItem.basePos, "y", -10, 10)
-    positionFolder.add(stagedItem.basePos, "z", -10, 10)
+    positionFolder.add(stagedItem._basePos, "x", -10, 10)
+    positionFolder.add(stagedItem._basePos, "y", -10, 10)
+    positionFolder.add(stagedItem._basePos, "z", -10, 10)
     const rotationFolder = folder.addFolder("rotation")
     rotationFolder.add(stagedItem.model.rotation, "x", -6.2831853071, 6.2831853071)
     rotationFolder.add(stagedItem.model.rotation, "y", -6.2831853071, 6.2831853071)

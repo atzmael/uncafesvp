@@ -19,12 +19,12 @@ const StagedItem = (
 ) => {
   if (model == null) console.warn("StagedItem didn't receive a model")
 
-  let basePos = new THREE.Vector3(0, 0, 0)
+  let _basePos = new THREE.Vector3(0, 0, 0)
   let floatOffsetPos = new THREE.Vector3(0, 0, 0)
 
   const positionFromCamera = () => {
     const heightUnit = visibleHeightAtZDepth(model.position.z, camera) * 0.33
-    basePos.set(
+    _basePos.set(
       options.position.x * heightUnit * camera.aspect,
       options.position.y * heightUnit,
       options.position.z
@@ -41,7 +41,7 @@ const StagedItem = (
 
   const update = (time) => {
     floatOffsetPos.y = Math.cos(time * 1.7 + options.position.x) * 0.3
-    model.position.copy(basePos).add(floatOffsetPos)
+    model.position.copy(_basePos).add(floatOffsetPos)
   }
 
   positionFromCamera()
@@ -49,7 +49,7 @@ const StagedItem = (
 
   return {
     model,
-    basePos,
+    _basePos, // exposed for GUI only
     onCanvasResize,
     focusedAnimate,
     update
