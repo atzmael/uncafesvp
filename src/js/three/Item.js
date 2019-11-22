@@ -85,6 +85,11 @@ const Item = (
     applyPosition()
   }
 
+  // TODO: add bounding boxes that trigger a 'focus' event on hover (raycaster)
+  // This would play() the videoTexture and rotate/move the model
+  // maybe add one bounding box for the resting position (stays in place),
+  // and an other one for the focused position, that follows the model movements
+
   positionFromCamera()
 
   return {
