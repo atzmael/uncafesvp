@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
-import StagedItem from "./StagedItem.js"
+import Item from "./Item.js"
 import AnimPlane from "./AnimPlane.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
@@ -52,7 +52,7 @@ const SceneManager = (canvas) => {
   )
   camera.position.z = 18
 
-  const stagedItems = []
+  const items = []
 
   const lightGroup = buildLights()
   scene.add(lightGroup)
@@ -64,25 +64,27 @@ const SceneManager = (canvas) => {
     let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
     scene.add(defaultAnimPlane)
 
-    // TODO: clean this part : for example : create an AssetDispatcher
+    // TODO: clean this part : for example : create an ItemDispatcher
     assets.forEach((asset) => {
       if (asset instanceof THREE.Object3D) {
-        // TODO: this pushes a new stagedItem every time assets are updated, even if it already exists in the array
+        // TODO: this pushes a new Item every time assets are updated, even if it already exists in the array
         if (asset.name == "gobelet") {
-          const gobeletStageItem = StagedItem(asset, scene, camera, {
+          const laitItem = Item(asset, camera, {
             position: new THREE.Vector3(1, 0, 0),
             stage: 2
             // TODO: use stage option
           })
-          GUI.addStagedItem(gobeletStageItem)
-          stagedItems.push(gobeletStageItem)
+          items.push(laitItem)
+          scene.add(laitItem.model)
+          GUI.addItem(laitItem)
         } else if (asset.name == "lait") {
-          const gobeletStageItem = StagedItem(asset, scene, camera, {
+          const gobeletItem = Item(asset, camera, {
             position: new THREE.Vector3(-1, 0, 0)
             // TODO: use stage option
           })
-          GUI.addStagedItem(gobeletStageItem)
-          stagedItems.push(gobeletStageItem)
+          items.push(gobeletItem)
+          scene.add(gobeletItem.model)
+          GUI.addItem(gobeletItem)
         } else {
           console.warn(
             "This asset didn't match any name in the if statements : ",
@@ -95,14 +97,14 @@ const SceneManager = (canvas) => {
   }
 
   const changeXpStage = (newXpStage) => {
-    stagedItems.forEach((item) => item.checkIfEnterOrLeave(newXpStage))
+    items.forEach((item) => item.checkIfEnterOrLeave(newXpStage))
   }
 
   const onCanvasResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     bgPlane.onCanvasResize(camera)
-    stagedItems.forEach((item) => item.onCanvasResize())
+    items.forEach((item) => item.onCanvasResize())
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
@@ -111,7 +113,7 @@ const SceneManager = (canvas) => {
     // monitored code goes here
 
     bgPlane.update(time)
-    stagedItems.forEach((item) => item.update(time))
+    items.forEach((item) => item.update(time))
 
     stats.end()
     renderer.render(scene, camera)

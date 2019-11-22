@@ -2,16 +2,14 @@ import * as THREE from "three"
 import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
 
 /**
- * This adds the model to the parent (ex: in the scene)
+ * This return an object with the model positionned, and an animation associated to it, plus some functionnality
  * @param {THREE.Object3D} model
- * @param {THREE.Object3D} parent
  * @param {THREE.PerspectiveCamera} camera
  * @param {Object} param3 options
  * @returns {Object} an object containing the staged model and some animations / methods related to it
  */
-const StagedItem = (
+const Item = (
   model,
-  parent,
   camera,
   {
     stage = 1,
@@ -19,7 +17,7 @@ const StagedItem = (
     // TODO: add animPlane
   } = {}
 ) => {
-  if (model == null) console.warn("StagedItem didn't receive a model")
+  if (model == null) console.warn("Item didn't receive a model")
   const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
   const getOutOfStagePosOffset = () => new THREE.Vector3(0, getHeightUnit() * -3, 0)
   let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
@@ -76,7 +74,6 @@ const StagedItem = (
   }
 
   positionFromCamera()
-  parent.add(model)
 
   return {
     model,
@@ -88,4 +85,4 @@ const StagedItem = (
   }
 }
 
-export default StagedItem
+export default Item

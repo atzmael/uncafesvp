@@ -31,28 +31,28 @@ const GUI = () => {
     }
   }
 
-  const addStagedItem = (stagedItem, name) => {
+  const addItem = (item, name) => {
     if (name == null) {
-      if (stagedItem.model.name) name = stagedItem.model.name
+      if (item.model.name) name = item.model.name
       else
-        throw "Can't add GUI folder without a name (add on stagedItem.model or in function's arguments)"
+        throw "Can't add GUI folder without a name (add on Item.model or in function's arguments)"
     }
     folders[name] = datGui.addFolder(name)
     folder = folders[name]
-    //   folder.add(stagedItem, "visible")
+    //   folder.add(Item, "visible")
     const positionFolder = folder.addFolder("basePosition")
-    positionFolder.add(stagedItem._basePos, "x", -10, 10)
-    positionFolder.add(stagedItem._basePos, "y", -10, 10)
-    positionFolder.add(stagedItem._basePos, "z", -10, 10)
+    positionFolder.add(item._basePos, "x", -10, 10)
+    positionFolder.add(item._basePos, "y", -10, 10)
+    positionFolder.add(item._basePos, "z", -10, 10)
     const rotationFolder = folder.addFolder("rotation")
-    rotationFolder.add(stagedItem.model.rotation, "x", -6.2831853071, 6.2831853071)
-    rotationFolder.add(stagedItem.model.rotation, "y", -6.2831853071, 6.2831853071)
-    rotationFolder.add(stagedItem.model.rotation, "z", -6.2831853071, 6.2831853071)
+    rotationFolder.add(item.model.rotation, "x", -6.2831853071, 6.2831853071)
+    rotationFolder.add(item.model.rotation, "y", -6.2831853071, 6.2831853071)
+    rotationFolder.add(item.model.rotation, "z", -6.2831853071, 6.2831853071)
   }
 
   return {
     addObject3D,
-    addStagedItem
+    addItem
   }
 }
 

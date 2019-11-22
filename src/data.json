@@ -1,0 +1,20 @@
+// TODO: discuss structure and use of static data
+// we could imagine how it interacts with an export coming directly from GUI's data
+{
+  "items": [
+    {
+      "name": "lait",
+      "model-asset": "/assets/3D/lait.glb",
+      "animation-asset": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+      "view-base-position": [-1, 0, 0],
+      "stage": "1"
+    },
+    {
+      "name": "gobelet",
+      "model-asset": "/assets/3D/gobelet_carton.glb",
+      "animation-asset": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+      "view-base-position": [1, 0, 0],
+      "stage": "2"
+    }
+  ]
+}
