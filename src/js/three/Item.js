@@ -3,6 +3,7 @@ import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
+ * The returned object.model must be added to the scene to be visible
  * @param {THREE.Object3D} model
  * @param {THREE.PerspectiveCamera} camera
  * @param {Object} param3 options
@@ -19,7 +20,8 @@ const Item = (
 ) => {
   if (model == null) console.warn("Item didn't receive a model")
   const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
-  const getOutOfStagePosOffset = () => new THREE.Vector3(0, getHeightUnit() * -3, 0)
+  const getOutOfStagePosOffset = () =>
+    new THREE.Vector3(0, getHeightUnit() * -1.6, 0)
   let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
 
   let isInView = false
@@ -35,6 +37,14 @@ const Item = (
       position.y * heightUnit,
       position.z
     )
+    applyPosition()
+  }
+
+  const applyPosition = () => {
+    model.position
+      .copy(_basePos)
+      .add(outOffsetPos)
+      .add(floatOffsetPos)
   }
 
   const onCanvasResize = () => {
@@ -62,15 +72,17 @@ const Item = (
   const leaveView = () => {
     // TODO: tween instead of direct assign
     outOffsetPos = outOfViewMaxOffsetPos
-    isInView = false
+    // TODO: remove setTimeout and use onComplete hook (tween)
+    setTimeout(() => {
+      isInView = false
+      applyPosition()
+    }, 300)
   }
 
   const update = (time) => {
+    if (!isInView) return
     floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
-    model.position
-      .copy(_basePos)
-      .add(outOffsetPos)
-      .add(floatOffsetPos)
+    applyPosition()
   }
 
   positionFromCamera()

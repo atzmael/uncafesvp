@@ -72,7 +72,7 @@ const SceneManager = (canvas) => {
           const laitItem = Item(asset, camera, {
             position: new THREE.Vector3(1, 0, 0),
             stage: 2
-            // TODO: use stage option
+            // TODO: use more item options
           })
           items.push(laitItem)
           scene.add(laitItem.model)
@@ -80,7 +80,7 @@ const SceneManager = (canvas) => {
         } else if (asset.name == "lait") {
           const gobeletItem = Item(asset, camera, {
             position: new THREE.Vector3(-1, 0, 0)
-            // TODO: use stage option
+            // TODO: use more item options
           })
           items.push(gobeletItem)
           scene.add(gobeletItem.model)
