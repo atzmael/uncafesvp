@@ -64,7 +64,7 @@ const SceneManager = (canvas) => {
     let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
     scene.add(defaultAnimPlane)
 
-    // TODO: clean this part : for example : create an ItemDispatcher
+    // TODO: clean this part : for example : create an ItemDispatcher that uses data.json
     assets.forEach((asset) => {
       if (asset instanceof THREE.Object3D) {
         // TODO: this pushes a new Item every time assets are updated, even if it already exists in the array
@@ -72,7 +72,7 @@ const SceneManager = (canvas) => {
           const laitItem = Item(asset, camera, {
             position: new THREE.Vector3(1, 0, 0),
             stage: 2
-            // TODO: use more item options
+            // TODO: use more item options (animPlane, etc.)
           })
           items.push(laitItem)
           scene.add(laitItem.model)
@@ -80,7 +80,7 @@ const SceneManager = (canvas) => {
         } else if (asset.name == "lait") {
           const gobeletItem = Item(asset, camera, {
             position: new THREE.Vector3(-1, 0, 0)
-            // TODO: use more item options
+            // TODO: use more item options (animPlane, etc.)
           })
           items.push(gobeletItem)
           scene.add(gobeletItem.model)
