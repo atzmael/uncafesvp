@@ -1,5 +1,6 @@
 import * as THREE from "three"
 import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
+import AnimPlane from "./AnimPlane.js"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -9,7 +10,7 @@ import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera) => {
-  const { model, viewBasePosition, stage } = item
+  const { model, anim, viewBasePosition, stage } = item
   if (model == null) console.warn("StagedItem didn't receive a model")
   const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
   const getOutOfStagePosOffset = () =>
@@ -40,13 +41,17 @@ const StagedItem = (item, camera) => {
       .add(floatOffsetPos)
   }
 
+  const animPlane = AnimPlane(anim)
+  model.add(animPlane)
+
+  const focusedAnimate = () => {
+    // animPlane.play()
+    console.log("TODO: tweens and stuff")
+  }
+
   const onCanvasResize = () => {
     positionFromCamera()
     outOfViewMaxOffsetPos = getOutOfStagePosOffset()
-  }
-
-  const focusedAnimate = () => {
-    console.log("TODO: tweens and stuff")
   }
 
   const checkIfEnterOrLeave = (stageIndex) => {
@@ -58,6 +63,7 @@ const StagedItem = (item, camera) => {
   }
 
   const enterView = () => {
+    animPlane.play()
     // TODO: tween instead of direct assign
     outOffsetPos = new THREE.Vector3(0, 0, 0)
     isInView = true
@@ -87,8 +93,9 @@ const StagedItem = (item, camera) => {
 
   return Object.assign(item, {
     _basePos, // exposed for GUI only
-    onCanvasResize,
+    animPlane,
     focusedAnimate,
+    onCanvasResize,
     checkIfEnterOrLeave,
     update
   })

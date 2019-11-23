@@ -52,14 +52,15 @@
     itemsData.forEach((itemData, indx) => {
       const itemLoader = AssetLoader();
       itemLoader.load(itemData.modelPath, `${itemData.name}Model`);
-      // TODO: Log an error if the path is wrong
+      // TODO: /!\ /!\ /!\ /!\ Log an error if the path is wrong
       if (itemData.animPath)
-        itemLoader.load(itemData.animPath, `${itemData.name}Animation`);
+        itemLoader.load(itemData.animPath, `${itemData.name}Anim`);
       itemLoader.load(itemData.soundPath, `${itemData.name}Sound`);
 
       itemLoader.onComplete(returnedArray => {
         const item = Object.assign(itemData, {
-          model: returnedArray.find(x => x.name === `${itemData.name}Model`)
+          model: returnedArray.find(x => x.name === `${itemData.name}Model`),
+          anim: returnedArray.find(x => x.name === `${itemData.name}Anim`)
         });
         loadedItems.push(item);
         itemsDidLoad[indx] = true;

@@ -7,9 +7,13 @@ const AnimPlane = (videoTexture) => {
   const animPlaneMat = new THREE.MeshBasicMaterial({ map: videoTexture })
   const animPlane = new THREE.Mesh(animPlaneGeo, animPlaneMat)
 
-  videoTexture.image.play()
+  const play = () => {
+    videoTexture.image.play()
+  }
 
-  return animPlane
+  return Object.assign(animPlane, {
+    play
+  })
 }
 
 export default AnimPlane

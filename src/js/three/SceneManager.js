@@ -1,7 +1,6 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
-import AnimPlane from "./AnimPlane.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
 
@@ -63,8 +62,6 @@ const SceneManager = (canvas) => {
   const addItems = (items) => {
     items.forEach((item) => {
       const stagedItem = StagedItem(item, camera)
-      // TODO: let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
-      // scene.add(defaultAnimPlane)
       stagedItems.push(stagedItem)
       scene.add(stagedItem.model)
       GUI.addStagedItem(stagedItem)
