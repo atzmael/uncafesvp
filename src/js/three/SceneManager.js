@@ -61,8 +61,15 @@ const SceneManager = (canvas) => {
   scene.add(bgPlane.mesh)
 
   const updateAssets = (assets) => {
-    let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
-    scene.add(defaultAnimPlane)
+    // let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
+    // scene.add(defaultAnimPlane)
+
+    // TODO? dispatchItems(data.items, assets)
+    // const dispatchItems = (itemsData) => {
+    //   itemsData.forEach((d) => {})
+    // }
+
+    addItems = () => {}
 
     // TODO: clean this part : for example : create an ItemDispatcher that uses data.json
     assets.forEach((asset) => {
