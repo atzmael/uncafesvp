@@ -2,8 +2,7 @@
   import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore";
   import { fade } from "svelte/transition";
 
-  export let currentXpStage;
-  export let isLoadingFinished;
+  export let isLoaded;
 </script>
 
 <style>
@@ -43,9 +42,7 @@
   <!-- TODO: Make a custom transition ("fade" is built-in svelte) -->
   <main transition:fade>
     <p>This is the homepage</p>
-    <button on:click={xpStageIndex.next} class:hidden={!isLoadingFinished}>
-      Next
-    </button>
+    <button on:click={xpStageIndex.next} class:hidden={!isLoaded}>Next</button>
   </main>
 {:else}
   <button on:click={xpStageIndex.previous} class="previous-arrow">⬅ ⬅ ⬅</button>

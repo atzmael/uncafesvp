@@ -7,26 +7,26 @@
   "items": [
     {
       "name": "lait",
-      "modelAsset": "/assets/3D/lait.glb",
-      "anim": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-      "sound": "/assets/sound/piste1.mp3",
-      "view-base-position": [-1, 0, 0],
+      "modelPath": "/assets/3D/lait.glb",
+      "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+      "soundPath": "/assets/sound/piste1.mp3",
+      "viewBasePosition": [-1, 0, 0],
       "stage": 1
     },
     {
       "name": "capsule",
-      "modelAsset": "/assets/3D/capsule.glb",
-      "anim": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-      "sound": "/assets/sound/piste1.mp3",
-      "view-base-position": [0, 0, 0],
+      "modelPath": "/assets/3D/capsule.glb",
+      "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+      "soundPath": "/assets/sound/piste1.mp3",
+      "viewBasePosition": [0, 0, 0],
       "stage": 2
     },
     {
       "name": "gobelet",
-      "modelAsset": "/assets/3D/gobelet_carton.glb",
-      "anim": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-      "sound": "/assets/sound/piste1.mp3",
-      "view-base-position": [1, 0, 0],
+      "modelPath": "/assets/3D/gobelet_carton.glb",
+      "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+      "soundPath": "/assets/sound/piste1.mp3",
+      "viewBasePosition": [1, 0, 0],
       "stage": 3
     }
   ]

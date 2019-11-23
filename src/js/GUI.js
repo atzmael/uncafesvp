@@ -31,9 +31,9 @@ const GUI = () => {
     }
   }
 
-  const addItem = (item, name) => {
+  const addStagedItem = (item, name) => {
     if (name == null) {
-      if (item.model.name) name = item.model.name
+      if (item.name) name = item.name
       else
         throw "Can't add GUI folder without a name (add on Item.model or in function's arguments)"
     }
@@ -52,7 +52,7 @@ const GUI = () => {
 
   return {
     addObject3D,
-    addItem
+    addStagedItem
   }
 }
 

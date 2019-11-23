@@ -4,21 +4,13 @@ import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
  * The returned object.model must be added to the scene to be visible
- * @param {THREE.Object3D} model
+ * @param {Object} item
  * @param {THREE.PerspectiveCamera} camera
- * @param {Object} param3 options
- * @returns {Object} an object containing the staged model and some animations / methods related to it
+ * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
-const Item = (
-  model,
-  camera,
-  {
-    stage = 1,
-    position = new THREE.Vector3(0, 0, 0)
-    // TODO: add animPlane
-  } = {}
-) => {
-  if (model == null) console.warn("Item didn't receive a model")
+const StagedItem = (item, camera) => {
+  const { model, viewBasePosition, stage } = item
+  if (model == null) console.warn("StagedItem didn't receive a model")
   const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
   const getOutOfStagePosOffset = () =>
     new THREE.Vector3(0, getHeightUnit() * -1.6, 0)
@@ -26,6 +18,7 @@ const Item = (
 
   let isInView = false
 
+  let position = new THREE.Vector3(...viewBasePosition)
   let _basePos = new THREE.Vector3(0, 0, 0)
   let floatOffsetPos = new THREE.Vector3(0, 0, 0)
   let outOffsetPos = outOfViewMaxOffsetPos
@@ -92,14 +85,13 @@ const Item = (
 
   positionFromCamera()
 
-  return {
-    model,
+  return Object.assign(item, {
     _basePos, // exposed for GUI only
     onCanvasResize,
     focusedAnimate,
     checkIfEnterOrLeave,
     update
-  }
+  })
 }
 
-export default Item
+export default StagedItem

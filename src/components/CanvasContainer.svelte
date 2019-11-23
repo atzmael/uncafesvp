@@ -9,6 +9,8 @@
   import SceneManager from "../js/three/SceneManager.js";
 
   export let assets;
+  export let items;
+  export let isLoaded;
 
   let canvas;
   let sceneManager;
@@ -19,8 +21,14 @@
   }
 
   // TODO: remove didUserInteract from here, and use it only in threejs code to check if we can play the <video> / <audio>
-  $: if (assets.length > 0 && $didUserInteract) {
-    sceneManager.updateAssets(assets);
+  $: if (
+    $didUserInteract &&
+    isLoaded &&
+    assets.length > 0 &&
+    items.length > 0
+  ) {
+    sceneManager.addItems(items);
+    sceneManager.addAssets(assets);
   }
 
   onMount(() => {

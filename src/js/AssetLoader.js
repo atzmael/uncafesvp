@@ -14,7 +14,7 @@ const AssetsLoader = () => {
 
   const load = (path, name, childArr) => {
     if (!path || !name) {
-      throw "Trying to load an asset, but missing arguments"
+      throw `Trying to load an asset, but missing arguments:\nname: ${name}, path: ${path}`
     }
     const extension = path.substr(path.indexOf("."))
     // console.log("chemin : ", path)
@@ -42,9 +42,7 @@ const AssetsLoader = () => {
     // ↓↓↓ returnGltfAsObject3D is used ONLY if childArr is null
     // (it returns the gltf.scene.children as a single Object3D (Group or the only child as it is (could be Mesh or other maybe)))
     function returnGltfAsObject3D(gltf) {
-      if (
-        !(gltf.scene && gltf.scene.children && gltf.scene.children.length > 0)
-      ) {
+      if (!(gltf.scene && gltf.scene.children && gltf.scene.children.length > 0)) {
         throw `gltf has no child inside "scene", or a wrong structure`
       } else {
         if (gltf.scene.children.length == 1) {
@@ -63,7 +61,7 @@ const AssetsLoader = () => {
       gltfLoader.load(
         path,
         // onLoaded
-        gltf => {
+        (gltf) => {
           if (childArr) {
             // this loop searches through the gltf structure and returns the last thing of the childArr
             childArr.forEach((child, index) => {
@@ -84,9 +82,9 @@ const AssetsLoader = () => {
           resolve()
         },
         // onProgress
-        xhr => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+        (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
         // onError
-        err => reject(`Failed to load GLTF with path ${path} : \n ${err}`)
+        (err) => reject(`Failed to load GLTF with path ${path} : \n ${err}`)
       )
     })
   }
@@ -101,7 +99,7 @@ const AssetsLoader = () => {
       textureLoader.load(
         path,
         // onLoaded
-        texture => {
+        (texture) => {
           const addedParams = { name }
           const textureAsset = Object.assign(texture, addedParams)
           assets.push(textureAsset)
@@ -110,7 +108,7 @@ const AssetsLoader = () => {
         // onProgress callback currently not supported
         undefined,
         // onError
-        err => reject(`Failed to load texture with path '${path} :\n${err}'`)
+        (err) => reject(`Failed to load texture with path '${path} :\n${err}'`)
       )
     })
   }
@@ -120,15 +118,14 @@ const AssetsLoader = () => {
       videoTextureLoader.load(
         path,
         // onLoaded
-        videoTexture => {
+        (videoTexture) => {
           const addedParams = { name }
           const videoTextureAsset = Object.assign(videoTexture, addedParams)
           assets.push(videoTextureAsset)
           resolve()
         },
         // onError
-        err =>
-          reject(`Failed to load videoTexture with path '${path} :\n${err}'`)
+        (err) => reject(`Failed to load videoTexture with path '${path} :\n${err}'`)
       )
     })
   }
@@ -142,7 +139,7 @@ const AssetsLoader = () => {
         // resource URL
         path,
         // onLoad callback (when load is completed)
-        audioBuffer => {
+        (audioBuffer) => {
           // set the audio object buffer to the loaded objectsound
           sound.setBuffer(audioBuffer)
 
@@ -152,9 +149,9 @@ const AssetsLoader = () => {
           resolve()
         },
         // onProgress callback
-        xhr => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+        (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
         // onError callback
-        err => reject(`Failed to load sound with path '${path} :\n${err}'`)
+        (err) => reject(`Failed to load sound with path '${path} :\n${err}'`)
       )
     })
   }
@@ -162,13 +159,13 @@ const AssetsLoader = () => {
   /**
    * @param {function} callback called when all promises are resolved (all assets are loaded)
    */
-  const onComplete = callback => {
+  const onComplete = (callback) => {
     // console.log("promises : ", promises)
     Promise.all(promises)
       .then(() => {
         callback(assets)
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("A promise has failed : ", error)
       })
   }

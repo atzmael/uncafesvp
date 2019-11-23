@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
-import Item from "./Item.js"
+import StagedItem from "./StagedItem.js"
 import AnimPlane from "./AnimPlane.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
@@ -52,7 +52,7 @@ const SceneManager = (canvas) => {
   )
   camera.position.z = 18
 
-  const items = []
+  const stagedItems = []
 
   const lightGroup = buildLights()
   scene.add(lightGroup)
@@ -60,76 +60,50 @@ const SceneManager = (canvas) => {
   let bgPlane = BgPlane()
   scene.add(bgPlane.mesh)
 
-  const updateAssets = (assets) => {
-    // let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
-    // scene.add(defaultAnimPlane)
+  const addItems = (items) => {
+    items.forEach((item) => {
+      const stagedItem = StagedItem(item, camera)
+      // TODO: let defaultAnimPlane = AnimPlane(assets.find((a) => a.name === "anim"))
+      // scene.add(defaultAnimPlane)
+      stagedItems.push(stagedItem)
+      scene.add(stagedItem.model)
+      GUI.addStagedItem(stagedItem)
+    })
+  }
 
-    // TODO? dispatchItems(data.items, assets)
-    // const dispatchItems = (itemsData) => {
-    //   itemsData.forEach((d) => {})
-    // }
-
-    addItems = () => {}
-
-    // TODO: clean this part : for example : create an ItemDispatcher that uses data.json
+  const addAssets = (assets) => {
     assets.forEach((asset) => {
-      if (asset instanceof THREE.Object3D) {
-        // TODO: this pushes a new Item every time assets are updated, even if it already exists in the array
-        if (asset.name == "gobelet") {
-          const laitItem = Item(asset, camera, {
-            position: new THREE.Vector3(1, 0, 0),
-            stage: 2
-            // TODO: use more item options (animPlane, etc.)
-          })
-          items.push(laitItem)
-          scene.add(laitItem.model)
-          GUI.addItem(laitItem)
-        } else if (asset.name == "lait") {
-          const gobeletItem = Item(asset, camera, {
-            position: new THREE.Vector3(-1, 0, 0)
-            // TODO: use more item options (animPlane, etc.)
-          })
-          items.push(gobeletItem)
-          scene.add(gobeletItem.model)
-          GUI.addItem(gobeletItem)
-        } else {
-          console.warn(
-            "This asset didn't match any name in the if statements : ",
-            asset
-          )
-        }
-      }
       if (asset.name == "maptest") bgPlane.setTexture(asset)
     })
   }
 
   const changeXpStage = (newXpStage) => {
-    items.forEach((item) => item.checkIfEnterOrLeave(newXpStage))
+    stagedItems.forEach((item) => item.checkIfEnterOrLeave(newXpStage))
   }
 
   const onCanvasResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     bgPlane.onCanvasResize(camera)
-    items.forEach((item) => item.onCanvasResize())
+    stagedItems.forEach((item) => item.onCanvasResize())
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
   const update = (time) => {
     stats.begin()
-    // monitored code goes here
 
     bgPlane.update(time)
-    items.forEach((item) => item.update(time))
+    stagedItems.forEach((item) => item.update(time))
 
     stats.end()
     renderer.render(scene, camera)
   }
 
   return {
+    addItems,
+    addAssets,
     onCanvasResize,
     changeXpStage,
-    updateAssets,
     update
   }
 }
