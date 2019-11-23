@@ -55,6 +55,7 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
     function onVideoError(event) {
       video.removeEventListener("canplaythrough", onVideoLoad, false)
       video.removeEventListener("error", onVideoError, false)
+      sources.forEach((s) => s.removeEventListener("error", onVideoError, false))
 
       if (onError) onError(event)
 
@@ -65,6 +66,7 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
     video.addEventListener("canplaythrough", onVideoLoad, false)
     // video.addEventListener("canplaythrough", onVideoLoad, false)
     video.addEventListener("error", onVideoError, false)
+    sources.forEach((s) => s.addEventListener("error", onVideoError, false))
 
     if (url.substr(0, 5) !== "data:") {
       if (this.crossOrigin !== undefined) video.crossOrigin = this.crossOrigin
@@ -72,7 +74,7 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
 
     scope.manager.itemStart(url)
 
-    sources.forEach(sourceEl => (sourceEl.src = url))
+    sources.forEach((sourceEl) => (sourceEl.src = url))
 
     return video
   }

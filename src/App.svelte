@@ -16,14 +16,11 @@
   // TODO: use store for debugging variables ?
   const isDebugging = true;
 
-  const loadedAssets = [];
-  const loadedItems = [];
-  // TODO:
-  // const loadedData = {
-  //   assets: [],
-  //   items: []
-  //   //...
-  // };
+  const loadedData = {
+    assets: new Set(),
+    items: new Set()
+    //...
+  };
   let didAssetsLoad = false;
   let didItemsLoad = false;
   // TODO: onLoading(() => {}) to display loading state to user
@@ -42,7 +39,7 @@
     // assetLoader.load("/assets/sound/piste1.mp3", "sound_test");
 
     assetLoader.onComplete(assets => {
-      loadedAssets.push(...assets);
+      loadedData["assets"].add(...assets);
       didAssetsLoad = true;
     });
   };
@@ -52,9 +49,7 @@
     itemsData.forEach((itemData, indx) => {
       const itemLoader = AssetLoader();
       itemLoader.load(itemData.modelPath, `${itemData.name}Model`);
-      // TODO: /!\ /!\ /!\ /!\ Log an error if the path is wrong
-      if (itemData.animPath)
-        itemLoader.load(itemData.animPath, `${itemData.name}Anim`);
+      itemLoader.load(itemData.animPath, `${itemData.name}Anim`);
       itemLoader.load(itemData.soundPath, `${itemData.name}Sound`);
 
       itemLoader.onComplete(returnedArray => {
@@ -62,7 +57,7 @@
           model: returnedArray.find(x => x.name === `${itemData.name}Model`),
           anim: returnedArray.find(x => x.name === `${itemData.name}Anim`)
         });
-        loadedItems.push(item);
+        loadedData["items"].add(item);
         itemsDidLoad[indx] = true;
         if (itemsDidLoad.every(b => b === true)) {
           didItemsLoad = true;
@@ -87,7 +82,4 @@
   <Debugger />
 {/if}
 <StageUI isLoaded={didAssetsLoad && didItemsLoad} />
-<CanvasContainer
-  assets={loadedAssets}
-  items={loadedItems}
-  isLoaded={didAssetsLoad && didItemsLoad} />
+<CanvasContainer {loadedData} isLoaded={didAssetsLoad && didItemsLoad} />

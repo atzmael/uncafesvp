@@ -8,27 +8,21 @@
 
   import SceneManager from "../js/three/SceneManager.js";
 
-  export let assets;
-  export let items;
+  export let loadedData;
   export let isLoaded;
 
   let canvas;
   let sceneManager;
 
   $: if (sceneManager) {
-    // TODO: cleaner fix than settimeout... (doesnt work the first time without it)
-    setTimeout(() => sceneManager.changeXpStage($xpStageIndex), 0);
+    sceneManager.changeXpStage($xpStageIndex);
+    // setTimeout(() => sceneManager.changeXpStage($xpStageIndex), 0);
   }
 
   // TODO: remove didUserInteract from here, and use it only in threejs code to check if we can play the <video> / <audio>
-  $: if (
-    $didUserInteract &&
-    isLoaded &&
-    assets.length > 0 &&
-    items.length > 0
-  ) {
-    sceneManager.addItems(items);
-    sceneManager.addAssets(assets);
+  $: if ($didUserInteract && isLoaded) {
+    sceneManager.addItems(loadedData.items);
+    sceneManager.addAssets(loadedData.assets);
   }
 
   onMount(() => {
