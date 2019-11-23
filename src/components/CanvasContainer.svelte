@@ -15,8 +15,8 @@
   let sceneManager;
 
   $: if (sceneManager) {
-    sceneManager.changeXpStage($xpStageIndex);
-    // setTimeout(() => sceneManager.changeXpStage($xpStageIndex), 0);
+    // TODO: find a better fix than a setTimeout...
+    setTimeout(() => sceneManager.changeXpStage($xpStageIndex), 0);
   }
 
   // TODO: remove didUserInteract from here, and use it only in threejs code to check if we can play the <video> / <audio>

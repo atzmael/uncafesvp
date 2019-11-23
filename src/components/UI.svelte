@@ -2,6 +2,7 @@
   import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore";
   import { fade } from "svelte/transition";
 
+  export let loadingPercentage;
   export let isLoaded;
 </script>
 
@@ -41,7 +42,9 @@
 {#if $xpStageName === 'home'}
   <!-- TODO: Make a custom transition ("fade" is built-in svelte) -->
   <main transition:fade>
+    <!-- TODO: Loader ui -->
     <p>This is the homepage</p>
+    <div>Loading: {Math.round(loadingPercentage)}%</div>
     <button on:click={xpStageIndex.next} class:hidden={!isLoaded}>Next</button>
   </main>
 {:else}

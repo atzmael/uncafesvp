@@ -2,13 +2,13 @@ import GLTFLoader from "three-gltf-loader"
 import VideoTextureLoader from "./three/utils/VideoTextureLoader.js"
 import * as THREE from "three"
 
-const AssetsLoader = () => {
+const AssetsLoader = (loadingManager) => {
   const assets = []
   const promises = []
 
-  const gltfLoader = new GLTFLoader()
-  const textureLoader = new THREE.TextureLoader()
-  const videoTextureLoader = new VideoTextureLoader()
+  const gltfLoader = new GLTFLoader(loadingManager)
+  const textureLoader = new THREE.TextureLoader(loadingManager)
+  const videoTextureLoader = new VideoTextureLoader(loadingManager)
 
   const audioListener = new THREE.AudioListener()
 
@@ -82,7 +82,8 @@ const AssetsLoader = () => {
           resolve()
         },
         // onProgress
-        (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+        // (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+        undefined,
         // onError
         (err) => reject(`Failed to load GLTF with path ${path} : \n ${err}`)
       )
@@ -149,7 +150,8 @@ const AssetsLoader = () => {
           resolve()
         },
         // onProgress callback
-        (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+        // (xhr) => console.log(`${name}: ${(xhr.loaded / xhr.total) * 100}%`),
+        undefined,
         // onError callback
         (err) => reject(`Failed to load sound with path '${path} :\n${err}'`)
       )
