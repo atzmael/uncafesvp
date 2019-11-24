@@ -24,8 +24,6 @@
   };
   let loadingPercentage = 0;
   let isLoaded = false;
-  // TODO: onLoading(() => {}) to display loading state to user
-  // =>  see THREE.LoadingManager in the documentation ?
 
   // TODO:??? use async (check Promises inside AssetLoader.js and 'Promise loading with Three.js' article)
   const loadData = () => {
