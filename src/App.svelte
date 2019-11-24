@@ -79,9 +79,9 @@
     document.addEventListener("click", userInteracted);
     loadData();
     const smartLoader = SmartLoader();
-    smartLoader.load("/assets/maps/TiledWaterColor_placeholder.png");
-    smartLoader.load("/assets/3D/lait.glb");
-    // smartLoader.load({ type: "model", path: "/assets/3D/lait.glb" });
+    smartLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "name1");
+    smartLoader.load("/assets/3D/lait.glb", "name2");
+    smartLoader.load({ type: "model", path: "/assets/3D/lait.glb" }, "name3");
   });
 </script>
 
