@@ -24,6 +24,8 @@ const StagedItem = (item, camera) => {
   let floatOffsetPos = new THREE.Vector3(0, 0, 0)
   let outOffsetPos = outOfViewMaxOffsetPos
 
+  const animPlane = AnimPlane(anim)
+
   const positionFromCamera = () => {
     const heightUnit = getHeightUnit()
     _basePos.set(
@@ -32,6 +34,8 @@ const StagedItem = (item, camera) => {
       position.z
     )
     applyPosition()
+
+    animPlane.scale.set(2, 2, 1)
   }
 
   const applyPosition = () => {
@@ -40,9 +44,6 @@ const StagedItem = (item, camera) => {
       .add(outOffsetPos)
       .add(floatOffsetPos)
   }
-
-  const animPlane = AnimPlane(anim)
-  model.add(animPlane)
 
   const focusedAnimate = () => {
     // animPlane.play()
@@ -90,6 +91,7 @@ const StagedItem = (item, camera) => {
   // and an other one for the focused position, that follows the model movements
 
   positionFromCamera()
+  model.add(animPlane)
 
   return Object.assign(item, {
     _basePos, // exposed for GUI only

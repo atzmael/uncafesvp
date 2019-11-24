@@ -14,15 +14,16 @@
   let canvas;
   let sceneManager;
 
-  $: if (sceneManager) {
-    // TODO: find a better fix than a setTimeout...
-    setTimeout(() => sceneManager.changeXpStage($xpStageIndex), 0);
-  }
-
   // TODO: remove didUserInteract from here, and use it only in threejs code to check if we can play the <video> / <audio>
   $: if ($didUserInteract && isLoaded) {
+    // TODO: make it possible to update the assets/items,
+    // this should remove some bugs too
     sceneManager.addItems(loadedData.items);
     sceneManager.addAssets(loadedData.assets);
+  }
+
+  $: if ($didUserInteract && sceneManager) {
+    sceneManager.changeXpStage($xpStageIndex);
   }
 
   onMount(() => {

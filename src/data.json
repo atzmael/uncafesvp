@@ -16,7 +16,7 @@
     {
       "name": "capsule",
       "modelPath": "/assets/3D/capsule.glb",
-      "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+      "animPath": "/assets/maps/testRGB.png",
       "soundPath": "/assets/sound/piste1.mp3",
       "viewBasePosition": [0, 0, 0],
       "stage": 2
