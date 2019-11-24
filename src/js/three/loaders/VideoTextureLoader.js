@@ -2,15 +2,14 @@
  heavily based on THREE.TextureLoader
 */
 
-import { Loader } from "three"
 import VideoLoader from "./VideoLoader.js"
-import { VideoTexture } from "three"
+import * as THREE from "three"
 
 function VideoTextureLoader(manager) {
-  Loader.call(this, manager)
+  THREE.Loader.call(this, manager)
 }
 
-VideoTextureLoader.prototype = Object.assign(Object.create(Loader.prototype), {
+VideoTextureLoader.prototype = Object.assign(Object.create(THREE.Loader.prototype), {
   constructor: VideoTextureLoader,
 
   load: function(url, onLoad, onError) {
@@ -24,7 +23,7 @@ VideoTextureLoader.prototype = Object.assign(Object.create(Loader.prototype), {
     loader.load(
       url,
       (video) => {
-        videoTexture = new VideoTexture(video)
+        videoTexture = new THREE.VideoTexture(video)
         if (onLoad !== undefined) {
           onLoad(videoTexture)
         }

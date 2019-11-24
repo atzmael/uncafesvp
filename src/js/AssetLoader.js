@@ -1,5 +1,5 @@
 import GLTFLoader from "three-gltf-loader"
-import VideoTextureLoader from "./three/utils/VideoTextureLoader.js"
+import VideoTextureLoader from "./three/loaders/VideoTextureLoader.js"
 import * as THREE from "three"
 
 /**

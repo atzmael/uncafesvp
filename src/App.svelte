@@ -78,10 +78,13 @@
   onMount(() => {
     document.addEventListener("click", userInteracted);
     loadData();
-    const smartLoader = SmartLoader();
-    smartLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "name1");
-    smartLoader.load("/assets/3D/lait.glb", "name2");
-    smartLoader.load({ type: "model", path: "/assets/3D/lait.glb" }, "name3");
+
+    // TODO: Add all loaders from AssetLoader.js to SmartLoader.js
+    const sLoader = SmartLoader();
+    sLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "texturetest");
+    sLoader.load("/assets/3D/lait.glb", "gltftest");
+    sLoader.load({ type: "model", path: "/assets/3D/lait.glb" }, "modeltest");
+    sLoader.onComplete(loadedData => console.log(loadedData));
   });
 </script>
 

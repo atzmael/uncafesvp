@@ -6,9 +6,9 @@
  */
 
 export default function promisifyLoader(loader, onProgress = undefined) {
-  function promiseLoad(url) {
+  function promiseLoad(toLoad) {
     return new Promise((resolve, reject) => {
-      loader.load(url, resolve, onProgress, reject)
+      loader.load(toLoad, resolve, onProgress, reject)
     })
   }
   return {
