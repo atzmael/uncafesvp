@@ -5,13 +5,21 @@ import fragmentShader from "../../glsl/animPlane.frag"
 /**
  *
  */
-const AnimPlane = (videoTexture) => {
+const AnimPlane = (videoTexture, hexColor1, hexColor2, hexColor3) => {
   const animPlaneGeo = new THREE.PlaneBufferGeometry(4, 4, 1)
   // const animPlaneMat = new THREE.MeshBasicMaterial({ map: videoTexture })
+
+  hexColor1 = 0xff00ff
+  hexColor2 = 0xffff00
+  hexColor3 = 0xee99ff
+
   const animPlaneMat = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 1.0 },
-      myTexture: { value: videoTexture }
+      myTexture: { value: videoTexture },
+      col1: { value: new THREE.Color(hexColor1) },
+      col2: { value: new THREE.Color(hexColor2) },
+      col3: { value: new THREE.Color(hexColor3) }
     },
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
@@ -19,7 +27,7 @@ const AnimPlane = (videoTexture) => {
     transparent: true
   })
   const animPlane = new THREE.Mesh(animPlaneGeo, animPlaneMat)
-  animPlane.renderOrder = 999
+  animPlane.renderOrder = 9999
   animPlane.material.depthTest = false
 
   const play = () => {
@@ -28,7 +36,10 @@ const AnimPlane = (videoTexture) => {
   }
 
   return Object.assign(animPlane, {
-    play
+    play,
+    hexColor1,
+    hexColor2,
+    hexColor3
   })
 }
 

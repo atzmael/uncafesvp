@@ -50,10 +50,34 @@ const GUI = () => {
     rotationFolder.add(item.model.rotation, "z", -6.2831853071, 6.2831853071)
   }
 
-  return {
-    addObject3D,
-    addStagedItem
+  // const addAnimationColors = (animPlane) => {
+  //   addColorUniform(
+  //     { hexColor: animPlane.hexColor1 },
+  //     animPlane.material.uniforms.col1
+  //   )
+  //   addColorUniform(
+  //     { hexColor: animPlane.hexColor1 },
+  //     animPlane.material.uniforms.col1
+  //   )
+  //   addColorUniform(
+  //     { hexColor: animPlane.hexColor1 },
+  //     animPlane.material.uniforms.col1
+  //   )
+  // }
+
+  const addColorUniform = (object, uniform, folder = datGui) => {
+    folder.addColor(object, "hexColor").onChange((c) => {
+      const rgbColor = new THREE.Color(c)
+      uniform.value = rgbColor
+    })
   }
+
+  return Object.assign(datGui, {
+    addObject3D,
+    addStagedItem,
+    // addAnimationColors,
+    addColorUniform
+  })
 }
 
 export default GUI()

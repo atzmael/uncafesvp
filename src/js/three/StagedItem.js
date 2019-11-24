@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
 import AnimPlane from "./AnimPlane.js"
+import GUI from "../GUI"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -25,6 +26,24 @@ const StagedItem = (item, camera) => {
   let outOffsetPos = outOfViewMaxOffsetPos
 
   const animPlane = AnimPlane(anim)
+
+  // GUI.addAnimationColors(animPlane)
+  const colorFolder = GUI.addFolder(`${item.name}Color`)
+  GUI.addColorUniform(
+    { hexColor: animPlane.hexColor1 },
+    animPlane.material.uniforms.col1,
+    colorFolder
+  )
+  GUI.addColorUniform(
+    { hexColor: animPlane.hexColor2 },
+    animPlane.material.uniforms.col2,
+    colorFolder
+  )
+  GUI.addColorUniform(
+    { hexColor: animPlane.hexColor3 },
+    animPlane.material.uniforms.col3,
+    colorFolder
+  )
 
   const positionFromCamera = () => {
     const heightUnit = getHeightUnit()
