@@ -80,7 +80,8 @@
     loadData();
     const smartLoader = SmartLoader();
     smartLoader.load("/assets/maps/TiledWaterColor_placeholder.png");
-    smartLoader.load("/assets/3D/vertical_placeholder.glb");
+    smartLoader.load("/assets/3D/lait.glb");
+    // smartLoader.load({ type: "model", path: "/assets/3D/lait.glb" });
   });
 </script>
 
