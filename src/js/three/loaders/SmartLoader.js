@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import promisifyLoader from "./promisifyLoader.js"
 
 const SmartLoader = () => {
   let isLoaded = false
@@ -22,22 +23,25 @@ const SmartLoader = () => {
     undefined
   )
 
-  function load(toLoad) {}
+  const textureLoader = promisifyLoader(
+    new THREE.TextureLoader(loadingManager) /*,  onProgress */
+  )
+  // const textureLoader = promisifyLoader(new THREE.TextureLoader(loadingManager))
+
+  const textureRegexp = /\.(tga|png|jpg|jpeg)$/i
+
+  loadingManager.addHandler(textureRegexp, textureLoader)
+  // loadingManager.addHandler(/\.(png|jpg|jpeg)$/i, textureLoader)
+
+  function load(toLoad) {
+    const appropriateLoader = loadingManager.getHandler(toLoad)
+    if (appropriateLoader === null) throw `No appropriateLoader found for ${toLoad}`
+    appropriateLoader.load(toLoad)
+  }
 
   return {
     load
   }
 }
 
-// function promisifyLoader(loader, onProgress) {
-//   function promiseLoader(url) {
-//     return new Promise((resolve, reject) => {
-//       loader.load(url, resolve, onProgress, reject)
-//     })
-//   }
-
-//   return {
-//     originalLoader: loader,
-//     load: promiseLoader
-//   }
-// }
+export default SmartLoader

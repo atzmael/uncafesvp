@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import AssetLoader from "./js/AssetLoader.js";
+  import SmartLoader from "./js/three/loaders/SmartLoader.js";
   import * as THREE from "three";
 
   import Debugger from "./components/Debugger.svelte";
@@ -77,6 +78,9 @@
   onMount(() => {
     document.addEventListener("click", userInteracted);
     loadData();
+    const smartLoader = SmartLoader();
+    smartLoader.load("/assets/maps/TiledWaterColor_placeholder.png");
+    smartLoader.load("/assets/3D/vertical_placeholder.glb");
   });
 </script>
 
