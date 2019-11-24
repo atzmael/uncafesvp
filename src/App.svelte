@@ -26,6 +26,7 @@
   let isLoaded = false;
 
   // TODO:??? use async (check Promises inside AssetLoader.js and 'Promise loading with Three.js' article)
+  // Or : https://blackthread.io/blog/promisifying-threejs-loaders/
   const loadData = () => {
     const loadingManager = new THREE.LoadingManager(
       //onLoaded for all loaders

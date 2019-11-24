@@ -28,12 +28,12 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
       return cached
     }
 
-    // TODO: use different extensions and sources
+    // TODO: actually use these different extensions and sources
     const extensions = ["ogv", "mp4"]
 
     const video = document.createElement("video")
 
-    // TODO: set options for video (loop, etc.)
+    // TODO: set options for video (loop, etc.) ???
 
     const sources = extensions.map(() => {
       const source = document.createElement("source")
@@ -64,7 +64,6 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
     }
 
     video.addEventListener("canplaythrough", onVideoLoad, false)
-    // video.addEventListener("canplaythrough", onVideoLoad, false)
     video.addEventListener("error", onVideoError, false)
     sources.forEach((s) => s.addEventListener("error", onVideoError, false))
 
