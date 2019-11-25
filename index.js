@@ -5,4 +5,4 @@ if (module.hot) {
     module.hot.accept()
 }
 
-console.log("Parcel ready")
+console.log("Parcel ready");
