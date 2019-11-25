@@ -2,37 +2,40 @@
  heavily based on THREE.TextureLoader
 */
 
-import VideoLoader from "./VideoLoader.js"
-import * as THREE from "three"
+import VideoLoader from './VideoLoader.js'
+import promisifyLoader from './promisifyLoader.js'
+import * as THREE from 'three'
 
 function VideoTextureLoader(manager) {
-  THREE.Loader.call(this, manager)
+    THREE.Loader.call(this, manager)
 }
 
 VideoTextureLoader.prototype = Object.assign(Object.create(THREE.Loader.prototype), {
-  constructor: VideoTextureLoader,
+    constructor: VideoTextureLoader,
 
-  load: function(url, onLoad, onError) {
-    let videoTexture
+    load: function(url, onLoad, onProgress, onError) {
+        let videoTexture
 
-    const loader = new VideoLoader(this.manager)
+        const loader = promisifyLoader(new VideoLoader(this.manager))
 
-    loader.setCrossOrigin(this.crossOrigin)
-    loader.setPath(this.path)
+        loader.originalLoader.setCrossOrigin(this.crossOrigin)
+        loader.originalLoader.setPath(this.path)
 
-    loader.load(
-      url,
-      (video) => {
-        videoTexture = new THREE.VideoTexture(video)
-        if (onLoad !== undefined) {
-          onLoad(videoTexture)
-        }
-      },
-      onError
-    )
+        loader
+            .load(url)
+            .then((video) => {
+                videoTexture = new THREE.VideoTexture(video)
+                if (onLoad !== undefined) {
+                    onLoad(videoTexture)
+                }
+            })
+            .catch((err) => {
+                onError(err)
+                console.error(`Could not load model from:`, toLoad)
+            })
 
-    return videoTexture
-  }
+        // return videoTexture
+    }
 })
 
 export default VideoTextureLoader
