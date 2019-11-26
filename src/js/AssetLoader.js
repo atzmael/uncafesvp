@@ -1,6 +1,11 @@
 import GLTFLoader from "three-gltf-loader"
-import VideoTextureLoader from "./three/utils/VideoTextureLoader.js"
+import VideoTextureLoader from "./three/loaders/VideoTextureLoader.js"
 import * as THREE from "three"
+
+/**
+ *  TODO: This whole stuff is redundant with the logic in THREE.LoadingManager,
+ *  and promises could be handle as depicted in this article : https://blackthread.io/blog/promisifying-threejs-loaders/
+ */
 
 const AssetsLoader = (loadingManager) => {
   const assets = []
@@ -17,7 +22,7 @@ const AssetsLoader = (loadingManager) => {
       throw `Trying to load an asset, but missing arguments:\nname: ${name}, path: ${path}`
     }
     const extension = path.substr(path.indexOf("."))
-    // console.log("chemin : ", path)
+    // TODO: This if/else bloc is the same logic as in LoadingManager.addHandler()
     if (extension === ".gltf" || extension === ".glb") {
       promises.push(loadGLTF(path, name, childArr))
     } else if (extension === ".png" || extension === ".jpg") {
@@ -39,7 +44,7 @@ const AssetsLoader = (loadingManager) => {
    *                              -> ["scene", "children", "0"] would return the first child of the scene
    */
   const loadGLTF = (path, name, childArr) => {
-    // ↓↓↓ returnGltfAsObject3D is used ONLY if childArr is null
+    // ⬇⬇⬇ returnGltfAsObject3D is used ONLY if childArr is null
     // (it returns the gltf.scene.children as a single Object3D (Group or the only child as it is (could be Mesh or other maybe)))
     function returnGltfAsObject3D(gltf) {
       if (!(gltf.scene && gltf.scene.children && gltf.scene.children.length > 0)) {

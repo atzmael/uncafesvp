@@ -1,86 +1,63 @@
 <script>
-  import { onMount } from "svelte";
-  import AssetLoader from "./js/AssetLoader.js";
-  import * as THREE from "three";
+    import { onMount } from 'svelte'
+    import SmartLoader from './js/three/loaders/SmartLoader.js'
+    import * as THREE from 'three'
 
-  import Debugger from "./components/Debugger.svelte";
-  import UI from "./components/UI.svelte";
-  import CanvasContainer from "./components/CanvasContainer.svelte";
+    import Debugger from './components/Debugger.svelte'
+    import UI from './components/UI.svelte'
+    import CanvasContainer from './components/CanvasContainer.svelte'
 
-  import data from "./data.json";
-  import {
-    xpStageIndex,
-    xpStageName,
-    didUserInteract
-  } from "./js/stores/xpStageStore.js";
+    import data from './data.json'
 
-  // TODO: use store for debugging variables ?
-  const isDebugging = true;
+    import {
+        xpStageIndex,
+        xpStageName,
+        didUserInteract
+    } from './js/stores/xpStageStore.js'
+    // TODO? do not use a global store (encapsulate inside SmartLoader)
+    import { isLoaded, loadingPercentage } from './js/stores/loadingStateStore.js'
 
-  const loadedData = {
-    assets: [],
-    items: []
-    //...
-  };
-  let loadingPercentage = 0;
-  let isLoaded = false;
+    // TODO: use store for debugging variables ?
+    const isDebugging = true
 
-  // TODO:??? use async (check Promises inside AssetLoader.js and 'Promise loading with Three.js' article)
-  const loadData = () => {
-    const loadingManager = new THREE.LoadingManager(
-      //onLoaded for all loaders
-      () => (isLoaded = true),
-      //onProgress for all loaders
-      (url, loadedQtty, totalToLoad) => {
-        loadingPercentage = (loadedQtty / totalToLoad) * 100;
-      },
-      //onError for all loaders
-      undefined
-    );
-    loadAssets(loadingManager);
-    loadItems(data.items, loadingManager);
-  };
+    let loadedData = {}
+    const onProgress = (xhr) => {
+        const percentage = Math.round((xhr.loaded / xhr.total) * 100)
+        loadingPercentage.set(percentage)
+        console.log(percentage)
+    }
+    const sLoader = SmartLoader(onProgress)
 
-  const loadAssets = loadingManager => {
-    const assetLoader = AssetLoader(loadingManager);
-    assetLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest");
-    // assetLoader.load("/assets/3D/vertical_placeholder.glb", "modeltest");
-    // assetLoader.load("/assets/sound/piste1.mp3", "sound_test");
-    assetLoader.onComplete(assets => {
-      loadedData["assets"].push(...assets);
-    });
-  };
+    const userInteracted = () => {
+        didUserInteract.set(true) // write in store
+        document.removeEventListener('click', userInteracted)
+    }
 
-  const loadItems = (itemsData, loadingManager) => {
-    itemsData.forEach((itemData, indx) => {
-      const itemLoader = AssetLoader(loadingManager);
-      itemLoader.load(itemData.modelPath, `${itemData.name}Model`);
-      itemLoader.load(itemData.animPath, `${itemData.name}Anim`);
-      itemLoader.load(itemData.soundPath, `${itemData.name}Sound`);
+    onMount(() => {
+        document.addEventListener('click', userInteracted)
 
-      itemLoader.onComplete(returnedArray => {
-        const item = Object.assign(itemData, {
-          model: returnedArray.find(x => x.name === `${itemData.name}Model`),
-          anim: returnedArray.find(x => x.name === `${itemData.name}Anim`)
-        });
-        loadedData["items"].push(item);
-      });
-    });
-  };
+        sLoader.load('/assets/maps/TiledWaterColor_placeholder.png', 'maptest')
+        sLoader.load('/assets/3D/gobelet_carton-model.glb', 'gobeletgltf')
+        sLoader.load('/assets/3D/lait-model.glb', 'laigltf')
+        sLoader.load(
+            '/assets/animations/sequence-png-12fps-720x1080.mp4',
+            'animtest'
+        )
+        // sLoader.load('/assets/sound/piste1.mp3', 'soundtest')
+        data.items.forEach((item) => {
+            sLoader.load(Object.assign(item, { type: 'item' }), item.name)
+        })
 
-  const userInteracted = () => {
-    didUserInteract.set(true); // write in store
-    document.removeEventListener("click", userInteracted);
-  };
-
-  onMount(() => {
-    document.addEventListener("click", userInteracted);
-    loadData();
-  });
+        sLoader.onComplete((resolvedData) => {
+            console.log('resolvedData:', resolvedData)
+            loadedData = resolvedData
+            isLoaded.set(true)
+        })
+    })
 </script>
 
 {#if isDebugging}
-  <Debugger />
+    <Debugger />
 {/if}
-<UI {loadingPercentage} {isLoaded} />
-<CanvasContainer {loadedData} {isLoaded} />
+<UI loadingPercentage={$loadingPercentage} isLoaded={$isLoaded} />
+<CanvasContainer {loadedData} isLoaded={$isLoaded} />
