@@ -32,8 +32,7 @@ const createStage = () => {
 		previous,
 		setIndex,
 		setName,
-		reset,
-		objectToInteract
+		reset
 	}
 }
 

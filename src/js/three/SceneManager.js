@@ -3,7 +3,7 @@ import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
-import {objectToInteract} from '../stores/xpStageStore';
+import {xpStageIndex, objectToInteract} from '../stores/xpStageStore';
 
 const SceneManager = (canvas) => {
 	let width = canvas.parentNode.offsetWidth; // assuming canvas width: 100%
@@ -64,17 +64,19 @@ const SceneManager = (canvas) => {
 	let bgPlane = BgPlane()
 	scene.add(bgPlane.mesh)
 
+
+	// Sound vars
 	const audioListener = new THREE.AudioListener();
 	camera.add(audioListener);
 	scene.add(camera);
+	let isSongStarted = false;
+	let songTime = 0;
 
 	const addItems = (items) => {
 		items.forEach((item) => {
 			const stagedItem = StagedItem(item, camera)
 			stagedItems.push(stagedItem);
 			scene.add(stagedItem.collider);
-			var box = new THREE.BoxHelper( stagedItem.collider, 0xffff00 );
-			scene.add(box);
 			objectToInteract.push(stagedItem.collider);
 			GUI.addStagedItem(stagedItem)
 		})
@@ -107,28 +109,39 @@ const SceneManager = (canvas) => {
 	window.addEventListener('mousemove', onMouseMove, false);
 
 	let INTERSECTED = false;
+	let lastIntersectedObjectName = null;
+	let objectIntersected = null;
 	const update = (time) => {
 		// Debug
 		stats.begin();
 
-		// update raycaster to hover items
+		// RAYCASTING
 		raycaster.setFromCamera(mouse, camera);
 
 		var intersects = raycaster.intersectObjects(objectToInteract);
 
 		if (intersects.length > 0) {
-			if (!INTERSECTED) {
+			if (!INTERSECTED || lastIntersectedObjectName != intersects[0].object.name) {
+				if(null != lastIntersectedObjectName) {
+					let item = objectToInteract.find(elmt => elmt.name == lastIntersectedObjectName);
+					item.children[0].scale.set(1,1,1);
+				}
+				objectIntersected = stagedItems.find(elmt => elmt.name == intersects[0].object.name);
 				hasTouchedItem(intersects[0].object);
-				console.log(scene);
+				lastIntersectedObjectName = intersects[0].object.name;
 				INTERSECTED = true;
 			}
 
 		} else {
+			objectIntersected = null;
 			for (let i in objectToInteract) {
 				objectToInteract[i].children[0].scale.set(1, 1, 1);
 			}
 			INTERSECTED = false;
 		}
+
+		//SOUND Loop
+		// ... do stuff
 
 		bgPlane.update(time)
 		stagedItems.forEach((item) => item.update(time));
@@ -142,7 +155,22 @@ const SceneManager = (canvas) => {
 		object.children[0].scale.set(2,2,2);
 		let item = stagedItems.find(elmt => elmt.name == name);
 		item.soundHandler.play('once', item.sound);
-	}
+	};
+
+	let soundPlaying = [];
+	canvas.addEventListener('click', e => {
+		e.preventDefault();
+		if(null != objectIntersected) {
+			objectIntersected.soundHandler.play("loop", objectIntersected.sound);
+			let params = {
+				name: objectIntersected.name,
+				audio: objectIntersected.sound,
+				soundHandler: objectIntersected.soundHandler
+			};
+			soundPlaying.push(params);
+			xpStageIndex.next();
+		}
+	});
 
 	return {
 		addItems,

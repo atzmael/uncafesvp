@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import {visibleHeightAtZDepth} from "./utils/visibleAtZDepth.js"
+import {visibleHeightAtZDepth, visibleWidthAtZDepth} from "./utils/visibleAtZDepth.js"
 import AnimPlane from "./AnimPlane.js"
 import SoundHandler from "../SoundHandler.js";
 import GUI from "../GUI"
@@ -14,7 +14,8 @@ import GUI from "../GUI"
 const StagedItem = (item, camera) => {
 	const {model, anim, viewBasePosition, stage} = item
 	if (model == null) console.warn("StagedItem didn't receive a model")
-	const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
+	const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33;
+	const getWidthUnit = () => visibleWidthAtZDepth(model.position.z, camera) * 0.33;
 	const getOutOfStagePosOffset = () =>
 		new THREE.Vector3(0, getHeightUnit() * -0.5, 0)
 	let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
@@ -35,19 +36,21 @@ const StagedItem = (item, camera) => {
 	let audioLoader = new THREE.AudioLoader()
 	audioLoader.load(
 		// resource URL
-		'/assets/sound/piste1.mp3',
+		item.soundPath,
 		// onLoad callback (when load is completed)
 		(audioBuffer) => {
 			// set the audio object buffer to the loaded objectsound
 			sound.setBuffer(audioBuffer);
+			sound.name = `${item.name}Sound`;
 		}
 	)
 
 	// Add object3D to intercept raycast
-	let geometry = new THREE.BoxBufferGeometry(1,1,1).setFromObject(model);
-	let material = new THREE.MeshBasicMaterial();
+	let geometry = new THREE.BoxBufferGeometry(getWidthUnit(),getHeightUnit() * 2, 0.5).setFromObject(model);
+	let material = new THREE.MeshBasicMaterial({transparent: true, opacity: 0});
 	const collider = new THREE.Mesh(geometry, material);
 	collider.name = item.name;
+	console.log();
 	collider.add(model);
 
 	// GUI.addAnimationColors(animPlane)
