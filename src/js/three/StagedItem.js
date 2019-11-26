@@ -1,6 +1,7 @@
 import * as THREE from "three"
-import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
+import {visibleHeightAtZDepth} from "./utils/visibleAtZDepth.js"
 import AnimPlane from "./AnimPlane.js"
+import SoundHandler from "../SoundHandler.js";
 import GUI from "../GUI"
 
 /**
@@ -11,115 +12,140 @@ import GUI from "../GUI"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera) => {
-  const { model, anim, viewBasePosition, stage } = item
-  if (model == null) console.warn("StagedItem didn't receive a model")
-  const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
-  const getOutOfStagePosOffset = () =>
-    new THREE.Vector3(0, getHeightUnit() * -1.6, 0)
-  let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
+	const {model, anim, viewBasePosition, stage} = item
+	if (model == null) console.warn("StagedItem didn't receive a model")
+	const getHeightUnit = () => visibleHeightAtZDepth(model.position.z, camera) * 0.33
+	const getOutOfStagePosOffset = () =>
+		new THREE.Vector3(0, getHeightUnit() * -0.5, 0)
+	let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
 
-  let isInView = false
+	let isInView = false;
 
-  let position = new THREE.Vector3(...viewBasePosition)
-  let _basePos = new THREE.Vector3(0, 0, 0)
-  let floatOffsetPos = new THREE.Vector3(0, 0, 0)
-  let outOffsetPos = outOfViewMaxOffsetPos
+	let position = new THREE.Vector3(...viewBasePosition)
+	let _basePos = new THREE.Vector3(0, 0, 0)
+	let floatOffsetPos = new THREE.Vector3(0, 0, 0)
+	let outOffsetPos = outOfViewMaxOffsetPos
 
-  const animPlane = AnimPlane(anim)
+	const animPlane = AnimPlane(anim)
 
-  // GUI.addAnimationColors(animPlane)
-  const colorFolder = GUI.addFolder(`${item.name}Color`)
-  GUI.addColorUniform(
-    { hexColor: animPlane.hexColor1 },
-    animPlane.material.uniforms.col1,
-    colorFolder
-  )
-  GUI.addColorUniform(
-    { hexColor: animPlane.hexColor2 },
-    animPlane.material.uniforms.col2,
-    colorFolder
-  )
-  GUI.addColorUniform(
-    { hexColor: animPlane.hexColor3 },
-    animPlane.material.uniforms.col3,
-    colorFolder
-  )
+	// Load sound
+	let audioListener = new THREE.AudioListener();
+	let soundHandler = SoundHandler();
+	let sound = new THREE.Audio(audioListener)
+	let audioLoader = new THREE.AudioLoader()
+	audioLoader.load(
+		// resource URL
+		'/assets/sound/piste1.mp3',
+		// onLoad callback (when load is completed)
+		(audioBuffer) => {
+			// set the audio object buffer to the loaded objectsound
+			sound.setBuffer(audioBuffer);
+		}
+	)
 
-  const positionFromCamera = () => {
-    const heightUnit = getHeightUnit()
-    _basePos.set(
-      position.x * heightUnit * camera.aspect, // assumes camera is Perspective and not Orthographic
-      position.y * heightUnit,
-      position.z
-    )
-    applyPosition()
+	// Add object3D to intercept raycast
+	let geometry = new THREE.BoxBufferGeometry(1,1,1).setFromObject(model);
+	let material = new THREE.MeshBasicMaterial();
+	const collider = new THREE.Mesh(geometry, material);
+	collider.name = item.name;
+	collider.add(model);
 
-    animPlane.scale.set(2, 2, 1)
-  }
+	// GUI.addAnimationColors(animPlane)
+	const colorFolder = GUI.addFolder(`${item.name}Color`);
+	GUI.addColorUniform(
+		{hexColor: animPlane.hexColor1},
+		animPlane.material.uniforms.col1,
+		colorFolder
+	)
+	GUI.addColorUniform(
+		{hexColor: animPlane.hexColor2},
+		animPlane.material.uniforms.col2,
+		colorFolder
+	)
+	GUI.addColorUniform(
+		{hexColor: animPlane.hexColor3},
+		animPlane.material.uniforms.col3,
+		colorFolder
+	)
 
-  const applyPosition = () => {
-    model.position
-      .copy(_basePos)
-      .add(outOffsetPos)
-      .add(floatOffsetPos)
-  }
+	const positionFromCamera = () => {
+		const heightUnit = getHeightUnit()
+		_basePos.set(
+			position.x * heightUnit * camera.aspect, // assumes camera is Perspective and not Orthographic
+			position.y * heightUnit,
+			position.z
+		)
+		applyPosition()
 
-  const focusedAnimate = () => {
-    // animPlane.play()
-    console.log("TODO: tweens and stuff")
-  }
+		animPlane.scale.set(2, 2, 1)
+	}
 
-  const onCanvasResize = () => {
-    positionFromCamera()
-    outOfViewMaxOffsetPos = getOutOfStagePosOffset()
-  }
+	const applyPosition = () => {
+		collider.position
+			.copy(_basePos)
+			.add(outOffsetPos)
+			.add(floatOffsetPos);
+	}
 
-  const checkIfEnterOrLeave = (stageIndex) => {
-    if (isInView && stage != stageIndex) {
-      leaveView()
-    } else if (!isInView && stage == stageIndex) {
-      enterView()
-    }
-  }
+	const focusedAnimate = () => {
+		// animPlane.play()
+		console.log("TODO: tweens and stuff")
+	}
 
-  const enterView = () => {
-    animPlane.play()
-    // TODO: tween instead of direct assign
-    outOffsetPos = new THREE.Vector3(0, 0, 0)
-    isInView = true
-  }
-  const leaveView = () => {
-    // TODO: tween instead of direct assign
-    outOffsetPos = outOfViewMaxOffsetPos
-    // TODO: remove setTimeout and use onComplete hook (tween)
-    setTimeout(() => {
-      isInView = false
-      applyPosition()
-    }, 300)
-  }
+	const onCanvasResize = () => {
+		positionFromCamera()
+		outOfViewMaxOffsetPos = getOutOfStagePosOffset()
+	}
 
-  const update = (time) => {
-    if (!isInView) return
-    floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
-    applyPosition()
-  }
+	const checkIfEnterOrLeave = (stageIndex) => {
+		if (isInView && stage != stageIndex) {
+			leaveView()
+		} else if (!isInView && stage == stageIndex) {
+			enterView()
+		}
+	}
 
-  // TODO: add bounding boxes that trigger a 'focus' event on hover (raycaster)
-  // This would play() the videoTexture and rotate/move the model
-  // maybe add one bounding box for the resting position (stays in place),
-  // and an other one for the focused position, that follows the model movements
+	const enterView = () => {
+		animPlane.play()
+		// TODO: tween instead of direct assign
+		outOffsetPos = new THREE.Vector3(0, 0, 0)
+		isInView = true
+	}
+	const leaveView = () => {
+		// TODO: tween instead of direct assign
+		outOffsetPos = outOfViewMaxOffsetPos
+		// TODO: remove setTimeout and use onComplete hook (tween)
+		setTimeout(() => {
+			isInView = false
+			applyPosition()
+		}, 300)
+	}
 
-  positionFromCamera()
-  model.add(animPlane)
+	const update = (time) => {
+		if (!isInView) return
+		floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
+		applyPosition()
+	}
 
-  return Object.assign(item, {
-    _basePos, // exposed for GUI only
-    animPlane,
-    focusedAnimate,
-    onCanvasResize,
-    checkIfEnterOrLeave,
-    update
-  })
+	// TODO: add bounding boxes that trigger a 'focus' event on hover (raycaster)
+	// This would play() the videoTexture and rotate/move the model
+	// maybe add one bounding box for the resting position (stays in place),
+	// and an other one for the focused position, that follows the model movements
+
+	positionFromCamera()
+	model.add(animPlane)
+
+	return Object.assign(item, {
+		_basePos, // exposed for GUI only
+		collider,
+		sound,
+		soundHandler,
+		animPlane,
+		focusedAnimate,
+		onCanvasResize,
+		checkIfEnterOrLeave,
+		update
+	})
 }
 
 export default StagedItem

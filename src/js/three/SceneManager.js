@@ -6,12 +6,12 @@ import Stats from "stats.js/src/Stats"
 import {objectToInteract} from '../stores/xpStageStore';
 
 const SceneManager = (canvas) => {
-	let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
-	let height = canvas.parentNode.offsetHeight // assuming canvas height: 100%
+	let width = canvas.parentNode.offsetWidth; // assuming canvas width: 100%
+	let height = canvas.parentNode.offsetHeight; // assuming canvas height: 100%
 
-	var stats = Stats()
-	stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-	document.body.appendChild(stats.dom)
+	var stats = Stats();
+	stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+	document.body.appendChild(stats.dom);
 
 	// Raycast settings
 	var raycaster = new THREE.Raycaster();
@@ -32,7 +32,7 @@ const SceneManager = (canvas) => {
 	}
 
 	const buildLights = () => {
-		const lightGroup = new THREE.Group()
+		const lightGroup = new THREE.Group();
 
 		const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
 		lightGroup.add(ambiLight)
@@ -64,12 +64,18 @@ const SceneManager = (canvas) => {
 	let bgPlane = BgPlane()
 	scene.add(bgPlane.mesh)
 
+	const audioListener = new THREE.AudioListener();
+	camera.add(audioListener);
+	scene.add(camera);
+
 	const addItems = (items) => {
 		items.forEach((item) => {
 			const stagedItem = StagedItem(item, camera)
-			stagedItems.push(stagedItem)
-			scene.add(stagedItem.model)
-			objectToInteract.push(stagedItem.model);
+			stagedItems.push(stagedItem);
+			scene.add(stagedItem.collider);
+			var box = new THREE.BoxHelper( stagedItem.collider, 0xffff00 );
+			scene.add(box);
+			objectToInteract.push(stagedItem.collider);
 			GUI.addStagedItem(stagedItem)
 		})
 	}
@@ -81,6 +87,7 @@ const SceneManager = (canvas) => {
 	}
 
 	const changeXpStage = (newXpStage) => {
+
 		stagedItems.forEach((item) => item.checkIfEnterOrLeave(newXpStage))
 	}
 
@@ -92,12 +99,12 @@ const SceneManager = (canvas) => {
 		renderer.setSize(window.innerWidth, window.innerHeight)
 	}
 
-	const onMouseMove = ( event ) => {
-		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	const onMouseMove = (event) => {
+		mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+		mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 	}
 
-	window.addEventListener( 'mousemove', onMouseMove, false );
+	window.addEventListener('mousemove', onMouseMove, false);
 
 	let INTERSECTED = false;
 	const update = (time) => {
@@ -105,19 +112,20 @@ const SceneManager = (canvas) => {
 		stats.begin();
 
 		// update raycaster to hover items
-		raycaster.setFromCamera( mouse, camera );
+		raycaster.setFromCamera(mouse, camera);
 
-		var intersects = raycaster.intersectObjects( objectToInteract );
+		var intersects = raycaster.intersectObjects(objectToInteract);
 
-		if(intersects.length > 0) {
-			if(!INTERSECTED){
+		if (intersects.length > 0) {
+			if (!INTERSECTED) {
 				hasTouchedItem(intersects[0].object);
+				console.log(scene);
 				INTERSECTED = true;
 			}
 
 		} else {
-			for (var i in objectToInteract) {
-				objectToInteract[i].scale.set(1,1,1);
+			for (let i in objectToInteract) {
+				objectToInteract[i].children[0].scale.set(1, 1, 1);
 			}
 			INTERSECTED = false;
 		}
@@ -131,10 +139,10 @@ const SceneManager = (canvas) => {
 
 	const hasTouchedItem = (object) => {
 		let name = object.name;
-		object.scale.set(2,2,2);
-		console.log(name);
+		object.children[0].scale.set(2,2,2);
+		let item = stagedItems.find(elmt => elmt.name == name);
+		item.soundHandler.play('once', item.sound);
 	}
-
 
 	return {
 		addItems,
@@ -143,6 +151,6 @@ const SceneManager = (canvas) => {
 		changeXpStage,
 		update
 	}
-}
+};
 
 export default SceneManager

@@ -17,7 +17,7 @@
       "name": "capsule",
       "modelPath": "/assets/3D/capsule.glb",
       "animPath": "/assets/maps/testRGB.png",
-      "soundPath": "/assets/sound/piste1.mp3",
+      "soundPath": "/assets/sound/piste2.mp3",
       "viewBasePosition": [0, 0, 0],
       "stage": 2
     },
@@ -25,7 +25,7 @@
       "name": "gobelet",
       "modelPath": "/assets/3D/gobelet_carton.glb",
       "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-      "soundPath": "/assets/sound/piste1.mp3",
+      "soundPath": "/assets/sound/piste3.mp3",
       "viewBasePosition": [1, 0, 0],
       "stage": 3
     }

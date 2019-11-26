@@ -1,6 +1,6 @@
 import {writable, derived} from "svelte/store"
 
-const defaultStageIndex = 0
+const defaultStageIndex = 0;
 const stageNames = [
 	"home",
 	"intro",
@@ -10,7 +10,7 @@ const stageNames = [
 	"break",
 	"climax",
 	"outro"
-]
+];
 
 const createStage = () => {
 	const xpStageIndex = writable(defaultStageIndex)
