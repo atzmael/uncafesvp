@@ -11,8 +11,13 @@ const SoundHandler = () => {
 				}
 				break;
 			case "loop":
-				audio.setLoop(true);
-				audio.play();
+				if(audio.isPlaying) {
+					audio.stop();
+					audio.play();
+				} else {
+					audio.play();
+					audio.setLoop(true);
+				}
 				break;
 		}
 	};

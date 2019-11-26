@@ -3,7 +3,7 @@ import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
-import { xpStageIndex, objectToInteract } from "../stores/xpStageStore"
+import { xpStageIndex, objectToInteract, soundsPlaying } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
@@ -68,10 +68,7 @@ const SceneManager = (canvas) => {
     const audioListener = new THREE.AudioListener()
     camera.add(audioListener)
     scene.add(camera)
-    let isSongStarted = false
-    let soundPlaying = null
     let songTime = 0
-    let soundsPlaying = []
 
     const addItems = (items) => {
         items.forEach((item) => {
@@ -165,11 +162,11 @@ const SceneManager = (canvas) => {
 
         if (soundsPlaying.length > 0) {
             soundsPlaying.forEach((e) => {
-                if (
-                    !e.object.sound.isPlaying &&
-                    songTime % e.object.sound.buffer.duration == 0
-                ) {
-                    console.log("should play")
+                if (!e.sound.isPlaying) {
+                    let calcul = Math.round(songTime % e.sound.buffer.duration * 10) / 10;
+                    if(calcul == 0) {
+	                    e.soundHandler.play("loop", e.sound);
+                    }
                 }
             })
         }
@@ -184,7 +181,7 @@ const SceneManager = (canvas) => {
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
-            //soundsPlaying.push(objectIntersected);
+            soundsPlaying.push(objectIntersected);
             xpStageIndex.next()
         }
     })
