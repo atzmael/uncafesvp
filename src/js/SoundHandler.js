@@ -1,41 +1,42 @@
 const SoundHandler = () => {
-	const play = (type, sound) => {
+
+	const play = (type, audio) => {
 		switch(type) {
 			case "once":
-				if(sound.isPlaying) {
-					sound.stop();
-					sound.play();
+				if(audio.isPlaying) {
+					audio.stop();
+					audio.play();
 				} else {
-					sound.play();
+					audio.play();
 				}
 				break;
 			case "loop":
-				loopSound(sound);
+				audio.setLoop(true);
+				audio.play();
 				break;
 		}
 	};
-	const stop = (type, sound) => {
+	const stop = (type, audio) => {
 		switch(type) {
 			case "once":
-				sound.stop();
+				audio.stop();
 				break;
 			case "loop":
-				sound.setLoop(false);
+				audio.setLoop(false);
+				audio.stop();
 				break;
 		}
 	};
 
-	const checkSoundTimeline = (globalTime, soundTime, sound) => {
-		sound.play();
-	};
-	const loopSound = (sound) => {
-		sound.setLoop(true);
-		checkSoundTimeline(1, 2, sound);
-	};
+	const initSound = (buffer, name, audio) => {
+		audio.setBuffer(buffer);
+		audio.name = name;
+	}
 
 	return {
 		play,
-		stop
+		stop,
+		initSound
 	}
 };
 
