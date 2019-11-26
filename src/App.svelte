@@ -43,7 +43,7 @@
             '/assets/animations/sequence-png-12fps-720x1080.mp4',
             'animtest'
         )
-        // sLoader.load('/assets/sound/piste1.mp3', 'soundtest')
+        sLoader.load('/assets/sound/piste1.mp3', 'soundtest')
         data.items.forEach((item) => {
             sLoader.load(Object.assign(item, { type: 'item' }), item.name)
         })
