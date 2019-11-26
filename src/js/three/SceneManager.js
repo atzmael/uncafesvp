@@ -37,7 +37,7 @@ const SceneManager = (canvas) => {
         const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
         lightGroup.add(ambiLight)
 
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x000055, 0.6)
+        const hemiLight = new THREE.HemisphereLight(0xff0000, 0x0000aa, 0.4)
         lightGroup.add(hemiLight)
         const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
         hemiLight.add(hemiLightHelper)
@@ -61,18 +61,21 @@ const SceneManager = (canvas) => {
     const lightGroup = buildLights()
     scene.add(lightGroup)
 
-    let bgPlane
+    let bgPlane = BgPlane()
+    scene.add(bgPlane.mesh)
 
     // Sound vars
     const audioListener = new THREE.AudioListener()
     camera.add(audioListener)
     scene.add(camera)
     let isSongStarted = false
+    let soundPlaying = null
     let songTime = 0
+    let soundsPlaying = []
 
     const addItems = (items) => {
         items.forEach((item) => {
-            const stagedItem = StagedItem(item, camera)
+            const stagedItem = StagedItem(item, camera, audioListener)
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
@@ -104,7 +107,7 @@ const SceneManager = (canvas) => {
     const onCanvasResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight
         camera.updateProjectionMatrix()
-        if (bgPlane) bgPlane.onCanvasResize(camera)
+        bgPlane.onCanvasResize(camera)
         stagedItems.forEach((item) => item.onCanvasResize())
         renderer.setSize(window.innerWidth, window.innerHeight)
     }
@@ -120,6 +123,8 @@ const SceneManager = (canvas) => {
     let lastIntersectedObjectName = null
     let objectIntersected = null
     const update = (time) => {
+        songTime = time
+
         // Debug
         stats.begin()
 
@@ -128,60 +133,58 @@ const SceneManager = (canvas) => {
 
         var intersects = raycaster.intersectObjects(objectToInteract)
 
+        let lastItem = null
         if (intersects.length > 0) {
             if (
                 !INTERSECTED ||
                 lastIntersectedObjectName != intersects[0].object.name
             ) {
                 if (null != lastIntersectedObjectName) {
-                    let item = objectToInteract.find(
+                    lastItem = stagedItems.find(
                         (elmt) => elmt.name == lastIntersectedObjectName
                     )
-                    item.children[0].scale.set(1, 1, 1)
+                    lastItem.getBackToPlace()
                 }
                 objectIntersected = stagedItems.find(
                     (elmt) => elmt.name == intersects[0].object.name
                 )
-                hasTouchedItem(intersects[0].object)
+                objectIntersected.hasBeenTouched()
                 lastIntersectedObjectName = intersects[0].object.name
                 INTERSECTED = true
             }
         } else {
             objectIntersected = null
-            for (let i in objectToInteract) {
-                objectToInteract[i].children[0].scale.set(1, 1, 1)
+            if (lastIntersectedObjectName != null) {
+                lastItem = stagedItems.find(
+                    (elmt) => elmt.name == lastIntersectedObjectName
+                )
+                lastItem.getBackToPlace()
             }
             INTERSECTED = false
         }
 
-        //SOUND Loop
-        // ... do stuff
+        if (soundsPlaying.length > 0) {
+            soundsPlaying.forEach((e) => {
+                if (
+                    !e.object.sound.isPlaying &&
+                    songTime % e.object.sound.buffer.duration == 0
+                ) {
+                    console.log("should play")
+                }
+            })
+        }
 
-        if (bgPlane) bgPlane.update(time)
+        bgPlane.update(time)
         stagedItems.forEach((item) => item.update(time))
 
         stats.end()
         renderer.render(scene, camera)
     }
 
-    const hasTouchedItem = (object) => {
-        let name = object.name
-        object.children[0].scale.set(2, 2, 2)
-        let item = stagedItems.find((elmt) => elmt.name == name)
-        item.soundHandler.play("once", item.sound)
-    }
-
-    let soundPlaying = []
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
-            objectIntersected.soundHandler.play("loop", objectIntersected.sound)
-            let params = {
-                name: objectIntersected.name,
-                audio: objectIntersected.sound,
-                soundHandler: objectIntersected.soundHandler
-            }
-            soundPlaying.push(params)
+            //soundsPlaying.push(objectIntersected);
             xpStageIndex.next()
         }
     })

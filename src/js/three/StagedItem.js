@@ -14,13 +14,14 @@ import GUI from "../GUI"
  * @param {THREE.PerspectiveCamera} camera
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
-const StagedItem = (item, camera) => {
+const StagedItem = (item, camera, audioListener) => {
     const { models, videoTextures, sounds, viewBasePosition, stage } = item
-    if (models[0] == null) console.warn("StagedItem didn't receive a model")
+    const model = item.models[0]
+    const audio = sounds[0]
+    if (model == null) console.warn("StagedItem didn't receive a model")
     const getHeightUnit = () =>
-        visibleHeightAtZDepth(models[0].position.z, camera) * 0.33
-    const getWidthUnit = () =>
-        visibleWidthAtZDepth(models[0].position.z, camera) * 0.33
+        visibleHeightAtZDepth(model.position.z, camera) * 0.33
+    const getWidthUnit = () => visibleWidthAtZDepth(model.position.z, camera) * 0.33
     const getOutOfStagePosOffset = () =>
         new THREE.Vector3(0, getHeightUnit() * -2.5, 0)
     let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
@@ -31,28 +32,25 @@ const StagedItem = (item, camera) => {
     let _basePos = new THREE.Vector3(0, 0, 0)
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
+    let isFloating = false
 
     const animPlane = AnimPlane(videoTextures[0])
 
     // Load sound
-    let audioListener = new THREE.AudioListener()
-    let soundHandler = SoundHandler()
     let sound = new THREE.Audio(audioListener)
-
-    sound.setBuffer(sounds[0])
-    sound.name = sounds[0].name
+    let soundHandler = SoundHandler(sound)
+    soundHandler.initSound(audio, item.name, sound)
 
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
         getWidthUnit(),
-        getHeightUnit() * 2,
+        getHeightUnit() * 1.5,
         0.5
-    ).setFromObject(models[0])
+    ).setFromObject(model)
     let material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
     const collider = new THREE.Mesh(geometry, material)
     collider.name = item.name
-    console.log()
-    collider.add(models[0])
+    collider.add(model)
 
     // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
@@ -71,6 +69,21 @@ const StagedItem = (item, camera) => {
         animPlane.material.uniforms.col3,
         colorFolder
     )
+
+    const hasBeenTouched = () => {
+        console.log(sound)
+        soundHandler.play("loop", sound)
+        isFloating = true
+    }
+
+    const getBackToPlace = () => {
+        soundHandler.stop("loop", sound)
+        isFloating = false
+    }
+
+    const hasBeenSelected = () => {
+        return sound
+    }
 
     const positionFromCamera = () => {
         const heightUnit = getHeightUnit()
@@ -138,7 +151,7 @@ const StagedItem = (item, camera) => {
     // and an other one for the focused position, that follows the model movements
 
     positionFromCamera()
-    models[0].add(animPlane)
+    model.add(animPlane)
 
     return Object.assign(item, {
         _basePos, // exposed for GUI only
@@ -146,7 +159,8 @@ const StagedItem = (item, camera) => {
         sound,
         soundHandler,
         animPlane,
-        focusedAnimate,
+        hasBeenTouched,
+        getBackToPlace,
         onCanvasResize,
         checkIfEnterOrLeave,
         update
