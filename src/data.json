@@ -11,7 +11,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafe-moulu-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 1
+            "stage": 2
         },
         {
             "name": "cafe-malongo",
@@ -19,7 +19,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 1
+            "stage": 2
         },
         {
             "name": "cafe-grain",
@@ -27,7 +27,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafe-grain-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 1
+            "stage": 2
         },
         {
             "name": "cafetiere-italienne",
@@ -35,7 +35,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 2
+            "stage": 3
         },
         {
             "name": "cafetiere-piston",
@@ -43,7 +43,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 2
+            "stage": 3
         },
         {
             "name": "cafetiere-filtre",
@@ -51,7 +51,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 2
+            "stage": 3
         },
         {
             "name": "tasse-ceramique",
@@ -59,7 +59,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "gobelet-carton",
@@ -67,7 +67,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "gobelet-plastique",
@@ -75,7 +75,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "sucre",
@@ -83,7 +83,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 4
+            "stage": 5
         },
         {
             "name": "lait",
@@ -91,7 +91,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 4
+            "stage": 5
         },
         {
             "name": "biscuit",
@@ -99,7 +99,7 @@
             "animPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 4
+            "stage": 5
         }
     ]
 }

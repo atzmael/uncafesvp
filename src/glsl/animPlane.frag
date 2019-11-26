@@ -1,6 +1,6 @@
 #define PI 3.14159265359
 
-// uniform vec2 resolution;
+uniform vec2 resolution;
 uniform float time;
 uniform sampler2D myTexture;
 uniform vec3 col1;
@@ -25,6 +25,6 @@ void main() {
     float alpha = max(max(textureCol.r, textureCol.g), textureCol.b);
 
     gl_FragColor = vec4(c, alpha);
-    gl_FragColor = vec4(c, alpha + 0.2); // debug
+    // gl_FragColor = vec4(c, alpha + 0.2); // debug
     // gl_FragColor = vec4(c1, 1.); // debug
 }

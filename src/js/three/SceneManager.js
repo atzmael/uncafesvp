@@ -1,9 +1,9 @@
-import * as THREE from 'three'
-import BgPlane from './BgPlane.js'
-import StagedItem from './StagedItem.js'
-import GUI from '../GUI.js'
-import Stats from 'stats.js/src/Stats'
-import { xpStageIndex, objectToInteract } from '../stores/xpStageStore'
+import * as THREE from "three"
+import BgPlane from "./BgPlane.js"
+import StagedItem from "./StagedItem.js"
+import GUI from "../GUI.js"
+import Stats from "stats.js/src/Stats"
+import { xpStageIndex, objectToInteract } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
@@ -37,11 +37,11 @@ const SceneManager = (canvas) => {
         const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
         lightGroup.add(ambiLight)
 
-        const hemiLight = new THREE.HemisphereLight(0xff0000, 0x0000aa, 0.4)
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x000055, 0.6)
         lightGroup.add(hemiLight)
         const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
         hemiLight.add(hemiLightHelper)
-        GUI.addObject3D(hemiLight, 'hemiLight') // TODO: find a way to modify hemilight in a sensible manner
+        GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
 
         return lightGroup
     }
@@ -61,8 +61,7 @@ const SceneManager = (canvas) => {
     const lightGroup = buildLights()
     scene.add(lightGroup)
 
-    let bgPlane = BgPlane()
-    scene.add(bgPlane.mesh)
+    let bgPlane
 
     // Sound vars
     const audioListener = new THREE.AudioListener()
@@ -82,9 +81,19 @@ const SceneManager = (canvas) => {
     }
 
     const addTextures = (textures) => {
-        console.log(textures)
-        textures.forEach((texture) => {
-            if (texture.name == 'maptestTexture') bgPlane.setTexture(texture)
+        // textures.forEach((texture) => {
+        //     if (texture.name == "maptestTexture") bgPlane.setTexture(texture)
+        // })
+    }
+
+    const addVideoTextures = (vts) => {
+        vts.forEach((vt) => {
+            if (vt.name == "animtestVideoTexture") {
+                bgPlane = BgPlane(vt)
+                scene.add(bgPlane.mesh)
+                bgPlane.onCanvasResize(camera)
+                bgPlane.play()
+            }
         })
     }
 
@@ -95,7 +104,7 @@ const SceneManager = (canvas) => {
     const onCanvasResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight
         camera.updateProjectionMatrix()
-        bgPlane.onCanvasResize(camera)
+        if (bgPlane) bgPlane.onCanvasResize(camera)
         stagedItems.forEach((item) => item.onCanvasResize())
         renderer.setSize(window.innerWidth, window.innerHeight)
     }
@@ -105,7 +114,7 @@ const SceneManager = (canvas) => {
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
     }
 
-    window.addEventListener('mousemove', onMouseMove, false)
+    window.addEventListener("mousemove", onMouseMove, false)
 
     let INTERSECTED = false
     let lastIntersectedObjectName = null
@@ -148,7 +157,7 @@ const SceneManager = (canvas) => {
         //SOUND Loop
         // ... do stuff
 
-        bgPlane.update(time)
+        if (bgPlane) bgPlane.update(time)
         stagedItems.forEach((item) => item.update(time))
 
         stats.end()
@@ -159,14 +168,14 @@ const SceneManager = (canvas) => {
         let name = object.name
         object.children[0].scale.set(2, 2, 2)
         let item = stagedItems.find((elmt) => elmt.name == name)
-        item.soundHandler.play('once', item.sound)
+        item.soundHandler.play("once", item.sound)
     }
 
     let soundPlaying = []
-    canvas.addEventListener('click', (e) => {
+    canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
-            objectIntersected.soundHandler.play('loop', objectIntersected.sound)
+            objectIntersected.soundHandler.play("loop", objectIntersected.sound)
             let params = {
                 name: objectIntersected.name,
                 audio: objectIntersected.sound,
@@ -180,6 +189,7 @@ const SceneManager = (canvas) => {
     return {
         addItems,
         addTextures,
+        addVideoTextures,
         onCanvasResize,
         changeXpStage,
         update

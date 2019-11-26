@@ -20,6 +20,7 @@
         // this should remove some bugs too
         sceneManager.addItems(loadedData.items)
         sceneManager.addTextures(loadedData.textures)
+        sceneManager.addVideoTextures(loadedData.videoTextures)
     }
 
     $: if ($didUserInteract && sceneManager) {

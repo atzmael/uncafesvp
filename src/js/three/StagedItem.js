@@ -1,11 +1,11 @@
-import * as THREE from 'three'
+import * as THREE from "three"
 import {
     visibleHeightAtZDepth,
     visibleWidthAtZDepth
-} from './utils/visibleAtZDepth.js'
-import AnimPlane from './AnimPlane.js'
-import SoundHandler from '../SoundHandler.js'
-import GUI from '../GUI'
+} from "./utils/visibleAtZDepth.js"
+import AnimPlane from "./AnimPlane.js"
+import SoundHandler from "../SoundHandler.js"
+import GUI from "../GUI"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -93,7 +93,7 @@ const StagedItem = (item, camera) => {
 
     const focusedAnimate = () => {
         // animPlane.play()
-        console.log('TODO: tweens and stuff')
+        console.log("TODO: tweens and stuff")
     }
 
     const onCanvasResize = () => {
