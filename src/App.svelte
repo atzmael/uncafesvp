@@ -49,8 +49,8 @@
         })
 
         sLoader.onComplete((resolvedData) => {
+            console.log('resolvedData:', resolvedData)
             loadedData = resolvedData
-            console.log('loadedData:', loadedData)
             isLoaded.set(true)
         })
     })
