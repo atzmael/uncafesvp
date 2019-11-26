@@ -31,7 +31,7 @@ VideoTextureLoader.prototype = Object.assign(Object.create(THREE.Loader.prototyp
             })
             .catch((err) => {
                 onError(err)
-                console.error(`Could not load model from:`, toLoad)
+                console.error(`Could not load model from:`, url)
             })
 
         // return videoTexture

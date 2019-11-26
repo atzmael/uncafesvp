@@ -6,12 +6,11 @@ import promisifyLoader from './promisifyLoader.js'
 // (to load an object, using regexp on properties to check for "path" (modelPath, animPath, etc.))
 // and use loaders accordingly
 const ModelLoader = (manager) => {
-    const load = (toLoad, onLoad, onProgress, onError) => {
-        const { path, childArr = null } = toLoad
+    const load = (path, onLoad, onProgress, onError) => {
         const gltfLoader = promisifyLoader(new GLTFLoader(manager), onProgress)
 
-        // ⬇⬇⬇ returnGltfAsObject3D is used ONLY if childArr is null
-        // (it returns the gltf.scene.children as a single Object3D (Group or the only child as it is (could be Mesh or other maybe)))
+        // ⬇⬇⬇ returns the gltf.scene.children as a single Object3D
+        // (Group or the only child as it is (could be Mesh or other maybe))
         function returnGltfAsObject3D(gltf) {
             if (
                 !(
@@ -39,25 +38,17 @@ const ModelLoader = (manager) => {
             .then(
                 // onLoad
                 (gltf) => {
-                    if (childArr) {
-                        // this loop searches through the gltf structure and returns the last thing of the childArr
-                        childArr.forEach((child) => {
-                            if (gltf[child] == undefined)
-                                throw `Could not find "${child}" in gltf structure`
-                            gltf = gltf[child]
-                        })
-                    } else {
-                        gltf = returnGltfAsObject3D(gltf)
-                    }
+                    gltf = returnGltfAsObject3D(gltf)
 
                     if (!(gltf instanceof THREE.Object3D))
                         throw `The gltf to be resolved is not an instanceof THREE.Object3D`
+
                     onLoad(gltf)
                 }
             )
             .catch((err) => {
                 onError(err)
-                console.error(`Could not load model from:`, toLoad)
+                console.error(`Could not load model from path:`, path)
             })
     }
 

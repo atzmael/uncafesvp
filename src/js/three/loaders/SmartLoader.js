@@ -18,13 +18,13 @@ const SmartLoader = (onProgress) => {
         console.log(`${percentage}%`)
     }
 
-    const decorateLoader = (loader, loaderType = 'constructor') => {
-        if (loaderType === 'constructor') {
+    const decorateLoader = (loader, instantiatingAs = 'constructor') => {
+        if (instantiatingAs === 'constructor') {
             return promisifyLoader(
                 new loader(/*loadingManager*/),
                 onProgress || defaultOnProgress
             )
-        } else if (loaderType === 'factory') {
+        } else if (instantiatingAs === 'factory') {
             return promisifyLoader(
                 loader(/*loadingManager*/),
                 onProgress || defaultOnProgress
@@ -33,15 +33,19 @@ const SmartLoader = (onProgress) => {
     }
 
     // Object
-    const basicLoaders = {
+    const loaders = {
         texture: {
             loader: decorateLoader(THREE.TextureLoader),
             regexp: /\.(tga|png|jpg|jpeg)$/i
         },
-        gltf: {
-            loader: decorateLoader(GLTFLoader),
-            regexp: /\.(gltf|glb)$/i
+        model: {
+            loader: decorateLoader(ModelLoader, 'factory'),
+            regexp: /model.(gltf|glb)$/i
         },
+        // gltf: {
+        //     loader: decorateLoader(GLTFLoader),
+        //     regexp: /\.(gltf|glb)$/i
+        // },
         videoTexture: {
             loader: decorateLoader(VideoTextureLoader),
             regexp: /\.mp4$/i
@@ -52,10 +56,26 @@ const SmartLoader = (onProgress) => {
         }
     }
 
-    // Object
-    const customLoaders = {
-        model: decorateLoader(ModelLoader, 'factory'),
-        item: decorateLoader(ItemLoader, 'factory')
+    const defineLoaderFromStr = (path) => {
+        let appropriateLoader = null
+        Object.values(loaders).forEach(({ loader, regexp }) => {
+            if (path.match(regexp)) appropriateLoader = loader
+        })
+        if (appropriateLoader == null) {
+            console.error(`No appropriate Loader found for:`, path)
+        }
+        return appropriateLoader
+    }
+
+    const defineTypeFromStr = (path) => {
+        let matchingType = null
+        Object.entries(loaders).forEach(([type, { loader, regexp }]) => {
+            if (path.match(regexp)) matchingType = `${type}`
+        })
+        if (matchingType == null) {
+            console.error(`No appropriate Loader found for:`, path)
+        }
+        return matchingType
     }
 
     /**
@@ -63,52 +83,50 @@ const SmartLoader = (onProgress) => {
      * @param {String} name Name of the loaded asset/object in loadedData
      */
     function load(toLoad, name) {
-        let appropriateLoader = null
-        let matchingType = null
-        if (typeof toLoad === 'string') {
-            // TODO: logic to determine 'type' variable
-            Object.entries(basicLoaders).forEach(([type, { loader, regexp }]) => {
-                if (toLoad.match(regexp)) {
-                    matchingType = `${type}`
-                    appropriateLoader = loader
-                }
-            })
-        } else if (typeof toLoad === 'object') {
-            if (!toLoad.type) {
-                console.error(
-                    `Need a valid 'type' property on loaded object:`,
-                    toLoad
-                )
-            }
-            Object.entries(customLoaders).forEach(([type, loader]) => {
-                if (toLoad.type === type) {
-                    appropriateLoader = loader
-                    matchingType = `${type}`
-                }
-            })
-        }
-
-        if (appropriateLoader == null)
-            console.error(`No appropriate Loader found for:`, toLoad)
-        else {
-            const promise = appropriateLoader
-                .load(toLoad)
+        /** @param {string} path  */
+        const loadFromString = (path, parentObject = loadedData) => {
+            const promise = defineLoaderFromStr(path)
+                .load(path)
                 .then((loaded) => {
-                    if (!loadedData.hasOwnProperty(`${matchingType}s`)) {
-                        loadedData[`${matchingType}s`] = []
+                    const type = defineTypeFromStr(path)
+                    if (!parentObject.hasOwnProperty(`${type}s`)) {
+                        parentObject[`${type}s`] = []
                     }
-                    loadedData[`${matchingType}s`].push(
-                        Object.assign(loaded, { name })
+                    parentObject[`${type}s`].push(
+                        Object.assign(loaded, {
+                            name: `${name +
+                                type.charAt(0).toUpperCase() +
+                                type.slice(1)}`
+                            // TODO: use property key (ex: animPath => animVideoTexture)
+                        })
                     )
                 })
                 .catch((err) => console.error(err))
-
             promises.push(promise)
+        }
+
+        if (typeof toLoad === 'string') {
+            loadFromString(toLoad)
+        } else if (typeof toLoad === 'object') {
+            const objectToLoad = toLoad
+            if (!objectToLoad.type)
+                throw `The loaded object needs a property 'type' (string)`
+            Object.entries(objectToLoad).forEach(([key, value]) => {
+                if (key.match(/\path$/i)) {
+                    loadFromString(value, objectToLoad)
+                }
+            })
+            if (!loadedData.hasOwnProperty(`${objectToLoad.type}s`)) {
+                loadedData[`${objectToLoad.type}s`] = []
+            }
+            loadedData[`${objectToLoad.type}s`].push(
+                Object.assign(objectToLoad, { name })
+            )
         }
     }
 
     /**
-     * @param {function} callback called when all promises are resolved (all assets are loaded)
+     @param {function} callback called when all promises are resolved (all assets are loaded)
      */
     const onComplete = (callback) => {
         // console.log("promises : ", promises)
