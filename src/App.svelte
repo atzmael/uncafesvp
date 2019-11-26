@@ -14,28 +14,21 @@
         xpStageName,
         didUserInteract
     } from "./js/stores/xpStageStore.js"
-    // TODO? do not use a global store (encapsulate inside SmartLoader)
-    import { isLoaded, loadingPercentage } from "./js/stores/loadingStateStore.js"
 
     // TODO: use store for debugging variables ?
     const isDebugging = true
 
     let loadedData = {}
+    let isLoaded = false
+    let loadingPercentage = 0
+    const loadAssets = () => {
+        const onProgress = (loadedPath, loadedQtty, totalQtty) => {
+            loadingPercentage = Math.round((loadedQtty / totalQtty) * 100)
+        }
+        const sLoader = SmartLoader(onProgress)
 
-    const onProgress = (loadedPath, loadedQtty, totalQtty) => {
-        loadingPercentage.set(Math.round((loadedQtty / totalQtty) * 100))
-    }
-    const sLoader = SmartLoader(onProgress)
-
-    const userInteracted = () => {
-        didUserInteract.set(true) // write in store
-        document.removeEventListener("click", userInteracted)
-    }
-
-    onMount(() => {
-        document.addEventListener("click", userInteracted)
-        // sLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest")
-        // sLoader.load("/assets/animations/test_background2048.mp4", "animtest")
+        sLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest")
+        sLoader.load("/assets/animations/test_background2048.mp4", "animtest")
         // sLoader.load('/assets/sound/piste1.mp3', 'soundtest')
         data.items.forEach((item) => {
             sLoader.load(Object.assign(item, { type: "item" }), item.name)
@@ -44,13 +37,23 @@
         sLoader.onComplete((resolvedData) => {
             console.log("resolvedData:", resolvedData)
             loadedData = resolvedData
-            isLoaded.set(true)
+            isLoaded = true
         })
+    }
+
+    const userInteracted = () => {
+        didUserInteract.set(true) // write in store
+        document.removeEventListener("click", userInteracted)
+    }
+
+    onMount(() => {
+        document.addEventListener("click", userInteracted)
+        loadAssets()
     })
 </script>
 
 {#if isDebugging}
     <Debugger />
 {/if}
-<UI loadingPercentage={$loadingPercentage} isLoaded={$isLoaded} />
-<CanvasContainer {loadedData} isLoaded={$isLoaded} />
+<UI {loadingPercentage} {isLoaded} />
+<CanvasContainer {loadedData} {isLoaded} />
