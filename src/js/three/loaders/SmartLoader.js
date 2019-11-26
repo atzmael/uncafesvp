@@ -1,8 +1,8 @@
-import * as THREE from 'three'
-import promisifyLoader from './promisifyLoader.js'
-import GLTFLoader from 'three-gltf-loader'
-import ModelLoader from './ModelLoader.js'
-import VideoTextureLoader from './VideoTextureLoader.js'
+import * as THREE from "three"
+import promisifyLoader from "./promisifyLoader.js"
+import GLTFLoader from "three-gltf-loader"
+import ModelLoader from "./ModelLoader.js"
+import VideoTextureLoader from "./VideoTextureLoader.js"
 
 /**
  * This aims to be an async LoadingManager, with added functionnality
@@ -11,23 +11,23 @@ const SmartLoader = (onProgress) => {
     const promises = []
     const loadedData = {}
 
+    const loadingManager = new THREE.LoadingManager(
+        undefined, //onLoad
+        onProgress,
+        undefined //onError
+    )
+
     const defaultOnProgress = (xhr) => {
         const percentage = Math.round((xhr.loaded / xhr.total) * 100)
-        loadingState.loadingPercentage.set(percentage)
-        console.log(`${percentage}%`)
+        // console.log(`${percentage}%`)
+        console.log("defaultOnProgress")
     }
 
-    const decorateLoader = (loader, instantiatingAs = 'constructor') => {
-        if (instantiatingAs === 'constructor') {
-            return promisifyLoader(
-                new loader(/*loadingManager*/),
-                onProgress || defaultOnProgress
-            )
-        } else if (instantiatingAs === 'factory') {
-            return promisifyLoader(
-                loader(/*loadingManager*/),
-                onProgress || defaultOnProgress
-            )
+    const decorateLoader = (loader, instantiatingAs = "constructor") => {
+        if (instantiatingAs === "constructor") {
+            return promisifyLoader(new loader(loadingManager))
+        } else if (instantiatingAs === "factory") {
+            return promisifyLoader(loader(loadingManager))
         }
     }
 
@@ -37,14 +37,14 @@ const SmartLoader = (onProgress) => {
             loader: decorateLoader(THREE.TextureLoader),
             regexp: /\.(tga|png|jpg|jpeg)$/i
         },
+        gltf: {
+            loader: decorateLoader(GLTFLoader),
+            regexp: /\.(gltf|glb)$/i
+        },
         model: {
-            loader: decorateLoader(ModelLoader, 'factory'),
+            loader: decorateLoader(ModelLoader, "factory"),
             regexp: /model.(gltf|glb)$/i
         },
-        // gltf: {
-        //     loader: decorateLoader(GLTFLoader),
-        //     regexp: /\.(gltf|glb)$/i
-        // },
         videoTexture: {
             loader: decorateLoader(VideoTextureLoader),
             regexp: /\.mp4$/i
@@ -57,7 +57,7 @@ const SmartLoader = (onProgress) => {
 
     const defineLoaderFromStr = (path) => {
         let appropriateLoader = null
-        Object.values(loaders).forEach(({ loader, regexp }) => {
+        Object.values(loaders).find(({ loader, regexp }) => {
             if (path.match(regexp)) appropriateLoader = loader
         })
         if (appropriateLoader == null) {
@@ -104,9 +104,9 @@ const SmartLoader = (onProgress) => {
             promises.push(promise)
         }
 
-        if (typeof toLoad === 'string') {
+        if (typeof toLoad === "string") {
             loadFromString(toLoad)
-        } else if (typeof toLoad === 'object') {
+        } else if (typeof toLoad === "object") {
             const objectToLoad = toLoad
             if (!objectToLoad.type)
                 throw `The loaded object needs a property 'type' (string)`
@@ -134,13 +134,12 @@ const SmartLoader = (onProgress) => {
                 callback(loadedData)
             })
             .catch((error) => {
-                console.error('A promise has failed:', error)
+                console.error("A promise has failed:", error)
             })
     }
 
     return {
         load,
-        onProgress: onProgress || defaultOnProgress,
         onComplete
     }
 }

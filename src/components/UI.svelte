@@ -1,6 +1,6 @@
 <script>
-    import { xpStageIndex, xpStageName } from '../js/stores/xpStageStore'
-    import { fade } from 'svelte/transition'
+    import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
+    import { fade } from "svelte/transition"
 
     export let loadingPercentage
     export let isLoaded

@@ -2,7 +2,6 @@ import * as THREE from "three"
 
 import vertexShader from "../../glsl/bgPlane.vert"
 import fragmentShader from "../../glsl/bgPlane.frag"
-import { text } from "svelte/internal"
 
 /**
  * Background plane that is always billboarded
@@ -12,7 +11,6 @@ import { text } from "svelte/internal"
 const BgPlane = (texture) => {
     // texture.wrapS = THREE.RepeatWrapping
     // texture.wrapT = THREE.RepeatWrapping
-    console.log(texture)
 
     const planeGeo = new THREE.PlaneBufferGeometry(1, 1, 1)
     const planeMat = new THREE.ShaderMaterial({

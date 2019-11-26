@@ -1,13 +1,10 @@
-import * as THREE from 'three'
+import * as THREE from "three"
 
-import vertexShader from '../../glsl/animPlane.vert'
-import fragmentShader from '../../glsl/animPlane.frag'
-/**
- *
- */
+import vertexShader from "../../glsl/animPlane.vert"
+import fragmentShader from "../../glsl/animPlane.frag"
+
 const AnimPlane = (videoTexture, hexColor1, hexColor2, hexColor3) => {
     const animPlaneGeo = new THREE.PlaneBufferGeometry(4, 4, 1)
-    // const animPlaneMat = new THREE.MeshBasicMaterial({ map: videoTexture })
 
     hexColor1 = 0xff00ff
     hexColor2 = 0xffff00
