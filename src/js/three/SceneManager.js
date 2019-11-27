@@ -145,30 +145,22 @@ const SceneManager = (canvas) => {
         let lastItem = null
         if (intersects.length > 0 && isRaycasting) {
 	        unsubscribe()
-	        if (
-                !INTERSECTED ||
-                lastIntersectedObjectName != intersects[0].object.name
-            ) {
+	        if (!INTERSECTED || lastIntersectedObjectName != intersects[0].object.name) {
                 if (null != lastIntersectedObjectName) {
-                    lastItem = stagedItems.find(
-                        (elmt) => elmt.name == lastIntersectedObjectName
-                    )
-                    lastItem.getBackToPlace()
+                    lastItem = stagedItems.find((elmt) => elmt.name == lastIntersectedObjectName)
+                    lastItem.getBackToPlace();
                 }
-                objectIntersected = stagedItems.find(
-                    (elmt) => elmt.name == intersects[0].object.name
-                )
+                objectIntersected = stagedItems.find((elmt) => elmt.name == intersects[0].object.name)
                 objectIntersected.hasBeenTouched()
                 lastIntersectedObjectName = intersects[0].object.name
                 INTERSECTED = true
             }
         } else {
             objectIntersected = null
-            if (lastIntersectedObjectName != null) {
-                lastItem = stagedItems.find(
-                    (elmt) => elmt.name == lastIntersectedObjectName
-                )
+            if (null != lastIntersectedObjectName) {
+                lastItem = stagedItems.find((elmt) => elmt.name == lastIntersectedObjectName)
                 lastItem.getBackToPlace()
+                lastIntersectedObjectName = null;
             }
             INTERSECTED = false
         }
