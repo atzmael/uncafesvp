@@ -22,10 +22,7 @@ const createStage = () => {
 	const xpStageIndex = writable(defaultStageIndex)
 	const {subscribe, set, update} = xpStageIndex
 
-	const next = () => update((indx) => {
-		currentStageName = stageNames[indx + 1];
-		return Math.min(indx + 1, stageNames.length - 1);
-	})
+	const next = () => update((indx) => Math.min(indx + 1, stageNames.length - 1))
 	const previous = () =>
 		update((indx) => {
 			if (soundsPlaying.length > 0) {
@@ -34,8 +31,18 @@ const createStage = () => {
 			}
 			return Math.max(indx - 1, 0)
 		})
-	const setIndex = (x) => set(Math.min(Math.max(x, 0), stageNames.length - 1))
+	const setIndex = (x) => {
+		if (soundsPlaying.length > 0) {
+			let stopSound = soundsPlaying.pop();
+			stopSound.soundHandler.stop("loop", stopSound.sound);
+		}
+		set(Math.min(Math.max(x, 0), stageNames.length - 1))
+	}
 	const setName = (str) => {
+		if (soundsPlaying.length > 0) {
+			let stopSound = soundsPlaying.pop();
+			stopSound.soundHandler.stop("loop", stopSound.sound);
+		}
 		const newIndex = stageNames.indexOf(str)
 		if (newIndex === -1) throw `Could not find "${str}" in stageNames array`
 		else set(newIndex)

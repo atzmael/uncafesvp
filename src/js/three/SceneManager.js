@@ -8,7 +8,7 @@ import {
 	objectToInteract,
 	soundsPlaying,
 	soundsWaiting,
-	currentStageName, didUserInteract
+	xpStageName
 } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -22,7 +22,14 @@ const SceneManager = (canvas) => {
     // Raycast settings
     let raycaster = new THREE.Raycaster()
     let mouse = new THREE.Vector2()
-    let isRaycasting = false
+    let isRaycasting = false;
+
+    // TODO: unsubscribe
+	const unsubscribe = xpStageName.subscribe(value => {
+		if(value == "choice1") {
+		    isRaycasting = true;
+        }
+	});
 
     const buildRenderer = ({ width, height }) => {
         const renderer = new THREE.WebGLRenderer({
@@ -125,7 +132,6 @@ const SceneManager = (canvas) => {
     let lastIntersectedObjectName = null
     let objectIntersected = null
     const update = (time) => {
-        if (currentStageName == "choice1") isRaycasting = true
         songTime = time
 
         // Debug
@@ -138,7 +144,8 @@ const SceneManager = (canvas) => {
 
         let lastItem = null
         if (intersects.length > 0 && isRaycasting) {
-            if (
+	        unsubscribe()
+	        if (
                 !INTERSECTED ||
                 lastIntersectedObjectName != intersects[0].object.name
             ) {
