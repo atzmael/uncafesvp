@@ -1,6 +1,6 @@
-import * as THREE from 'three'
-import GLTFLoader from 'three-gltf-loader'
-import promisifyLoader from './promisifyLoader.js'
+import * as THREE from "three"
+import GLTFLoader from "three-gltf-loader"
+import promisifyLoader from "./promisifyLoader.js"
 
 // TODO: replace ItemLoad and ModelLoader by a single function
 // (to load an object, using regexp on properties to check for "path" (modelPath, animPath, etc.))
@@ -21,10 +21,11 @@ const ModelLoader = (manager) => {
             ) {
                 throw `gltf has no child inside "scene", or a wrong structure`
             } else {
+                const group = new THREE.Group()
                 if (gltf.scene.children.length == 1) {
-                    return gltf.scene.children[0]
+                    group.add(gltf.scene.children[0])
+                    return group
                 } else if (gltf.scene.children.length > 1) {
-                    const group = new THREE.Group()
                     for (let i = gltf.scene.children.length - 1; i >= 0; i--) {
                         group.add(gltf.scene.children[i])
                     }
