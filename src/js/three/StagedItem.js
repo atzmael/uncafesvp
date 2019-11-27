@@ -134,7 +134,7 @@ const StagedItem = (item, camera, audioListener) => {
     }
     const leaveView = () => {
         gsap.killTweensOf(outOffsetPos)
-        gsap.to(outOffsetPos, { y: -12 })
+        gsap.to(outOffsetPos, { y: getOutOfStagePosOffset() })
         // TODO: remove setTimeout and use onComplete hook (tween)
         setTimeout(() => {
             isInView = false

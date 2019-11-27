@@ -9,6 +9,7 @@
 <style>
     /* TODO: use display:grid for all the layouts */
     main {
+        pointer-events: none;
         color: rgb(38, 21, 6);
         position: absolute;
         top: 0;
