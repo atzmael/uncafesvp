@@ -7,6 +7,7 @@ import AnimPlane from "./AnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 import GUI from "../GUI"
 import { soundsWaiting } from "../stores/xpStageStore"
+import { gsap } from "gsap"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -19,7 +20,7 @@ const StagedItem = (item, camera, audioListener) => {
     const { models, videoTextures, sounds, viewBasePosition, stage } = item
     const model = models[0]
     const audio = sounds[0]
-    console.log(model)
+    const videoTexture = videoTextures[0]
     if (model == null) console.warn("StagedItem didn't receive a model")
     const getHeightUnit = () =>
         visibleHeightAtZDepth(model.position.z, camera) * 0.33
@@ -34,15 +35,19 @@ const StagedItem = (item, camera, audioListener) => {
     let _basePos = new THREE.Vector3(0, 0, 0)
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
-    let isFloating = false
 
-    const animPlane = AnimPlane(videoTextures[0])
+    const animPlane = AnimPlane(videoTexture)
 
     // Load sound
     let sound = new THREE.Audio(audioListener)
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
     soundsWaiting.push({ sound: sound, soundHandler: soundHandler })
+
+    // Animation
+    let canAnimate = false
+    let hasRotated = false
+    let highlightOffsetPos = new THREE.Vector3(0, 0, 0)
 
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
@@ -74,14 +79,22 @@ const StagedItem = (item, camera, audioListener) => {
     )
 
     const hasBeenTouched = () => {
+        gsap.killTweensOf(highlightOffsetPos)
         soundHandler.play("playloop", sound)
         animPlane.play()
-        isFloating = true
+        gsap.to(highlightOffsetPos, { y: 3 })
+        canAnimate = true
     }
 
     const getBackToPlace = () => {
+        gsap.killTweensOf(highlightOffsetPos)
         soundHandler.stop("loop", sound)
-        isFloating = false
+        gsap.to(highlightOffsetPos, {
+            y: 0,
+            onComplete: () => {
+                canAnimate = false
+            }
+        })
     }
 
     const positionFromCamera = () => {
@@ -97,15 +110,8 @@ const StagedItem = (item, camera, audioListener) => {
     }
 
     const applyPosition = () => {
-        collider.position
-            .copy(_basePos)
-            .add(outOffsetPos)
-            .add(floatOffsetPos)
-    }
-
-    const focusedAnimate = () => {
-        // animPlane.play()
-        console.log("TODO: tweens and stuff")
+        collider.position.copy(_basePos).add(outOffsetPos)
+        model.position.y = _basePos.y + floatOffsetPos.y + highlightOffsetPos.y
     }
 
     const onCanvasResize = () => {
@@ -122,24 +128,24 @@ const StagedItem = (item, camera, audioListener) => {
     }
 
     const enterView = () => {
-        // TODO: tween instead of direct assign
-        outOffsetPos = new THREE.Vector3(0, 0, 0)
+        gsap.killTweensOf(outOffsetPos)
+        gsap.to(outOffsetPos, { y: -3 })
         isInView = true
     }
     const leaveView = () => {
-        // TODO: tween instead of direct assign
-        outOffsetPos = outOfViewMaxOffsetPos
+        gsap.killTweensOf(outOffsetPos)
+        gsap.to(outOffsetPos, { y: -12 })
         // TODO: remove setTimeout and use onComplete hook (tween)
         setTimeout(() => {
             isInView = false
-            applyPosition()
         }, 300)
     }
 
     const update = (time) => {
         if (!isInView) return
-        floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
         applyPosition()
+        if (!canAnimate) return
+        floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
     }
 
     // TODO: add bounding boxes that trigger a 'focus' event on hover (raycaster)
