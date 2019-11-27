@@ -23,6 +23,7 @@
         background: lemonchiffon;
     }
     button {
+        pointer-events: auto;
         cursor: pointer;
         transition: all 0.5s;
         visibility: visible;
