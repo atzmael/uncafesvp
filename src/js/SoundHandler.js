@@ -1,40 +1,43 @@
 const SoundHandler = () => {
 
 	const play = (type, audio) => {
-		switch(type) {
+		switch (type) {
 			case "once":
-				if(audio.isPlaying) {
+				if (audio.isPlaying) {
 					audio.stop();
 					audio.play();
 				} else {
 					audio.play();
 				}
 				break;
-			case "loop":
-				if(audio.isPlaying) {
-					audio.stop();
-					audio.play();
+			case "playloop":
+				if (audio.isPlaying) {
+					audio.setVolume(1);
 				} else {
-					audio.play();
-					audio.setLoop(true);
+					console.warn(`SoundHandler|${audio.name} : loop is not playing, be sure to load it`);
 				}
+				break;
+			case "loadloop":
+				audio.setVolume(0);
+				audio.play();
+				audio.setLoop(true);
 				break;
 		}
 	};
 	const stop = (type, audio) => {
-		switch(type) {
+		switch (type) {
 			case "once":
 				audio.stop();
 				break;
 			case "loop":
-				audio.setLoop(false);
-				audio.stop();
+				audio.setVolume(0);
 				break;
 		}
 	};
 
 	const initSound = (buffer, name, audio) => {
 		audio.setBuffer(buffer);
+		audio.setVolume(0);
 		audio.name = name;
 	}
 
