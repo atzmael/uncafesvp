@@ -39,7 +39,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "cafetiere-piston",
@@ -48,7 +48,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "cafetiere-filtre",
@@ -57,7 +57,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "tasse-ceramique",
@@ -66,7 +66,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 4
+            "stage": 6
         },
         {
             "name": "gobelet-carton",
@@ -75,7 +75,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 4
+            "stage": 6
         },
         {
             "name": "gobelet-plastique",
@@ -84,7 +84,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 4
+            "stage": 6
         },
         {
             "name": "sucre",
@@ -93,7 +93,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 5
+            "stage": 8
         },
         {
             "name": "lait",
@@ -102,7 +102,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 5
+            "stage": 8
         },
         {
             "name": "biscuit",
@@ -111,7 +111,7 @@
             "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 5
+            "stage": 8
         }
     ]
 }
