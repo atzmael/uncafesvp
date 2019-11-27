@@ -9,6 +9,11 @@
 <style>
     /* TODO: use display:grid for all the layouts */
     main {
+        color: white;
+        background: rgba(127, 127, 127, 0.7);
+        font-weight: bold;
+    }
+    .overlay {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -16,12 +21,7 @@
         right: 0;
         display: grid;
         place-content: center center;
-        color: white;
-
-        background: rgba(127, 127, 127, 0.7);
-        font-weight: bold;
     }
-
     button {
         cursor: pointer;
         transition: all 0.5s;
@@ -40,8 +40,7 @@
 </style>
 
 {#if $xpStageName === 'home'}
-    <!-- TODO: Make a custom transition ("fade" is built-in svelte) -->
-    <main transition:fade>
+    <main transition:fade class="overlay">
         <!-- TODO: Loader ui -->
         <p>This is the homepage</p>
         <div>Loading: {Math.round(loadingPercentage)}%</div>
@@ -52,8 +51,18 @@
         </button>
     </main>
 {:else if $xpStageName === 'intro'}
-    <div />
+    <main transition:fade class="overlay">
+        <div>THIS IS THE INTRO</div>
+        <button on:click={() => xpStageIndex.setName('choice1')}>Begin</button>
+    </main>
+{:else if $xpStageName === 'transition1'}
+    <div class="overlay">Impressive</div>
+{:else if $xpStageName === 'transition2'}
+    <div class="overlay">Amazing</div>
+{:else if $xpStageName === 'transition3'}
+    <div class="overlay">Spetacular</div>
 {/if}
+
 {#if $xpStageName === 'choice2' || $xpStageName === 'choice3' || $xpStageName === 'choice4'}
     <button
         on:click={() => xpStageIndex.setIndex($xpStageIndex - 2)}
