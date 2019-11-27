@@ -1,12 +1,12 @@
 <script>
-    import { onMount, onDestroy } from 'svelte'
-    import onAnimationFrame from '../js/onAnimationFrame.js'
-    import onWindowResize from '../js/onWindowResize.js'
+    import { onMount, onDestroy } from "svelte"
+    import onAnimationFrame from "../js/onAnimationFrame.js"
+    import onWindowResize from "../js/onWindowResize.js"
 
-    import { time } from '../js/stores/timeStore'
-    import { xpStageIndex, didUserInteract } from '../js/stores/xpStageStore'
+    import { time } from "../js/stores/timeStore"
+    import { xpStageIndex, didUserInteract } from "../js/stores/xpStageStore"
 
-    import SceneManager from '../js/three/SceneManager.js'
+    import SceneManager from "../js/three/SceneManager.js"
 
     export let loadedData
     export let isLoaded
@@ -18,9 +18,10 @@
     $: if ($didUserInteract && isLoaded) {
         // TODO: make it possible to update the assets/items,
         // this should remove some bugs too
-        sceneManager.addItems(loadedData.items)
-        sceneManager.addTextures(loadedData.textures)
-        sceneManager.addVideoTextures(loadedData.videoTextures)
+        // sceneManager.addItems(loadedData.items)
+        // sceneManager.addTextures(loadedData.textures)
+        // sceneManager.addVideoTextures(loadedData.videoTextures)
+        sceneManager.addLoadedData(loadedData)
     }
 
     $: if ($didUserInteract && sceneManager) {

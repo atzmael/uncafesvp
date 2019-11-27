@@ -3,6 +3,7 @@ import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
+<<<<<<< HEAD
 import {xpStageIndex, objectToInteract, soundsPlaying, soundsWaiting, currentStageName} from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -71,29 +72,27 @@ const SceneManager = (canvas) => {
 	scene.add(camera)
 	let songTime = 0
 
-	const addItems = (items) => {
-		items.forEach((item) => {
+	const addLoadedData = (loadedData) => {
+		loadedData.items.forEach((item) => {
 			const stagedItem = StagedItem(item, camera, audioListener)
 			stagedItems.push(stagedItem)
 			scene.add(stagedItem.collider)
 			objectToInteract.push(stagedItem.collider)
 			GUI.addStagedItem(stagedItem)
 		})
-	}
 
-	const addTextures = (textures) => {
-		// textures.forEach((texture) => {
-		//     if (texture.name == "maptestTexture") bgPlane.setTexture(texture)
-		// })
-	}
-
-	const addVideoTextures = (vts) => {
-		vts.forEach((vt) => {
-			if (vt.name == "animtestVideoTexture") {
-				bgPlane = BgPlane(vt)
+		console.log(loadedData)
+		loadedData.textures.forEach((texture) => {
+			if (texture.name == "maptestTexture") {
+				bgPlane = BgPlane(texture)
 				scene.add(bgPlane.mesh)
 				bgPlane.onCanvasResize(camera)
-				bgPlane.play()
+			}
+		})
+
+		loadedData.videoTextures.forEach((vt) => {
+			if (vt.name == "animtestVideoTexture") {
+				if (bgPlane) bgPlane.playAnimTexture(vt)
 			}
 		})
 	}
@@ -200,9 +199,7 @@ const SceneManager = (canvas) => {
 	})
 
 	return {
-		addItems,
-		addTextures,
-		addVideoTextures,
+		addLoadedData,
 		onCanvasResize,
 		changeXpStage,
 		update
