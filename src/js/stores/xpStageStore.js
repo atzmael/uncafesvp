@@ -25,7 +25,10 @@ const createStage = () => {
 	})
 	const previous = () =>
 		update((indx) => {
-			if (soundsPlaying.length > 0) soundsPlaying.pop();
+			if (soundsPlaying.length > 0) {
+				let stopSound = soundsPlaying.pop();
+				stopSound.soundHandler.stop("loop", stopSound.sound);
+			}
 			return Math.max(indx - 1, 0)
 		})
 	const setIndex = (x) => set(Math.min(Math.max(x, 0), stageNames.length - 1))
