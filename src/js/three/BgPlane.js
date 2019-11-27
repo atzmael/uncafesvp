@@ -12,9 +12,9 @@ const BgPlane = (bgTexture) => {
     bgTexture.wrapS = THREE.RepeatWrapping
     bgTexture.wrapT = THREE.RepeatWrapping
 
-    let hexColor1 = 0xff00ff
-    let hexColor2 = 0xffff00
-    let hexColor3 = 0xff0000
+    let hexColor1 = 0x000000
+    let hexColor2 = 0x00ff00
+    let hexColor3 = 0xff00ff
 
     const planeGeo = new THREE.PlaneBufferGeometry(1, 1, 1)
     const planeMat = new THREE.ShaderMaterial({
@@ -30,13 +30,18 @@ const BgPlane = (bgTexture) => {
         fragmentShader: fragmentShader
     })
 
-    const playAnimTexture = (videoTexture, hexColor1, hexColor2, hexColor3) => {
+    const playAnimTexture = (
+        videoTexture,
+        newCol1 = hexColor1,
+        newCol2 = hexColor2,
+        newCol3 = hexColor3
+    ) => {
         // TODO: crossfades
-        console.log(videoTexture)
+        console.log(hexColor1, hexColor2, hexColor3)
         planeMat.uniforms.animTexture.value = videoTexture
-        planeMat.uniforms.animTexture.col1 = hexColor1
-        planeMat.uniforms.animTexture.col2 = hexColor2
-        planeMat.uniforms.animTexture.col3 = hexColor3
+        planeMat.uniforms.animTexture.col1 = newCol1
+        planeMat.uniforms.animTexture.col2 = newCol2
+        planeMat.uniforms.animTexture.col3 = newCol3
         videoTexture.image.play()
     }
 

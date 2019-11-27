@@ -22,9 +22,9 @@ void main() {
 
     vec3 c = bgCol.rgb;
     // c = mix(c, animCol, 1. - animCol.g);
-    // c = mix(c, col1, animCol.r);
-    // c = mix(c, col2, animCol.g);
-    // c = mix(c, col3, animCol.b);
+    c = mix(c, col1, animCol.r);
+    c = mix(c, col2, animCol.g);
+    c = mix(c, col3, animCol.b);
 
 
     gl_FragColor = vec4(c.rgb, 1.0);

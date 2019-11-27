@@ -81,7 +81,7 @@ const SmartLoader = (onProgress) => {
      * @param {String|Object} toLoad Path of asset to load, or object a type and additional infos
      * @param {String} name Name of the loaded asset/object in loadedData
      */
-    function load(toLoad, name) {
+    function load(toLoad, name, propName = undefined) {
         /** @param {string} path  */
         const loadFromString = (path, parentObject = loadedData) => {
             const promise = defineLoaderFromStr(path)
@@ -93,10 +93,13 @@ const SmartLoader = (onProgress) => {
                     }
                     parentObject[`${type}s`].push(
                         Object.assign(loaded, {
-                            name: `${name +
-                                type.charAt(0).toUpperCase() +
-                                type.slice(1)}`
-                            // TODO: use property key (ex: animPath => animVideoTexture)
+                            name: propName
+                                ? `${name +
+                                      propName.charAt(0).toUpperCase() +
+                                      propName.slice(1)}`
+                                : `${name +
+                                      type.charAt(0).toUpperCase() +
+                                      type.slice(1)}`
                         })
                     )
                 })
@@ -112,7 +115,7 @@ const SmartLoader = (onProgress) => {
                 throw `The loaded object needs a property 'type' (string)`
             Object.entries(objectToLoad).forEach(([key, value]) => {
                 if (key.match(/\path$/i)) {
-                    loadFromString(value, objectToLoad)
+                    loadFromString(value, objectToLoad, key)
                 }
             })
             if (!loadedData.hasOwnProperty(`${objectToLoad.type}s`)) {
