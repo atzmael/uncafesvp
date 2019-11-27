@@ -7,6 +7,7 @@
         position: fixed;
         top: 50px;
         left: 5px;
+        z-index: 9999;
     }
     .info-text {
         color: black;
