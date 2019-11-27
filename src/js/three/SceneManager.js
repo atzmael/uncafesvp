@@ -41,12 +41,13 @@ const SceneManager = (canvas) => {
     const buildLights = () => {
         const lightGroup = new THREE.Group()
 
-        const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
+        // 0xf0e6dc 0xa09b96
+        const ambiLight = new THREE.AmbientLight(0xa09b96, 0.2)
         lightGroup.add(ambiLight)
-
-        const hemiLight = new THREE.HemisphereLight(0xff0000, 0x0000aa, 0.4)
+        const hemiLight = new THREE.HemisphereLight(0xf0e6dc, 0x232221, 1.2)
         lightGroup.add(hemiLight)
         const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
+        hemiLight.position.set(6, 8, 7)
         hemiLight.add(hemiLightHelper)
         GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
 

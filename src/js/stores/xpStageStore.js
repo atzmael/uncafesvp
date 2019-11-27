@@ -1,12 +1,15 @@
 import {writable, derived} from "svelte/store"
 
-const defaultStageIndex = 0;
+const defaultStageIndex = 0
 const stageNames = [
 	"home",
 	"intro",
 	"choice1",
+	"transition1",
 	"choice2",
+	"transition2",
 	"choice3",
+	"transition3",
 	"choice4",
 	"break",
 	"climax",
@@ -20,7 +23,7 @@ const createStage = () => {
 	const {subscribe, set, update} = xpStageIndex
 
 	const next = () => update((indx) => {
-		currentStageName = stageNames[indx+1];
+		currentStageName = stageNames[indx + 1];
 		return Math.min(indx + 1, stageNames.length - 1);
 	})
 	const previous = () =>
@@ -53,8 +56,8 @@ const createStage = () => {
 export const objectToInteract = []
 
 // usage : song construction
-export const soundsPlaying = [];
-export const soundsWaiting = [];
+export const soundsPlaying = []
+export const soundsWaiting = []
 
 // usage : $xpStageIndex or xpStage.method()
 export const xpStageIndex = createStage()

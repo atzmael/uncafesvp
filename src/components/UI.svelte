@@ -45,8 +45,19 @@
         <!-- TODO: Loader ui -->
         <p>This is the homepage</p>
         <div>Loading: {Math.round(loadingPercentage)}%</div>
-        <button on:click={xpStageIndex.next} class:hidden={!isLoaded}>Next</button>
+        <button
+            on:click={() => xpStageIndex.setName('intro')}
+            class:hidden={!isLoaded}>
+            Next
+        </button>
     </main>
-{:else}
-    <button on:click={xpStageIndex.previous} class="previous-arrow">⬅ ⬅ ⬅</button>
+{:else if $xpStageName === 'intro'}
+    <div />
+{/if}
+{#if $xpStageName === 'choice2' || $xpStageName === 'choice3' || $xpStageName === 'choice4'}
+    <button
+        on:click={() => xpStageIndex.setIndex($xpStageIndex - 2)}
+        class="previous-arrow">
+        ⬅ ⬅ ⬅
+    </button>
 {/if}
