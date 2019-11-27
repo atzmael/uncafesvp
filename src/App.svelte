@@ -26,18 +26,17 @@
             loadingPercentage = Math.round((loadedQtty / totalQtty) * 100)
         }
         const sLoader = SmartLoader(onProgress)
+        sLoader.onComplete((resolvedData) => {
+            console.log("resolvedData:", resolvedData)
+            loadedData = resolvedData
+            isLoaded = true
+        })
 
         sLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "maptest")
         sLoader.load("/assets/animations/test_background2048.mp4", "animtest")
         // sLoader.load('/assets/sound/piste1.mp3', 'soundtest')
         data.items.forEach((item) => {
             sLoader.load(Object.assign(item, { type: "item" }), item.name)
-        })
-
-        sLoader.onComplete((resolvedData) => {
-            console.log("resolvedData:", resolvedData)
-            loadedData = resolvedData
-            isLoaded = true
         })
     }
 

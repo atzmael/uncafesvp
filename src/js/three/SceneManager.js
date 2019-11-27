@@ -3,7 +3,11 @@ import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
-import { xpStageIndex, objectToInteract, soundsPlaying } from "../stores/xpStageStore"
+import {
+    xpStageIndex,
+    objectToInteract,
+    soundsPlaying
+} from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
@@ -34,12 +38,13 @@ const SceneManager = (canvas) => {
     const buildLights = () => {
         const lightGroup = new THREE.Group()
 
-        const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
+        // 0xf0e6dc 0xa09b96
+        const ambiLight = new THREE.AmbientLight(0xa09b96, 0.2)
         lightGroup.add(ambiLight)
-
-        const hemiLight = new THREE.HemisphereLight(0xff0000, 0x0000aa, 0.4)
+        const hemiLight = new THREE.HemisphereLight(0xf0e6dc, 0x232221, 1.2)
         lightGroup.add(hemiLight)
         const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
+        hemiLight.position.set(6, 8, 7)
         hemiLight.add(hemiLightHelper)
         GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
 
@@ -61,8 +66,7 @@ const SceneManager = (canvas) => {
     const lightGroup = buildLights()
     scene.add(lightGroup)
 
-    let bgPlane = BgPlane()
-    scene.add(bgPlane.mesh)
+    let bgPlane
 
     // Sound vars
     const audioListener = new THREE.AudioListener()
@@ -70,29 +74,27 @@ const SceneManager = (canvas) => {
     scene.add(camera)
     let songTime = 0
 
-    const addItems = (items) => {
-        items.forEach((item) => {
+    const addLoadedData = (loadedData) => {
+        loadedData.items.forEach((item) => {
             const stagedItem = StagedItem(item, camera, audioListener)
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
             GUI.addStagedItem(stagedItem)
         })
-    }
 
-    const addTextures = (textures) => {
-        // textures.forEach((texture) => {
-        //     if (texture.name == "maptestTexture") bgPlane.setTexture(texture)
-        // })
-    }
-
-    const addVideoTextures = (vts) => {
-        vts.forEach((vt) => {
-            if (vt.name == "animtestVideoTexture") {
-                bgPlane = BgPlane(vt)
+        console.log(loadedData)
+        loadedData.textures.forEach((texture) => {
+            if (texture.name == "maptestTexture") {
+                bgPlane = BgPlane(texture)
                 scene.add(bgPlane.mesh)
                 bgPlane.onCanvasResize(camera)
-                bgPlane.play()
+            }
+        })
+
+        loadedData.videoTextures.forEach((vt) => {
+            if (vt.name == "animtestVideoTexture") {
+                if (bgPlane) bgPlane.playAnimTexture(vt)
             }
         })
     }
@@ -104,7 +106,7 @@ const SceneManager = (canvas) => {
     const onCanvasResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight
         camera.updateProjectionMatrix()
-        bgPlane.onCanvasResize(camera)
+        if (bgPlane) bgPlane.onCanvasResize(camera)
         stagedItems.forEach((item) => item.onCanvasResize())
         renderer.setSize(window.innerWidth, window.innerHeight)
     }
@@ -163,15 +165,16 @@ const SceneManager = (canvas) => {
         if (soundsPlaying.length > 0) {
             soundsPlaying.forEach((e) => {
                 if (!e.sound.isPlaying) {
-                    let calcul = Math.round(songTime % e.sound.buffer.duration * 10) / 10;
-                    if(calcul == 0) {
-	                    e.soundHandler.play("loop", e.sound);
+                    let calcul =
+                        Math.round((songTime % e.sound.buffer.duration) * 10) / 10
+                    if (calcul == 0) {
+                        e.soundHandler.play("loop", e.sound)
                     }
                 }
             })
         }
 
-        bgPlane.update(time)
+        if (bgPlane) bgPlane.update(time)
         stagedItems.forEach((item) => item.update(time))
 
         stats.end()
@@ -181,15 +184,13 @@ const SceneManager = (canvas) => {
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
-            soundsPlaying.push(objectIntersected);
+            soundsPlaying.push(objectIntersected)
             xpStageIndex.next()
         }
     })
 
     return {
-        addItems,
-        addTextures,
-        addVideoTextures,
+        addLoadedData,
         onCanvasResize,
         changeXpStage,
         update
