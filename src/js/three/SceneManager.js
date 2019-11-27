@@ -4,11 +4,11 @@ import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
 import {
-    xpStageIndex,
-    objectToInteract,
-    soundsPlaying,
-    soundsWaiting,
-    currentStageName
+	xpStageIndex,
+	objectToInteract,
+	soundsPlaying,
+	soundsWaiting,
+	currentStageName, didUserInteract
 } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -179,7 +179,7 @@ const SceneManager = (canvas) => {
             soundsWaiting.forEach((e) => {
                 if (!e.sound.isPlaying) {
                     let calcul =
-                        Math.round((songTime % e.sound.buffer.duration) * 10) / 10
+                        Math.round((songTime % e.sound.buffer.duration) * 10) / 10;
                     if (calcul == 0) {
                         e.soundHandler.play("loadloop", e.sound)
                     }
