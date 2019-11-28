@@ -54,6 +54,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let hasRotated = false
     let highlightOffsetPos = new THREE.Vector3(0, 3, 0)
     let highlightRotation = new THREE.Vector3(0, -45 * Math.PI / 180, 0)
+    // Tweens
     let progress = {value: 0};
 
     // Add object3D to intercept raycast
