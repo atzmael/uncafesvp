@@ -3,6 +3,8 @@
     import SmartLoader from "./js/three/loaders/SmartLoader.js"
     import * as THREE from "three"
 
+    import onAnimationFrame from "./js/onAnimationFrame.js"
+
     import Debugger from "./components/Debugger.svelte"
     import UI from "./components/UI.svelte"
     import CanvasContainer from "./components/CanvasContainer.svelte"
@@ -21,6 +23,7 @@
     let loadedData = {}
     let isLoaded = false
     let loadingPercentage = 0
+
     const loadAssets = () => {
         const onProgress = (loadedPath, loadedQtty, totalQtty) => {
             loadingPercentage = Math.round((loadedQtty / totalQtty) * 100)
