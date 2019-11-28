@@ -2,6 +2,8 @@
     import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
     import { fade } from "svelte/transition"
 
+    import Loader from "./Loader.svelte"
+
     export let loadingPercentage
     export let isLoaded
 </script>
@@ -43,9 +45,9 @@
 <main>
     {#if $xpStageName === 'home'}
         <div transition:fade class="overlay">
-            <!-- TODO: Loader ui -->
             <p>This is the homepage</p>
-            <div>Loading: {Math.round(loadingPercentage)}%</div>
+            <Loader progress={Math.round(loadingPercentage)} />
+            {loadingPercentage}
             <button
                 on:click={() => xpStageIndex.setName('intro')}
                 class:hidden={!isLoaded}>

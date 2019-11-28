@@ -1,25 +1,27 @@
 import * as THREE from "three"
 
-import vertexShader from "../../glsl/animPlane.vert"
-import fragmentShader from "../../glsl/animPlane.frag"
+import frontVertexShader from "../../glsl/animPlane.vert"
+import frontFragmentShader from "../../glsl/animPlane.frag"
 
-const AnimPlane = (videoTexture, hexColor1, hexColor2, hexColor3) => {
-    const animPlaneGeo = new THREE.PlaneBufferGeometry(4, 4, 1)
-
-    hexColor1 = 0xff00ff
-    hexColor2 = 0xffff00
+const AnimPlane = ({
+    videoTexture,
+    hexColor1 = 0xff00ff,
+    hexColor2 = 0xffff00,
     hexColor3 = 0xee99ff
+}) => {
+    const scale = 4
+    const animPlaneGeo = new THREE.PlaneBufferGeometry(scale, scale, 1)
 
     const animPlaneMat = new THREE.ShaderMaterial({
         uniforms: {
             time: { value: 1.0 },
-            myTexture: { value: videoTexture },
+            animTexture: { value: videoTexture },
             col1: { value: new THREE.Color(hexColor1) },
             col2: { value: new THREE.Color(hexColor2) },
             col3: { value: new THREE.Color(hexColor3) }
         },
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
+        vertexShader: frontVertexShader,
+        fragmentShader: frontFragmentShader,
         blending: THREE.NormalBlending,
         transparent: true
     })

@@ -4,11 +4,11 @@ import StagedItem from "./StagedItem.js"
 import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
 import {
-	xpStageIndex,
-	objectToInteract,
-	soundsPlaying,
-	soundsWaiting,
-	xpStageName
+    xpStageIndex,
+    objectToInteract,
+    soundsPlaying,
+    soundsWaiting,
+    xpStageName
 } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -22,14 +22,14 @@ const SceneManager = (canvas) => {
     // Raycast settings
     let raycaster = new THREE.Raycaster()
     let mouse = new THREE.Vector2()
-    let isRaycasting = false;
+    let isRaycasting = false
 
     // TODO: unsubscribe
-	const unsubscribe = xpStageName.subscribe(value => {
-		if(value == "choice1") {
-		    isRaycasting = true;
+    const unsubscribe = xpStageName.subscribe((value) => {
+        if (value == "choice1") {
+            isRaycasting = true
         }
-	});
+    })
 
     const buildRenderer = ({ width, height }) => {
         const renderer = new THREE.WebGLRenderer({
@@ -69,7 +69,7 @@ const SceneManager = (canvas) => {
         1,
         1000
     )
-    camera.position.z = 18
+    camera.position.z = 19
 
     const stagedItems = []
 
@@ -86,27 +86,27 @@ const SceneManager = (canvas) => {
 
     const addLoadedData = (loadedData) => {
         loadedData.items.forEach((item) => {
-            const stagedItem = StagedItem(item, camera, audioListener)
+            const stagedItem = StagedItem(item, camera, scene, audioListener)
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
             GUI.addStagedItem(stagedItem)
         })
 
-        console.log(loadedData)
-        loadedData.textures.forEach((texture) => {
-            if (texture.name == "maptestTexture") {
-                bgPlane = BgPlane(texture)
-                scene.add(bgPlane.mesh)
-                bgPlane.onCanvasResize(camera)
-            }
-        })
+        // TODO: static bg
+        // loadedData.textures.forEach((texture) => {
+        //     if (texture.name == "maptestTexture") {
+        //         bgPlane = BgPlane(texture)
+        //         scene.add(bgPlane.mesh)
+        //         bgPlane.onCanvasResize(camera)
+        //     }
+        // })
 
-        loadedData.videoTextures.forEach((vt) => {
-            if (vt.name == "animtestVideoTexture") {
-                if (bgPlane) bgPlane.playAnimTexture(vt)
-            }
-        })
+        // loadedData.videoTextures.forEach((vt) => {
+        //     if (vt.name == "animtestVideoTexture") {
+        //         if (bgPlane) bgPlane.playAnimTexture(vt)
+        //     }
+        // })
     }
 
     const changeXpStage = (newXpStage) => {
@@ -144,13 +144,20 @@ const SceneManager = (canvas) => {
 
         let lastItem = null
         if (intersects.length > 0 && isRaycasting) {
-	        unsubscribe()
-	        if (!INTERSECTED || lastIntersectedObjectName != intersects[0].object.name) {
+            unsubscribe()
+            if (
+                !INTERSECTED ||
+                lastIntersectedObjectName != intersects[0].object.name
+            ) {
                 if (null != lastIntersectedObjectName) {
-                    lastItem = stagedItems.find((elmt) => elmt.name == lastIntersectedObjectName)
-                    lastItem.getBackToPlace();
+                    lastItem = stagedItems.find(
+                        (elmt) => elmt.name == lastIntersectedObjectName
+                    )
+                    lastItem.getBackToPlace()
                 }
-                objectIntersected = stagedItems.find((elmt) => elmt.name == intersects[0].object.name)
+                objectIntersected = stagedItems.find(
+                    (elmt) => elmt.name == intersects[0].object.name
+                )
                 objectIntersected.hasBeenTouched()
                 lastIntersectedObjectName = intersects[0].object.name
                 INTERSECTED = true
@@ -158,9 +165,11 @@ const SceneManager = (canvas) => {
         } else {
             objectIntersected = null
             if (null != lastIntersectedObjectName) {
-                lastItem = stagedItems.find((elmt) => elmt.name == lastIntersectedObjectName)
+                lastItem = stagedItems.find(
+                    (elmt) => elmt.name == lastIntersectedObjectName
+                )
                 lastItem.getBackToPlace()
-                lastIntersectedObjectName = null;
+                lastIntersectedObjectName = null
             }
             INTERSECTED = false
         }
@@ -177,7 +186,7 @@ const SceneManager = (canvas) => {
             soundsWaiting.forEach((e) => {
                 if (!e.sound.isPlaying) {
                     let calcul =
-                        Math.round((songTime % e.sound.buffer.duration) * 10) / 10;
+                        Math.round((songTime % e.sound.buffer.duration) * 10) / 10
                     if (calcul == 0) {
                         e.soundHandler.play("loadloop", e.sound)
                     }
