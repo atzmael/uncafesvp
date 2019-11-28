@@ -39,7 +39,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let _basePos = new THREE.Vector3(0, 0, 0)
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
-    let highlightRotation = new THREE.Vector3(0, 0, 0)
 
     const animPlane = AnimPlane({ videoTexture: frontVideoTexture })
     const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera })
@@ -53,7 +52,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
     // Animation
     let canAnimate = false
     let hasRotated = false
-    let highlightOffsetPos = new THREE.Vector3(0, 0, 0)
+    let highlightOffsetPos = new THREE.Vector3(0, 3, 0)
+    let highlightRotation = new THREE.Vector3(0, -45 * Math.PI / 180, 0)
+    let progress = {value: 0};
 
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
@@ -85,25 +86,21 @@ const StagedItem = (item, camera, scene, audioListener) => {
     )
 
     const hasBeenTouched = () => {
-        gsap.killTweensOf(highlightOffsetPos)
-        gsap.killTweensOf(highlightRotation)
+        gsap.killTweensOf(progress);
         soundHandler.play("playloop", sound)
         animPlane.play()
-        gsap.to(highlightOffsetPos, { y: 3 })
-        gsap.to(highlightRotation, { y: (-45 * Math.PI) / 180 })
+        gsap.to(progress, { value: 1 })
         bgPlane.play()
         bgPlane.checkIfIsFocused(true)
         canAnimate = true
     }
 
     const getBackToPlace = () => {
-        gsap.killTweensOf(highlightOffsetPos)
-        gsap.killTweensOf(highlightRotation)
+        gsap.killTweensOf(progress);
         bgPlane.checkIfIsFocused(false)
         soundHandler.stop("loop", sound)
-        gsap.to(highlightRotation, { y: 0 })
-        gsap.to(highlightOffsetPos, {
-            y: 0,
+        gsap.to(progress, {
+            value: 0,
             onComplete: () => {
                 canAnimate = false
             }
@@ -123,12 +120,12 @@ const StagedItem = (item, camera, scene, audioListener) => {
     }
 
     const applyPosition = () => {
-        collider.position.copy(_basePos).add(outOffsetPos)
-        model.position.y = _basePos.y + floatOffsetPos.y + highlightOffsetPos.y
+        collider.position.copy(_basePos).add(outOffsetPos);
+        model.position.y = _basePos.y + floatOffsetPos.y + highlightOffsetPos.y * progress.value;
     }
 
     const applyRotation = () => {
-        model.rotation.y = highlightRotation.y
+        model.rotation.y = highlightRotation.y * progress.value;
     }
 
     const onCanvasResize = () => {
