@@ -1,18 +1,15 @@
 import * as THREE from "three"
 
 import frontVertexShader from "../../glsl/animPlane.vert"
-import bgVertexShader from "../../glsl/bgPlane.vert"
 import frontFragmentShader from "../../glsl/animPlane.frag"
-import bgFragmentShader from "../../glsl/bgPlane.frag"
 
 const AnimPlane = ({
     videoTexture,
     hexColor1 = 0xff00ff,
     hexColor2 = 0xffff00,
-    hexColor3 = 0xee99ff,
-    isFront = true
+    hexColor3 = 0xee99ff
 }) => {
-    const scale = isFront ? 4 : 1
+    const scale = 4
     const animPlaneGeo = new THREE.PlaneBufferGeometry(scale, scale, 1)
 
     const animPlaneMat = new THREE.ShaderMaterial({
@@ -23,15 +20,14 @@ const AnimPlane = ({
             col2: { value: new THREE.Color(hexColor2) },
             col3: { value: new THREE.Color(hexColor3) }
         },
-        vertexShader: isFront ? frontVertexShader : bgVertexShader,
-        fragmentShader: isFront ? frontFragmentShader : bgFragmentShader,
+        vertexShader: frontVertexShader,
+        fragmentShader: frontFragmentShader,
         blending: THREE.NormalBlending,
-        transparent: isFront ? true : false
+        transparent: true
     })
     const animPlane = new THREE.Mesh(animPlaneGeo, animPlaneMat)
-    animPlane.renderOrder = isFront ? 9999 : -1
-    animPlane.material.depthTest = isFront ? false : true
-    animPlane.position.z = isFront ? 0 : -5
+    animPlane.renderOrder = 9999
+    animPlane.material.depthTest = false
 
     const play = () => {
         if (videoTexture.image && videoTexture.image.play) videoTexture.image.play()

@@ -69,7 +69,7 @@ const SceneManager = (canvas) => {
         1,
         1000
     )
-    camera.position.z = 18
+    camera.position.z = 19
 
     const stagedItems = []
 
@@ -86,7 +86,7 @@ const SceneManager = (canvas) => {
 
     const addLoadedData = (loadedData) => {
         loadedData.items.forEach((item) => {
-            const stagedItem = StagedItem(item, camera, audioListener)
+            const stagedItem = StagedItem(item, camera, scene, audioListener)
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)

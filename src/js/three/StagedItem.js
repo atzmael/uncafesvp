@@ -4,6 +4,7 @@ import {
     visibleWidthAtZDepth
 } from "./utils/visibleAtZDepth.js"
 import AnimPlane from "./AnimPlane.js"
+import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 import GUI from "../GUI"
 import { soundsWaiting } from "../stores/xpStageStore"
@@ -16,7 +17,7 @@ import { gsap } from "gsap"
  * @param {THREE.PerspectiveCamera} camera
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
-const StagedItem = (item, camera, audioListener) => {
+const StagedItem = (item, camera, scene, audioListener) => {
     const { models, videoTextures, sounds, viewBasePosition, stage } = item
     const model = models[0]
     const audio = sounds[0]
@@ -38,8 +39,8 @@ const StagedItem = (item, camera, audioListener) => {
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
 
-    const animPlane = AnimPlane({ videoTexture: frontVideoTexture, isFront: true })
-    const bgPlane = AnimPlane({ videoTexture: bgVideoTexture, isFront: false })
+    const animPlane = AnimPlane({ videoTexture: frontVideoTexture })
+    const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera })
 
     // Load sound
     let sound = new THREE.Audio(audioListener)
@@ -86,12 +87,14 @@ const StagedItem = (item, camera, audioListener) => {
         soundHandler.play("playloop", sound)
         animPlane.play()
         bgPlane.play()
+        bgPlane.checkIfIsFocused(true)
         gsap.to(highlightOffsetPos, { y: 3 })
         canAnimate = true
     }
 
     const getBackToPlace = () => {
         gsap.killTweensOf(highlightOffsetPos)
+        bgPlane.checkIfIsFocused(false)
         soundHandler.stop("loop", sound)
         gsap.to(highlightOffsetPos, {
             y: 0,
@@ -121,6 +124,7 @@ const StagedItem = (item, camera, audioListener) => {
     const onCanvasResize = () => {
         positionFromCamera()
         outOfViewMaxOffsetPos = getOutOfStagePosOffset()
+        bgPlane.onCanvasResize()
     }
 
     const checkIfEnterOrLeave = (stageIndex) => {
@@ -159,7 +163,7 @@ const StagedItem = (item, camera, audioListener) => {
 
     positionFromCamera()
     model.add(animPlane)
-    model.add(bgPlane)
+    scene.add(bgPlane)
 
     return Object.assign(item, {
         _basePos, // exposed for GUI only

@@ -51,7 +51,7 @@ const BgPlane = (bgTexture) => {
     }
 
     const onCanvasResize = (camera) => {
-        planeMesh.scale.y = Math.max(1, window.innerWidth / window.innerHeight)
+        planeMesh.scale.y = Math.min(1, window.innerWidth / window.innerHeight)
         planeMesh.scale.x = Math.max(1, window.innerHeight / window.innerWidth)
         // planeMesh.scale.x *= biggestSide / smallestSide
         // TODO: planeMat.uniforms.aspectRatio.value = camera.aspect

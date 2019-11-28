@@ -1,33 +1,58 @@
 import * as THREE from "three"
 
-import bgVertexShader from "../../glsl/bgPlane.vert"
-import bgFragmentShader from "../../glsl/bgPlane.frag"
+import bgAnimVertexShader from "../../glsl/bgAnimPlane.vert"
+import bgAnimFragmentShader from "../../glsl/bgAnimPlane.frag"
+import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
 
-const BgAnimPlane = ({ videoTexture }) => {
-    const animPlaneGeo = new THREE.PlaneBufferGeometry(1, 1, 1)
+const BgAnimPlane = ({ videoTexture, camera }) => {
+    const animPlaneGeo = new THREE.PlaneBufferGeometry(0.5, 0.5, 1)
 
     const animPlaneMat = new THREE.ShaderMaterial({
         uniforms: {
             time: { value: 1.0 },
-            animTexture: { value: videoTexture }
+            animTexture: { value: videoTexture },
+            opacity: { value: 0.0 }
         },
-        vertexShader: bgVertexShader,
-        fragmentShader: bgFragmentShader,
+        vertexShader: bgAnimVertexShader,
+        fragmentShader: bgAnimFragmentShader,
         blending: THREE.NormalBlending,
         transparent: true,
-        opacity: 0
+        side: THREE.DoubleSide
     })
     const animPlane = new THREE.Mesh(animPlaneGeo, animPlaneMat)
     animPlane.renderOrder = -1
-    animPlane.material.depthTest = false
+    animPlane.material.depthTest = true
+    animPlane.position.z = -10
+
+    const onCanvasResize = (camera) => {
+        const viewHeight = visibleHeightAtZDepth(animPlane.position.z, camera)
+        animPlane.scale.x =
+            Math.max(
+                window.innerWidth / window.innerHeight,
+                window.innerHeight / window.innerWidth
+            ) * viewHeight
+        animPlane.scale.y =
+            Math.max(1, window.innerWidth / window.innerHeight) * viewHeight
+    }
+    onCanvasResize(camera)
 
     const play = () => {
-        if (videoTexture.image && videoTexture.image.play) videoTexture.image.play()
-        else console.error(`Cannot play videoTexture.image`, videoTexture)
+        if (videoTexture.image && videoTexture.image.play) {
+            videoTexture.image.play()
+        } else {
+            console.error(`Cannot play videoTexture.image`, videoTexture)
+        }
+    }
+
+    const checkIfIsFocused = (isFocused = true) => {
+        //TODO: don't modifiy renderOrder dynamically, use transparency instead
+        animPlaneMat.uniforms.opacity.value = isFocused ? 1 : 0
     }
 
     return Object.assign(animPlane, {
-        play
+        play,
+        onCanvasResize,
+        checkIfIsFocused
     })
 }
 
