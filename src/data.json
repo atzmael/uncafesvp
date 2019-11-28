@@ -18,7 +18,7 @@
             "name": "cafe-malongo",
             "modelPath": "/assets/3D/01-cafeconserve-model.glb",
             "frontAnimPath": "/assets/animations/01-cafeconserve-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/01-cafemalongo-bganim.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
             "viewBasePosition": [0, 0, 0],
             "stage": 2
