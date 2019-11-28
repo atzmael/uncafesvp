@@ -12,5 +12,5 @@ void main() {
     vUv = uv;
 
     gl_Position = // projectionMatrix * modelViewMatrix *
-                modelMatrix * vec4(position * 2. , 1.0);
+                 vec4(position * 2. , 1.0);
 }

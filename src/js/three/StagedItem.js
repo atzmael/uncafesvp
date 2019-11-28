@@ -20,7 +20,9 @@ const StagedItem = (item, camera, audioListener) => {
     const { models, videoTextures, sounds, viewBasePosition, stage } = item
     const model = models[0]
     const audio = sounds[0]
-    const videoTexture = videoTextures[0]
+    const frontVideoTexture = videoTextures.find((t) => t.name.includes("FrontAnim"))
+    const bgVideoTexture = videoTextures.find((t) => t.name.includes("BgAnim"))
+
     if (model == null) console.warn("StagedItem didn't receive a model")
     const getHeightUnit = () =>
         visibleHeightAtZDepth(model.position.z, camera) * 0.33
@@ -36,7 +38,8 @@ const StagedItem = (item, camera, audioListener) => {
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
 
-    const animPlane = AnimPlane(videoTexture)
+    const animPlane = AnimPlane({ videoTexture: frontVideoTexture, isFront: true })
+    const bgPlane = AnimPlane({ videoTexture: bgVideoTexture, isFront: false })
 
     // Load sound
     let sound = new THREE.Audio(audioListener)
@@ -82,6 +85,7 @@ const StagedItem = (item, camera, audioListener) => {
         gsap.killTweensOf(highlightOffsetPos)
         soundHandler.play("playloop", sound)
         animPlane.play()
+        bgPlane.play()
         gsap.to(highlightOffsetPos, { y: 3 })
         canAnimate = true
     }
@@ -155,6 +159,7 @@ const StagedItem = (item, camera, audioListener) => {
 
     positionFromCamera()
     model.add(animPlane)
+    model.add(bgPlane)
 
     return Object.assign(item, {
         _basePos, // exposed for GUI only
