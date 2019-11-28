@@ -6,8 +6,8 @@ import {
 import AnimPlane from "./AnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 import GUI from "../GUI"
-import { soundsWaiting } from "../stores/xpStageStore"
-import { gsap } from "gsap"
+import {soundsWaiting} from "../stores/xpStageStore"
+import {gsap} from "gsap"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -17,7 +17,7 @@ import { gsap } from "gsap"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera, audioListener) => {
-    const { models, videoTextures, sounds, viewBasePosition, stage } = item
+    const {models, videoTextures, sounds, viewBasePosition, stage} = item
     const model = models[0]
     const audio = sounds[0]
     const videoTexture = videoTextures[0]
@@ -29,7 +29,8 @@ const StagedItem = (item, camera, audioListener) => {
         new THREE.Vector3(0, getHeightUnit() * -2.5, 0)
     let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
 
-    let isInView = false
+    let isInView = false;
+    let isActive = false;
 
     let position = new THREE.Vector3(...viewBasePosition)
     let _basePos = new THREE.Vector3(0, 0, 0)
@@ -42,7 +43,7 @@ const StagedItem = (item, camera, audioListener) => {
     let sound = new THREE.Audio(audioListener)
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
-    soundsWaiting.push({ sound: sound, soundHandler: soundHandler })
+    soundsWaiting.push({sound: sound, soundHandler: soundHandler})
 
     // Animation
     let canAnimate = false
@@ -55,7 +56,7 @@ const StagedItem = (item, camera, audioListener) => {
         getHeightUnit() * 1.5,
         0.5
     ).setFromObject(model)
-    let material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
+    let material = new THREE.MeshBasicMaterial({transparent: true, opacity: 0})
     const collider = new THREE.Mesh(geometry, material)
     collider.name = item.name
     collider.add(model)
@@ -63,17 +64,17 @@ const StagedItem = (item, camera, audioListener) => {
     // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
     GUI.addColorUniform(
-        { hexColor: animPlane.hexColor1 },
+        {hexColor: animPlane.hexColor1},
         animPlane.material.uniforms.col1,
         colorFolder
     )
     GUI.addColorUniform(
-        { hexColor: animPlane.hexColor2 },
+        {hexColor: animPlane.hexColor2},
         animPlane.material.uniforms.col2,
         colorFolder
     )
     GUI.addColorUniform(
-        { hexColor: animPlane.hexColor3 },
+        {hexColor: animPlane.hexColor3},
         animPlane.material.uniforms.col3,
         colorFolder
     )
@@ -82,7 +83,7 @@ const StagedItem = (item, camera, audioListener) => {
         gsap.killTweensOf(highlightOffsetPos)
         soundHandler.play("playloop", sound)
         animPlane.play()
-        gsap.to(highlightOffsetPos, { y: 3 })
+        gsap.to(highlightOffsetPos, {y: 3})
         canAnimate = true
     }
 
@@ -128,17 +129,17 @@ const StagedItem = (item, camera, audioListener) => {
     }
 
     const enterView = () => {
-        gsap.killTweensOf(outOffsetPos)
-        gsap.to(outOffsetPos, { y: -3 })
-        isInView = true
+        gsap.killTweensOf(outOffsetPos);
+        isInView = true;
+        gsap.to(outOffsetPos, {y: -3});
     }
     const leaveView = () => {
         gsap.killTweensOf(outOffsetPos)
-        gsap.to(outOffsetPos, { y: getOutOfStagePosOffset() })
-        // TODO: remove setTimeout and use onComplete hook (tween)
-        setTimeout(() => {
-            isInView = false
-        }, 300)
+        gsap.to(outOffsetPos, {
+            y: getOutOfStagePosOffset().y, onComplete: () => {
+                isInView = false
+            }
+        })
     }
 
     const update = (time) => {
@@ -147,11 +148,6 @@ const StagedItem = (item, camera, audioListener) => {
         if (!canAnimate) return
         floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
     }
-
-    // TODO: add bounding boxes that trigger a 'focus' event on hover (raycaster)
-    // This would play() the videoTexture and rotate/move the model
-    // maybe add one bounding box for the resting position (stays in place),
-    // and an other one for the focused position, that follows the model movements
 
     positionFromCamera()
     model.add(animPlane)
