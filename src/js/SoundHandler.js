@@ -1,4 +1,8 @@
+import {gsap} from "gsap";
+
 const SoundHandler = () => {
+
+	let volume = {value: 0};
 
 	const play = (type, audio) => {
 		switch (type) {
@@ -12,7 +16,7 @@ const SoundHandler = () => {
 				break;
 			case "playloop":
 				if (audio.isPlaying) {
-					audio.setVolume(1);
+					transition(audio, 1);
 				} else {
 					console.warn(`SoundHandler|${audio.name} : loop is not playing, be sure to load it`);
 				}
@@ -30,10 +34,20 @@ const SoundHandler = () => {
 				audio.stop();
 				break;
 			case "loop":
-				audio.setVolume(0);
+				transition(audio, 0);
 				break;
 		}
 	};
+
+	const transition = (audio, value) => {
+		volume.value = audio.getVolume();
+		gsap.killTweensOf(volume);
+		gsap.to(volume, {
+			value: value, onUpdate: () => {
+				audio.setVolume(volume.value);
+			}
+		})
+	}
 
 	const initSound = (buffer, name, audio) => {
 		audio.setBuffer(buffer);
@@ -44,7 +58,8 @@ const SoundHandler = () => {
 	return {
 		play,
 		stop,
-		initSound
+		initSound,
+		volume
 	}
 };
 

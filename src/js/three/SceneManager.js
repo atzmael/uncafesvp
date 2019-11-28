@@ -167,10 +167,8 @@ const SceneManager = (canvas) => {
 
         if (soundsPlaying.length > 0) {
             soundsPlaying.forEach((e) => {
-                if (!e.sound.volume || e.sound.volume == 0) {
-                    e.soundHandler.play("playloop", e.sound)
-                } else {
-                    console.warn("Sounds are in a loop but can't be played")
+                if (e.sound.getVolume() == 0) {
+	                e.soundHandler.play("playloop", e.sound)
                 }
             })
         }
