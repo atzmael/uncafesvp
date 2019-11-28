@@ -57,6 +57,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
     // Tweens
     let progress = {value: 0};
 
+    const fixedRotationGroup = new THREE.Group();
+    fixedRotationGroup.add(model);
+
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
         getWidthUnit(),
@@ -66,7 +69,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
     const collider = new THREE.Mesh(geometry, material)
     collider.name = item.name
-    collider.add(model)
+    collider.add(fixedRotationGroup);
 
     // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
@@ -122,7 +125,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     const applyPosition = () => {
         collider.position.copy(_basePos).add(outOffsetPos);
-        model.position.y = _basePos.y + floatOffsetPos.y + highlightOffsetPos.y * progress.value;
+        fixedRotationGroup.position.y = _basePos.y + floatOffsetPos.y + highlightOffsetPos.y * progress.value;
     }
 
     const applyRotation = () => {
@@ -167,7 +170,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     }
 
     positionFromCamera()
-    model.add(animPlane)
+    fixedRotationGroup.add(animPlane)
     scene.add(bgPlane)
 
     return Object.assign(item, {
