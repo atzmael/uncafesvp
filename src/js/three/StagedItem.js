@@ -35,7 +35,8 @@ const StagedItem = (item, camera, audioListener) => {
     let position = new THREE.Vector3(...viewBasePosition)
     let _basePos = new THREE.Vector3(0, 0, 0)
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
-    let outOffsetPos = outOfViewMaxOffsetPos
+    let outOffsetPos = outOfViewMaxOffsetPos;
+    let highlightRotation = new THREE.Vector3(0,0,0);
 
     const animPlane = AnimPlane(videoTexture)
 
@@ -81,21 +82,26 @@ const StagedItem = (item, camera, audioListener) => {
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(highlightOffsetPos)
+        gsap.killTweensOf(highlightRotation);
         soundHandler.play("playloop", sound)
         animPlane.play()
         gsap.to(highlightOffsetPos, {y: 3})
+        gsap.to(highlightRotation, {y: -45 * Math.PI/180});
         canAnimate = true
     }
 
     const getBackToPlace = () => {
         gsap.killTweensOf(highlightOffsetPos)
+        gsap.killTweensOf(highlightRotation);
         soundHandler.stop("loop", sound)
+        gsap.to(highlightRotation, {y: 0})
         gsap.to(highlightOffsetPos, {
             y: 0,
             onComplete: () => {
                 canAnimate = false
             }
         })
+
     }
 
     const positionFromCamera = () => {
@@ -113,6 +119,10 @@ const StagedItem = (item, camera, audioListener) => {
     const applyPosition = () => {
         collider.position.copy(_basePos).add(outOffsetPos)
         model.position.y = _basePos.y + floatOffsetPos.y + highlightOffsetPos.y
+    }
+
+    const applyRotation = () => {
+        model.rotation.y = highlightRotation.y;
     }
 
     const onCanvasResize = () => {
@@ -144,7 +154,8 @@ const StagedItem = (item, camera, audioListener) => {
 
     const update = (time) => {
         if (!isInView) return
-        applyPosition()
+        applyPosition();
+        applyRotation();
         if (!canAnimate) return
         floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
     }
