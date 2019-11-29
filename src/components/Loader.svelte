@@ -97,22 +97,17 @@
             ease: Power0.easeNone,
             onUpdate: () => {
                 displayedProgress = Math.min(fakeProgress.value, progress)
-                console.log(displayedProgress)
             }
         })
     })
 </script>
 
 <style>
-    .mask {
-        position: relative;
-        width: 30vw;
-        max-width: 600px;
-        height: 50vw;
-        overflow: hidden;
-    }
     .coffee-progress {
         position: relative;
+        min-width: 200px;
+        width: 20vw;
+        overflow: hidden;
     }
     :global(svg) #liquid-layer {
         animation: waterSlide 1s infinite linear;
@@ -140,34 +135,30 @@
     }
 </style>
 
-<div class="mask">
-    <div class="coffee-progress">
+<div class="coffee-progress">
+    <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px"
+        y="0px"
+        viewBox="0 0 461.7 324.1"
+        style="enable-background:new 0 0 461.7 324.1;"
+        xml:space="preserve">
+        <g id="bg-logo">
+            {@html logoPath}
+        </g>
+        <clipPath
+            id="liquid-container"
+            style="transform: translateY({100 + liquidYOffset - (displayedProgress * (100 + liquidYOffset)) / 100}%)">
+            <path
+                id="liquid-layer"
+                d="M923.2-1.6V329H-0.1V-1.6C69.1-1.6,70-36,115.3-36S161.6-1.6,230.8-1.6c69.2,0,70.1-34.4,115.4-34.4
+                S392.4-1.6,461.6-1.6C530.7-1.6,531.7-36,577-36c45.3,0,46.3,34.4,115.4,34.4c69.2,0,70.1-34.4,115.4-34.4S854.1-1.6,923.2-1.6z" />
+        </clipPath>
+        <g id="logo-layer" clip-path="url(#liquid-container)">
+            {@html logoPath}
+        </g>
 
-        <svg
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            x="0px"
-            y="0px"
-            viewBox="0 0 461.7 324.1"
-            style="enable-background:new 0 0 461.7 324.1;"
-            xml:space="preserve">
-            <g id="bg-logo">
-                {@html logoPath}
-            </g>
-            <clipPath
-                id="liquid-container"
-                style="transform: translateY({100 + liquidYOffset - (displayedProgress * (100 + liquidYOffset)) / 100}%)">
-                <path
-                    id="liquid-layer"
-                    d="M923.2-1.6V329H-0.1V-1.6C69.1-1.6,70-36,115.3-36S161.6-1.6,230.8-1.6c69.2,0,70.1-34.4,115.4-34.4
-                    S392.4-1.6,461.6-1.6C530.7-1.6,531.7-36,577-36c45.3,0,46.3,34.4,115.4,34.4c69.2,0,70.1-34.4,115.4-34.4S854.1-1.6,923.2-1.6z" />
-            </clipPath>
-            <g id="logo-layer" clip-path="url(#liquid-container)">
-                {@html logoPath}
-            </g>
-
-        </svg>
-
-    </div>
+    </svg>
 </div>
