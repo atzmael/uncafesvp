@@ -146,8 +146,6 @@ const SceneManager = (canvas) => {
             songTiming.value = 0;
         }
 
-        console.log(songTiming.value);
-
         // RAYCASTING
         raycaster.setFromCamera(mouse, camera)
 
@@ -189,14 +187,6 @@ const SceneManager = (canvas) => {
             soundsPlaying.forEach((e) => {
                 if (e.sound.getVolume() == 0 || !e.sound.isPlaying) {
                     e.soundHandler.play("playloop", e.sound, songTiming.value)
-                }
-            })
-        }
-
-        if (soundsWaiting.length > 0) {
-            soundsWaiting.forEach((e) => {
-                if (!e.sound.getLoop()) {
-                    e.soundHandler.play("loadloop", e.sound)
                 }
             })
         }

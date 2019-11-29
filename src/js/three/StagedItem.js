@@ -48,6 +48,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let soundLooping = false;
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
+    soundHandler.play("loadloop", sound);
     soundsWaiting.push({sound: sound, soundHandler: soundHandler})
 
     // Animation
@@ -105,7 +106,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const getBackToPlace = () => {
         gsap.killTweensOf(progress);
         bgPlane.checkIfIsFocused(false)
-        animPlane.stop();
         if(!soundLooping) {
             soundHandler.stop("loop", sound)
         }
@@ -113,6 +113,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
             value: 0,
             onComplete: () => {
                 canAnimate = false
+                animPlane.stop()
             }
         })
     }

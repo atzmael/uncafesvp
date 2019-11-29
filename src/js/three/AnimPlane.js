@@ -33,7 +33,6 @@ const AnimPlane = ({
         if (videoTexture.image && videoTexture.image.play) {
             videoTexture.image.loop = true;
             videoTexture.image.currentTime = offset;
-            console.log(videoTexture.image.currentTime)
             videoTexture.image.play();
         } else {
             console.error(`Cannot play videoTexture.image`, videoTexture)
@@ -41,6 +40,7 @@ const AnimPlane = ({
     }
 
     const stop = () => {
+        // TODO: decrease opacity to hide it before pausing
         videoTexture.image.pause();
     }
 
