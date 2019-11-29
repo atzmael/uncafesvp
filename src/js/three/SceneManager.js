@@ -146,6 +146,8 @@ const SceneManager = (canvas) => {
             songTiming.value = 0;
         }
 
+        console.log(songTiming.value);
+
         // RAYCASTING
         raycaster.setFromCamera(mouse, camera)
 

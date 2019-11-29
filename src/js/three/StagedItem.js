@@ -95,7 +95,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress);
         soundHandler.play("playloop", sound, songTiming.value);
-        animPlane.play()
+        animPlane.play(songTiming.value)
         gsap.to(progress, {value: 1})
         bgPlane.play()
         bgPlane.checkIfIsFocused(true)
@@ -105,6 +105,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const getBackToPlace = () => {
         gsap.killTweensOf(progress);
         bgPlane.checkIfIsFocused(false)
+        animPlane.stop();
         if(!soundLooping) {
             soundHandler.stop("loop", sound)
         }

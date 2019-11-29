@@ -29,17 +29,24 @@ const AnimPlane = ({
     animPlane.renderOrder = 9999
     animPlane.material.depthTest = false
 
-    const play = () => {
+    const play = (offset = 0) => {
         if (videoTexture.image && videoTexture.image.play) {
+            videoTexture.image.loop = true;
+            videoTexture.image.currentTime = offset;
+            console.log(videoTexture.image.currentTime)
             videoTexture.image.play();
-            console.log(videoTexture);
         } else {
             console.error(`Cannot play videoTexture.image`, videoTexture)
         }
     }
 
+    const stop = () => {
+        videoTexture.image.pause();
+    }
+
     return Object.assign(animPlane, {
         play,
+        stop,
         hexColor1,
         hexColor2,
         hexColor3
