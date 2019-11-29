@@ -8,7 +8,7 @@ import {
     objectToInteract,
     soundsPlaying,
     soundsWaiting,
-    xpStageName
+    xpStageName, songTiming
 } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -84,6 +84,9 @@ const SceneManager = (canvas) => {
     scene.add(camera)
     let songTime = 0
 
+    let clock = new THREE.Clock();
+    clock.start();
+
     const addLoadedData = (loadedData) => {
         loadedData.items.forEach((item) => {
             const stagedItem = StagedItem(item, camera, scene, audioListener)
@@ -132,10 +135,16 @@ const SceneManager = (canvas) => {
     let lastIntersectedObjectName = null
     let objectIntersected = null
     const update = (time) => {
-        songTime = time
-
         // Debug
         stats.begin()
+
+        songTime = time
+
+        // Get the current offset of the time timeline
+        songTiming.value += clock.getDelta();
+        if (Math.round((songTime % songTiming.duration) * 10) / 10 == 0) {
+            songTiming.value = 0;
+        }
 
         // RAYCASTING
         raycaster.setFromCamera(mouse, camera)
@@ -188,6 +197,7 @@ const SceneManager = (canvas) => {
                     let calcul =
                         Math.round((songTime % e.sound.buffer.duration) * 10) / 10
                     if (calcul == 0) {
+                        songTiming.value = 0;
                         e.soundHandler.play("loadloop", e.sound)
                     }
                 }
@@ -197,8 +207,9 @@ const SceneManager = (canvas) => {
         if (bgPlane) bgPlane.update(time)
         stagedItems.forEach((item) => item.update(time))
 
-        stats.end()
         renderer.render(scene, camera)
+
+        stats.end()
     }
 
     canvas.addEventListener("click", (e) => {

@@ -77,6 +77,7 @@ export const objectToInteract = []
 // usage : song construction
 export const soundsPlaying = []
 export const soundsWaiting = []
+export const songTiming = {value: 0, duration: 5.23};
 
 // usage : $xpStageIndex or xpStage.method()
 export const xpStageIndex = createStage()
