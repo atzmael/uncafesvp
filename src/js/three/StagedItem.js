@@ -103,7 +103,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const getBackToPlace = () => {
         gsap.killTweensOf(progress);
         bgPlane.checkIfIsFocused(false)
-        soundHandler.stop("loop", sound)
+        if(!soundLooping) {
+            soundHandler.stop("loop", sound)
+        }
         gsap.to(progress, {
             value: 0,
             onComplete: () => {
@@ -180,6 +182,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         sound,
         soundHandler,
         animPlane,
+        soundLooping,
         hasBeenTouched,
         getBackToPlace,
         onCanvasResize,

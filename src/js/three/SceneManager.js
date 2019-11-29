@@ -215,6 +215,7 @@ const SceneManager = (canvas) => {
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
+            objectIntersected.soundLooping = true;
             soundsPlaying.push(objectIntersected)
             xpStageIndex.next()
         }
