@@ -35,7 +35,7 @@ const SmartLoader = (onProgress) => {
     const loaders = {
         texture: {
             loader: decorateLoader(THREE.TextureLoader),
-            regexp: /\.(tga|png|jpg|jpeg)$/i
+            regexp: /\.(tga|png|jpg|jpeg|webp)$/i
         },
         gltf: {
             loader: decorateLoader(GLTFLoader),
