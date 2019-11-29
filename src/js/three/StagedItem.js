@@ -7,7 +7,7 @@ import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 import GUI from "../GUI"
-import {soundsWaiting} from "../stores/xpStageStore"
+import {songTiming, soundsWaiting} from "../stores/xpStageStore"
 import {gsap} from "gsap"
 
 /**
@@ -90,9 +90,11 @@ const StagedItem = (item, camera, scene, audioListener) => {
         colorFolder
     )
 
+    GUI.close();
+
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress);
-        soundHandler.play("playloop", sound)
+        soundHandler.play("playloop", sound, songTiming.value);
         animPlane.play()
         gsap.to(progress, {value: 1})
         bgPlane.play()

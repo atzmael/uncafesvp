@@ -30,8 +30,12 @@ const AnimPlane = ({
     animPlane.material.depthTest = false
 
     const play = () => {
-        if (videoTexture.image && videoTexture.image.play) videoTexture.image.play()
-        else console.error(`Cannot play videoTexture.image`, videoTexture)
+        if (videoTexture.image && videoTexture.image.play) {
+            videoTexture.image.play();
+            console.log(videoTexture);
+        } else {
+            console.error(`Cannot play videoTexture.image`, videoTexture)
+        }
     }
 
     return Object.assign(animPlane, {
