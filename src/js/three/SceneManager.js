@@ -31,7 +31,7 @@ const SceneManager = (canvas) => {
         }
     })
 
-    const buildRenderer = ({ width, height }) => {
+    const buildRenderer = ({width, height}) => {
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             antialias: true,
@@ -61,7 +61,7 @@ const SceneManager = (canvas) => {
         return lightGroup
     }
 
-    const renderer = buildRenderer({ width, height })
+    const renderer = buildRenderer({width, height})
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
         45,
@@ -142,7 +142,7 @@ const SceneManager = (canvas) => {
 
         // Get the current offset of the time timeline
         songTiming.value += clock.getDelta();
-        if (Math.round((songTime % songTiming.duration) * 10) / 10 == 0) {
+        if (songTiming.value > songTiming.duration) {
             songTiming.value = 0;
         }
 
@@ -185,21 +185,8 @@ const SceneManager = (canvas) => {
 
         if (soundsPlaying.length > 0) {
             soundsPlaying.forEach((e) => {
-                if (e.sound.getVolume() == 0) {
-	                e.soundHandler.play("playloop", e.sound)
-                }
-            })
-        }
-
-        if (soundsWaiting.length > 0) {
-            soundsWaiting.forEach((e) => {
-                if (!e.sound.isPlaying) {
-                    let calcul =
-                        Math.round((songTime % e.sound.buffer.duration) * 10) / 10
-                    if (calcul == 0) {
-                        songTiming.value = 0;
-                        e.soundHandler.play("loadloop", e.sound)
-                    }
+                if (e.sound.getVolume() == 0 || !e.sound.isPlaying) {
+                    e.soundHandler.play("playloop", e.sound, songTiming.value)
                 }
             })
         }
@@ -215,7 +202,8 @@ const SceneManager = (canvas) => {
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
-            soundsPlaying.push(objectIntersected)
+            objectIntersected.soundLooping = true;
+            soundsPlaying.push(objectIntersected);
             xpStageIndex.next()
         }
     })

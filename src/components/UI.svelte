@@ -59,7 +59,7 @@
         <Home class="center" {loadingPercentage} {isLoaded} />
     {:else if $xpStageName === 'intro'}
         <TextTransition
-            duration={2000}
+            duration={5000}
             text="Et vous,<br/>quel est votre moment café ?" />
     {:else if $xpStageName === 'transition1'}
         <TextTransition

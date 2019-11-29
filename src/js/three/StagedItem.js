@@ -7,7 +7,7 @@ import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 import GUI from "../GUI"
-import { soundsWaiting } from "../stores/xpStageStore"
+import { songTiming, soundsWaiting } from "../stores/xpStageStore"
 import { gsap } from "gsap"
 
 /**
@@ -48,6 +48,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let soundLooping = false
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
+    soundHandler.play("loadloop", sound)
     soundsWaiting.push({ sound: sound, soundHandler: soundHandler })
 
     // Animation
@@ -90,10 +91,12 @@ const StagedItem = (item, camera, scene, audioListener) => {
         colorFolder
     )
 
+    GUI.close()
+
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
-        soundHandler.play("playloop", sound)
-        animPlane.play()
+        soundHandler.play("playloop", sound, songTiming.value)
+        animPlane.play(songTiming.value)
         gsap.to(progress, { value: 1 })
         bgPlane.play()
         bgPlane.checkIfIsFocused(true)
@@ -103,11 +106,14 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const getBackToPlace = () => {
         gsap.killTweensOf(progress)
         bgPlane.checkIfIsFocused(false)
-        soundHandler.stop("loop", sound)
+        if (!soundLooping) {
+            soundHandler.stop("loop", sound)
+        }
         gsap.to(progress, {
             value: 0,
             onComplete: () => {
                 canAnimate = false
+                animPlane.stop()
             }
         })
     }
@@ -126,7 +132,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     const applyPosition = () => {
         collider.position.copy(_basePos).add(outOffsetPos)
-        model.position.y =
+        fixedRotationGroup.position.y =
             _basePos.y + floatOffsetPos.y + highlightOffsetPos.y * progress.value
     }
 
@@ -181,6 +187,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         sound,
         soundHandler,
         animPlane,
+        soundLooping,
         hasBeenTouched,
         getBackToPlace,
         onCanvasResize,
