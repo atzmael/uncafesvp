@@ -43,8 +43,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const animPlane = AnimPlane({ videoTexture: frontVideoTexture })
     const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera })
 
-    // Load sound
+    // sound
     let sound = new THREE.Audio(audioListener)
+    let soundLooping = false
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
     soundsWaiting.push({ sound: sound, soundHandler: soundHandler })
@@ -57,6 +58,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
     // Tweens
     let progress = { value: 0 }
 
+    const fixedRotationGroup = new THREE.Group()
+    fixedRotationGroup.add(model)
+
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
         getWidthUnit(),
@@ -66,7 +70,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
     const collider = new THREE.Mesh(geometry, material)
     collider.name = item.name
-    collider.add(model)
+    collider.add(fixedRotationGroup)
 
     // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
@@ -168,8 +172,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     }
 
     positionFromCamera()
-
-    model.add(animPlane)
+    fixedRotationGroup.add(animPlane)
     scene.add(bgPlane)
 
     return Object.assign(item, {

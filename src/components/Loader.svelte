@@ -3,6 +3,8 @@
     import { onMount } from "svelte"
 
     // TODO: CLEAN UP, find a way to import svg path properly
+    // use @svgr/parcel-plugin-svgr ???
+    // check <symbol> and <use> tags too
     const logoPath = `<path
                     d="M46.3,263.1c-2.3-7.3-8.2-10.9-18.1-11c-8.3-0.1-16.6,0.1-25,0.2c-1.1,0.1-2.1,0.2-3.2,0.5v69.3h14
                     c-0.4-10-0.9-19.7-1.3-30.1c2.7,0,4.7,0,6.6,0c6.9-0.2,13.6-1.1,19.4-5.4C46,281.3,49.1,271.8,46.3,263.1z
@@ -112,12 +114,6 @@
     .coffee-progress {
         position: relative;
     }
-    .liquid-container {
-        position: absolute;
-        width: 200%;
-        opacity: 0.4;
-        animation: waterSlide 1s infinite linear;
-    }
     :global(svg) #liquid-layer {
         animation: waterSlide 1s infinite linear;
     }
@@ -145,7 +141,6 @@
 </style>
 
 <div class="mask">
-    <!-- <div class="coffee-color"  /> -->
     <div class="coffee-progress">
 
         <svg

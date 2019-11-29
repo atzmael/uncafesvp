@@ -4,7 +4,7 @@ const SoundHandler = () => {
 
 	let volume = {value: 0};
 
-	const play = (type, audio) => {
+	const play = (type, audio, offset = 0) => {
 		switch (type) {
 			case "once":
 				if (audio.isPlaying) {
@@ -28,7 +28,7 @@ const SoundHandler = () => {
 				break;
 		}
 	};
-	const stop = (type, audio) => {
+	const stop = (type, audio, offset = 0) => {
 		switch (type) {
 			case "once":
 				audio.stop();
