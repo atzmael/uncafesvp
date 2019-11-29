@@ -35,7 +35,7 @@ const SmartLoader = (onProgress) => {
     const loaders = {
         texture: {
             loader: decorateLoader(THREE.TextureLoader),
-            regexp: /\.(tga|png|jpg|jpeg)$/i
+            regexp: /\.(tga|png|jpg|jpeg|webp)$/i
         },
         gltf: {
             loader: decorateLoader(GLTFLoader),
@@ -81,9 +81,13 @@ const SmartLoader = (onProgress) => {
      * @param {String|Object} toLoad Path of asset to load, or object a type and additional infos
      * @param {String} name Name of the loaded asset/object in loadedData
      */
-    function load(toLoad, name, propName = undefined) {
+    function load(toLoad, name) {
         /** @param {string} path  */
-        const loadFromString = (path, parentObject = loadedData) => {
+        const loadFromString = (
+            path,
+            parentObject = loadedData,
+            propName = undefined
+        ) => {
             const promise = defineLoaderFromStr(path)
                 .load(path)
                 .then((loaded) => {
@@ -131,14 +135,16 @@ const SmartLoader = (onProgress) => {
      @param {function} callback called when all promises are resolved (all assets are loaded)
      */
     const onComplete = (callback) => {
-        // console.log("promises : ", promises)
-        Promise.all(promises)
-            .then(() => {
-                callback(loadedData)
-            })
-            .catch((error) => {
-                console.error("A promise has failed:", error)
-            })
+        // TODO: remove settimeouts and Fix async issue
+        setTimeout(() => {
+            Promise.all(promises)
+                .then(() => {
+                    callback(loadedData)
+                })
+                .catch((error) => {
+                    console.error("A promise has failed:", error)
+                })
+        }, 500)
     }
 
     return {

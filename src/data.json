@@ -7,111 +7,111 @@
     "items": [
         {
             "name": "cafe-moulu",
-            "modelPath": "/assets/3D/capsule-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/01-cafemoulu-model.glb",
+            "frontAnimPath": "/assets/animations/01-cafemoulu-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafe-moulu-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
             "stage": 2
         },
         {
             "name": "cafe-malongo",
-            "modelPath": "/assets/3D/capsule-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/01-cafeconserve-model.glb",
+            "frontAnimPath": "/assets/animations/01-cafeconserve-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
             "viewBasePosition": [0, 0, 0],
             "stage": 2
         },
         {
             "name": "cafe-grain",
-            "modelPath": "/assets/3D/capsule-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/01-cafegrain-model.glb",
+            "frontAnimPath": "/assets/animations/01-cafegrain-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/01-graincafe-bganim.mp4",
             "soundPath": "/assets/sound/cafe-grain-boucle.wav",
             "viewBasePosition": [1, 0, 0],
             "stage": 2
         },
         {
             "name": "cafetiere-italienne",
-            "model1Path": "/assets/3D/lait-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/02-cafetiereitalienne-model.glb",
+            "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "cafetiere-piston",
-            "model1Path": "/assets/3D/lait-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/02-cafetierepiston-model.glb",
+            "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "cafetiere-filtre",
-            "model1Path": "/assets/3D/lait-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/02-cafetierefiltre-model.glb",
+            "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 3
+            "stage": 4
         },
         {
             "name": "tasse-ceramique",
-            "modelPath": "/assets/3D/gobelet_carton-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/03-tasseceramique-model.glb",
+            "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 4
+            "stage": 6
         },
         {
             "name": "gobelet-carton",
-            "modelPath": "/assets/3D/gobelet_carton-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/03-gobeletcarton-model.glb",
+            "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 4
+            "stage": 6
         },
         {
             "name": "gobelet-plastique",
-            "modelPath": "/assets/3D/gobelet_carton-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/03-gobeletplastique-model.glb",
+            "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 4
+            "stage": 6
         },
         {
             "name": "sucre",
-            "model1Path": "/assets/3D/lait-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/04-sucre-model.glb",
+            "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 5
+            "stage": 8
         },
         {
             "name": "lait",
-            "model1Path": "/assets/3D/lait-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/04-lait-model.glb",
+            "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 5
+            "stage": 8
         },
         {
             "name": "biscuit",
-            "model1Path": "/assets/3D/lait-model.glb",
-            "frontAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "bgAnimPath": "/assets/animations/sequence-png-12fps-720x1080.mp4",
+            "modelPath": "/assets/3D/04-biscuit-model.glb",
+            "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 5
+            "stage": 8
         }
     ]
 }

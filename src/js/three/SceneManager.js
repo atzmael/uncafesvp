@@ -8,7 +8,7 @@ import {
     objectToInteract,
     soundsPlaying,
     soundsWaiting,
-    currentStageName
+    xpStageName, songTiming
 } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -23,6 +23,13 @@ const SceneManager = (canvas) => {
     let raycaster = new THREE.Raycaster()
     let mouse = new THREE.Vector2()
     let isRaycasting = false
+
+    // TODO: unsubscribe
+    const unsubscribe = xpStageName.subscribe((value) => {
+        if (value == "choice1") {
+            isRaycasting = true
+        }
+    })
 
     const buildRenderer = ({ width, height }) => {
         const renderer = new THREE.WebGLRenderer({
@@ -41,12 +48,13 @@ const SceneManager = (canvas) => {
     const buildLights = () => {
         const lightGroup = new THREE.Group()
 
-        const ambiLight = new THREE.AmbientLight(0xffffff, 0.2)
+        // 0xf0e6dc 0xa09b96
+        const ambiLight = new THREE.AmbientLight(0xa09b96, 0.2)
         lightGroup.add(ambiLight)
-
-        const hemiLight = new THREE.HemisphereLight(0xff0000, 0x0000aa, 0.4)
+        const hemiLight = new THREE.HemisphereLight(0xf0e6dc, 0x232221, 1.2)
         lightGroup.add(hemiLight)
         const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
+        hemiLight.position.set(6, 8, 7)
         hemiLight.add(hemiLightHelper)
         GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
 
@@ -61,7 +69,7 @@ const SceneManager = (canvas) => {
         1,
         1000
     )
-    camera.position.z = 18
+    camera.position.z = 19
 
     const stagedItems = []
 
@@ -76,29 +84,32 @@ const SceneManager = (canvas) => {
     scene.add(camera)
     let songTime = 0
 
+    let clock = new THREE.Clock();
+    clock.start();
+
     const addLoadedData = (loadedData) => {
         loadedData.items.forEach((item) => {
-            const stagedItem = StagedItem(item, camera, audioListener)
+            const stagedItem = StagedItem(item, camera, scene, audioListener)
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
             GUI.addStagedItem(stagedItem)
         })
 
-        console.log(loadedData)
-        loadedData.textures.forEach((texture) => {
-            if (texture.name == "maptestTexture") {
-                bgPlane = BgPlane(texture)
-                scene.add(bgPlane.mesh)
-                bgPlane.onCanvasResize(camera)
-            }
-        })
+        // TODO: static bg
+        // loadedData.textures.forEach((texture) => {
+        //     if (texture.name == "maptestTexture") {
+        //         bgPlane = BgPlane(texture)
+        //         scene.add(bgPlane.mesh)
+        //         bgPlane.onCanvasResize(camera)
+        //     }
+        // })
 
-        loadedData.videoTextures.forEach((vt) => {
-            if (vt.name == "animtestVideoTexture") {
-                if (bgPlane) bgPlane.playAnimTexture(vt)
-            }
-        })
+        // loadedData.videoTextures.forEach((vt) => {
+        //     if (vt.name == "animtestVideoTexture") {
+        //         if (bgPlane) bgPlane.playAnimTexture(vt)
+        //     }
+        // })
     }
 
     const changeXpStage = (newXpStage) => {
@@ -124,11 +135,16 @@ const SceneManager = (canvas) => {
     let lastIntersectedObjectName = null
     let objectIntersected = null
     const update = (time) => {
-        if (currentStageName == "choice1") isRaycasting = true
-        songTime = time
-
         // Debug
         stats.begin()
+
+        songTime = time
+
+        // Get the current offset of the time timeline
+        songTiming.value += clock.getDelta();
+        if (Math.round((songTime % songTiming.duration) * 10) / 10 == 0) {
+            songTiming.value = 0;
+        }
 
         // RAYCASTING
         raycaster.setFromCamera(mouse, camera)
@@ -137,6 +153,7 @@ const SceneManager = (canvas) => {
 
         let lastItem = null
         if (intersects.length > 0 && isRaycasting) {
+            unsubscribe()
             if (
                 !INTERSECTED ||
                 lastIntersectedObjectName != intersects[0].object.name
@@ -156,21 +173,20 @@ const SceneManager = (canvas) => {
             }
         } else {
             objectIntersected = null
-            if (lastIntersectedObjectName != null) {
+            if (null != lastIntersectedObjectName) {
                 lastItem = stagedItems.find(
                     (elmt) => elmt.name == lastIntersectedObjectName
                 )
                 lastItem.getBackToPlace()
+                lastIntersectedObjectName = null
             }
             INTERSECTED = false
         }
 
         if (soundsPlaying.length > 0) {
             soundsPlaying.forEach((e) => {
-                if (!e.sound.volume || e.sound.volume == 0) {
-                    e.soundHandler.play("playloop", e.sound)
-                } else {
-                    console.warn("Sounds are in a loop but can't be played")
+                if (e.sound.getVolume() == 0) {
+	                e.soundHandler.play("playloop", e.sound)
                 }
             })
         }
@@ -181,6 +197,7 @@ const SceneManager = (canvas) => {
                     let calcul =
                         Math.round((songTime % e.sound.buffer.duration) * 10) / 10
                     if (calcul == 0) {
+                        songTiming.value = 0;
                         e.soundHandler.play("loadloop", e.sound)
                     }
                 }
@@ -190,8 +207,9 @@ const SceneManager = (canvas) => {
         if (bgPlane) bgPlane.update(time)
         stagedItems.forEach((item) => item.update(time))
 
-        stats.end()
         renderer.render(scene, camera)
+
+        stats.end()
     }
 
     canvas.addEventListener("click", (e) => {
