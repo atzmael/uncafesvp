@@ -21,8 +21,8 @@
         right: 0;
         display: grid;
         place-content: center center;
-        grid-template-rows: minmax(20px, 0.3fr) 5fr 1fr minmax(20px, 0.3fr);
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 0.3fr 5fr 1fr 0.3fr;
+        grid-template-columns: 0.3fr 1fr 0.3fr;
     }
 
     :global(button) {
@@ -56,7 +56,7 @@
 
 <main class:overlay={$xpStageName === 'home'}>
     {#if $xpStageName === 'home'}
-        <Home class="center" {loadingPercentage} {isLoaded} />
+        <Home {loadingPercentage} {isLoaded} />
     {:else if $xpStageName === 'intro'}
         <TextTransition
             duration={5000}

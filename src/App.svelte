@@ -35,12 +35,12 @@
             isLoaded = true
         })
 
-        sLoader.load("/assets/maps/TiledWaterColor_placeholder.webp", "maptest")
+        sLoader.load("/assets/maps/TiledWaterColor_placeholder_blue.png", "bg1")
+        sLoader.load("/assets/maps/background2.jpg", "bg2")
+        sLoader.load("/assets/maps/background3.jpg", "bg3")
+        sLoader.load("/assets/maps/noise_center.jpg", "noise")
         // sLoader.load("/assets/animations/test_background2048.mp4", "animtest")
-        sLoader.load(
-            "/assets/animations/sequence-png-12fps-720x1080.mp4",
-            "animtest"
-        )
+        // sLoader.load("/assets/animations/sequence-png-12fps-720x1080.mp4", "animtest")
         // sLoader.load('/assets/sound/piste1.mp3', 'soundtest')
         data.items.forEach((item) => {
             sLoader.load(Object.assign(item, { type: "item" }), item.name)

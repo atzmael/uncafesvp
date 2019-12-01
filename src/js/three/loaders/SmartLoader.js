@@ -118,7 +118,7 @@ const SmartLoader = (onProgress) => {
             if (!objectToLoad.type)
                 throw `The loaded object needs a property 'type' (string)`
             Object.entries(objectToLoad).forEach(([key, value]) => {
-                if (key.match(/\path$/i)) {
+                if (key.match(/path$/i)) {
                     loadFromString(value, objectToLoad, key)
                 }
             })

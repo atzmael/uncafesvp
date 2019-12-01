@@ -4,7 +4,7 @@
     import delayBeforeNextStep from "../js/utils/delayBeforeNextStep"
 
     export let text
-    export let subText
+    export let subText = ""
     export let duration
 
     delayBeforeNextStep(duration)
