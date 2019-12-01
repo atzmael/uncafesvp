@@ -10,7 +10,11 @@ varying mediump vec2 vUv;
 
 float qinticOut(float t) {
   return 1.0 - ((t - 1.0)*(t - 1.0)*(t - 1.0)*(t - 1.0)*(t - 1.0));
-}   
+} 
+float sinusoidAlongLinearPath(float value){
+    return (cos(2. * PI * value + PI * .5) + 2. * PI * value) * 0.159154943 ; // "0,159154943" == "1 / (2 * PI)"
+   
+}
 
 void main() {
     vec2 uv = vUv;
@@ -25,7 +29,7 @@ void main() {
     vec2 nv2 = uv * 1.66;
     vec2 nv3 = uv;
 
-    float sinusoidTime = (cos(2. * PI * time + PI * .5) + 2. * PI * time) * 0.159154943 ; // "0,159154943" == "1 / (2 * PI)"
+    float sinusoidProgress = sinusoidAlongLinearPath(progress);
     nv1.y -= .003;
     nv3.y += .0047 ;
 
@@ -38,8 +42,8 @@ void main() {
     float noise = noiseCol1 * noiseCol2 * noiseCol3;
     
     float m1 = 1.- smoothstep(
-        max(0.,progress - smoothinterval),
-        progress* (1. + smoothinterval),
+        max(0.,sinusoidProgress - smoothinterval),
+        sinusoidProgress* (1. + smoothinterval),
         noise);
 
     vec4 c = mix(bgCol0, bgCol1, m1);
