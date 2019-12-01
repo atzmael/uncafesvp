@@ -16,7 +16,7 @@ void main() {
 
     // vec3 col = c1 + c2 + c3;
     // vec3 c =  max(max(c1, c2), c3);
-    vec3 c = vec3(1., 1., 1.);
+    vec3 c = (col1 + col2 + col3) * .33333333;
     c = mix(c, col1, textureCol.r);
     c = mix(c, col2, textureCol.g);
     c = mix(c, col3, textureCol.b);
