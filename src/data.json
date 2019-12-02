@@ -12,7 +12,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafe-moulu-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 2
+            "stage": 2,
+            "active": true
         },
         {
             "name": "cafe-malongo",
@@ -21,7 +22,8 @@
             "bgAnimPath": "/assets/animations/01-cafemalongo-bganim.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 2
+            "stage": 2,
+            "active": true
         },
         {
             "name": "cafe-grain",
@@ -30,7 +32,8 @@
             "bgAnimPath": "/assets/animations/01-graincafe-bganim.mp4",
             "soundPath": "/assets/sound/cafe-grain-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 2
+            "stage": 2,
+            "active": true
         },
         {
             "name": "cafetiere-italienne",
@@ -39,7 +42,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 4
+            "stage": 4,
+            "active": true
         },
         {
             "name": "cafetiere-piston",
@@ -48,7 +52,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 4
+            "stage": 4,
+            "active": true
         },
         {
             "name": "cafetiere-filtre",
@@ -57,16 +62,18 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 4
+            "stage": 4,
+            "active": true
         },
         {
             "name": "tasse-ceramique",
             "modelPath": "/assets/3D/03-tasseceramique-model.glb",
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
-            "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
+            "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 6
+            "stage": 6,
+            "active": true
         },
         {
             "name": "gobelet-carton",
@@ -75,7 +82,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 6
+            "stage": 6,
+            "active": true
         },
         {
             "name": "gobelet-plastique",
@@ -84,7 +92,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 6
+            "stage": 6,
+            "active": true
         },
         {
             "name": "sucre",
@@ -93,7 +102,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [-1, 0, 0],
-            "stage": 8
+            "stage": 8,
+            "active": true
         },
         {
             "name": "lait",
@@ -102,7 +112,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [0, 0, 0],
-            "stage": 8
+            "stage": 8,
+            "active": true
         },
         {
             "name": "biscuit",
@@ -111,7 +122,8 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [1, 0, 0],
-            "stage": 8
+            "stage": 8,
+            "active": true
         }
     ]
 }
