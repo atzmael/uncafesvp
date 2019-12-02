@@ -31,6 +31,8 @@ const AnimPlane = ({
 
     videoTexture.image.loop = true;
 
+    console.log(videoTexture);
+
     const play = (offset = 0) => {
         if (videoTexture.image && videoTexture.image.play) {
             console.log(videoTexture, videoTexture.image);

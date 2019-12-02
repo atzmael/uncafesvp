@@ -36,6 +36,8 @@ const BgAnimPlane = ({ videoTexture, camera }) => {
     }
     onCanvasResize(camera)
 
+    videoTexture.image.loop = true;
+
     const play = () => {
         if (videoTexture.image && videoTexture.image.play) {
             videoTexture.image.play()
