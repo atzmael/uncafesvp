@@ -18,7 +18,14 @@ import { gsap } from "gsap"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera, scene, audioListener) => {
-    const { models, videoTextures, sounds, viewBasePosition, stage } = item
+    const {
+        models,
+        videoTextures,
+        sounds,
+        localScale,
+        viewBasePosition,
+        stage
+    } = item
     const model = models[0]
     const audio = sounds[0]
     const frontVideoTexture = videoTextures.find((t) => t.name.includes("FrontAnim"))
@@ -29,7 +36,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         visibleHeightAtZDepth(model.position.z, camera) * 0.33
     const getWidthUnit = () => visibleWidthAtZDepth(model.position.z, camera) * 0.33
     const getOutOfStagePosOffset = () =>
-        new THREE.Vector3(0, getHeightUnit() * -2.5, 0)
+        new THREE.Vector3(0, getHeightUnit() * -3, 0)
     let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
 
     let isInView = false
@@ -60,6 +67,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let progress = { value: 0 }
 
     const fixedRotationGroup = new THREE.Group()
+    model.scale.set(localScale * 1.5, localScale * 1.5, localScale * 1.5)
     fixedRotationGroup.add(model)
 
     // Add object3D to intercept raycast
@@ -121,7 +129,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const positionFromCamera = () => {
         const heightUnit = getHeightUnit()
         _basePos.set(
-            position.x * heightUnit * camera.aspect, // assumes camera is Perspective and not Orthographic
+            position.x * heightUnit * camera.aspect * 0.85, // assumes camera is Perspective and not Orthographic
             position.y * heightUnit,
             position.z
         )
@@ -157,7 +165,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const enterView = () => {
         gsap.killTweensOf(outOffsetPos)
         isInView = true
-        gsap.to(outOffsetPos, { y: -3 })
+        gsap.to(outOffsetPos, { y: -getHeightUnit() * 0.1 })
     }
     const leaveView = () => {
         gsap.killTweensOf(outOffsetPos)

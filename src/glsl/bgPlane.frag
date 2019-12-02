@@ -18,6 +18,7 @@ float sinusoidAlongLinearPath(float value){
 
 void main() {
     vec2 uv = vUv;
+    // uv = uv * resolution.x / resolution.y;
 
     // vec2 cv = uv - .5;
     float transitionTime = 8.; // in seconds

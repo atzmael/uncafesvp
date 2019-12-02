@@ -11,7 +11,8 @@
             "frontAnimPath": "/assets/animations/01-cafemoulu-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafe-moulu-boucle.wav",
-            "viewBasePosition": [-1, 0, 0],
+            "viewBasePosition": [-1, 0.03, -3],
+            "localScale": 1.1,
             "stage": 2
         },
         {
@@ -20,7 +21,8 @@
             "frontAnimPath": "/assets/animations/01-cafeconserve-frontanim.mp4",
             "bgAnimPath": "/assets/animations/01-cafemalongo-bganim.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
-            "viewBasePosition": [0, 0, 0],
+            "viewBasePosition": [0, -0.05, 1],
+            "localScale": 1,
             "stage": 2
         },
         {
@@ -29,7 +31,8 @@
             "frontAnimPath": "/assets/animations/01-cafegrain-frontanim.mp4",
             "bgAnimPath": "/assets/animations/01-graincafe-bganim.mp4",
             "soundPath": "/assets/sound/cafe-grain-boucle.wav",
-            "viewBasePosition": [1, 0, 0],
+            "viewBasePosition": [1, -0.08, -3],
+            "localScale": 1,
             "stage": 2
         },
         {
@@ -38,7 +41,8 @@
             "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
-            "viewBasePosition": [-1, 0, 0],
+            "viewBasePosition": [-1, 0, -2],
+            "localScale": 0.9,
             "stage": 4
         },
         {
@@ -47,7 +51,8 @@
             "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
-            "viewBasePosition": [0, 0, 0],
+            "viewBasePosition": [0, 0, 1],
+            "localScale": 0.8,
             "stage": 4
         },
         {
@@ -56,17 +61,9 @@
             "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
-            "viewBasePosition": [1, 0, 0],
+            "viewBasePosition": [1, 0, -2],
+            "localScale": 0.8,
             "stage": 4
-        },
-        {
-            "name": "tasse-ceramique",
-            "modelPath": "/assets/3D/03-tasseceramique-model.glb",
-            "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
-            "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
-            "viewBasePosition": [-1, 0, 0],
-            "stage": 6
         },
         {
             "name": "gobelet-carton",
@@ -74,7 +71,18 @@
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
-            "viewBasePosition": [0, 0, 0],
+            "viewBasePosition": [-1, 0, -3],
+            "localScale": 1,
+            "stage": 6
+        },
+        {
+            "name": "tasse-ceramique",
+            "modelPath": "/assets/3D/03-tasseceramique-model.glb",
+            "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
+            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
+            "viewBasePosition": [-0.12, -0.05, 1.2],
+            "localScale": 1,
             "stage": 6
         },
         {
@@ -83,7 +91,8 @@
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
-            "viewBasePosition": [1, 0, 0],
+            "viewBasePosition": [1, 0, -3],
+            "localScale": 0.9,
             "stage": 6
         },
         {
@@ -92,7 +101,8 @@
             "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
-            "viewBasePosition": [-1, 0, 0],
+            "viewBasePosition": [-1, 0, -1],
+            "localScale": 1,
             "stage": 8
         },
         {
@@ -102,6 +112,7 @@
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [0, 0, 0],
+            "localScale": 1.2,
             "stage": 8
         },
         {
@@ -110,7 +121,8 @@
             "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
             "bgAnimPath": "/assets/animations/test_background2048.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
-            "viewBasePosition": [1, 0, 0],
+            "viewBasePosition": [1, 0, -2],
+            "localScale": 1,
             "stage": 8
         }
     ]
