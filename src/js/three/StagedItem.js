@@ -72,7 +72,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
-        getWidthUnit(),
+        getWidthUnit() * 0.6,
         getHeightUnit() * 1.5,
         0.5
     ).setFromObject(model)
@@ -113,6 +113,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
             bgPlane.checkIfIsFocused(true)
         }
         canAnimate = true
+        document.body.style.cursor = "pointer"
     }
 
     const getBackToPlace = () => {
@@ -130,6 +131,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
                 }
             }
         })
+        document.body.style.cursor = "auto"
     }
 
     const positionFromCamera = () => {

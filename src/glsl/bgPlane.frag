@@ -1,6 +1,6 @@
 #define PI 3.14159265359
 
-// uniform vec2 resolution;
+uniform vec2 resolution;
 uniform float time;
 uniform sampler2D bgTextures[3];
 uniform sampler2D noiseTexture;

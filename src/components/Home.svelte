@@ -20,13 +20,15 @@
 
 <div class="center" transition:fade>
     <Loader progress={Math.round(loadingPercentage)} />
+    <button
+        class="start-button"
+        on:click={() => xpStageIndex.setName('intro')}
+        class:hidden={!isLoaded}>
+        Next
+    </button>
+    {loadingPercentage}
 </div>
 
-<button
-    class="start-button"
-    on:click={() => xpStageIndex.setName('intro')}
-    class:hidden={!isLoaded}>
-    Next
-</button>
-{loadingPercentage}
-<p class="bottom">Pour une meilleure expérience, utiliser un casque audio</p>
+<p class="bottom" transition:fade>
+    Pour une meilleure expérience, utiliser un casque audio
+</p>

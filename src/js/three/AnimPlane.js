@@ -29,15 +29,15 @@ const AnimPlane = ({
     animPlane.renderOrder = 9999
     animPlane.material.depthTest = false
 
-    videoTexture.image.loop = true;
+    videoTexture.image.loop = true
 
-    console.log(videoTexture);
+    // console.log(videoTexture);
 
     const play = (offset = 0) => {
         if (videoTexture.image && videoTexture.image.play) {
-            console.log(videoTexture, videoTexture.image);
-            videoTexture.image.currentTime = offset;
-            videoTexture.image.play();
+            // console.log(videoTexture, videoTexture.image)
+            videoTexture.image.currentTime = offset
+            videoTexture.image.play()
         } else {
             console.error(`Cannot play videoTexture.image`, videoTexture)
         }
@@ -45,7 +45,7 @@ const AnimPlane = ({
 
     const stop = () => {
         // TODO: decrease opacity to hide it before pausing
-        videoTexture.image.pause();
+        videoTexture.image.pause()
     }
 
     return Object.assign(animPlane, {

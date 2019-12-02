@@ -7,10 +7,24 @@
     export let subText = ""
     export let duration
 
-    delayBeforeNextStep(duration)
+    // delayBeforeNextStep(duration)
 </script>
 
+<style>
+    .picto-container {
+        height: 8rem;
+        margin: auto;
+        margin-bottom: 2rem;
+    }
+    .picto-container :global(svg) {
+        height: 100%;
+    }
+</style>
+
 <div transition:fade class="center">
+    <div class="picto-container">
+        <slot />
+    </div>
     <h3>
         {@html text}
     </h3>
