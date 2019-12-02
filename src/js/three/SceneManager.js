@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
-import GUI from "../GUI.js"
+//import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
 import {
     xpStageIndex,
@@ -57,7 +57,7 @@ const SceneManager = (canvas) => {
         const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 3)
         hemiLight.position.set(6, 8, 7)
         hemiLight.add(hemiLightHelper)
-        GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
+        //GUI.addObject3D(hemiLight, "hemiLight") // TODO: find a way to modify hemilight in a sensible manner
 
         return lightGroup
     }
@@ -96,7 +96,7 @@ const SceneManager = (canvas) => {
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
-            GUI.addStagedItem(stagedItem)
+            //GUI.addStagedItem(stagedItem)
         })
 
         // TODO: static bg

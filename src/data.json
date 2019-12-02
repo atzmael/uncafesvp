@@ -9,21 +9,23 @@
             "name": "cafe-moulu",
             "modelPath": "/assets/3D/01-cafemoulu-model.glb",
             "frontAnimPath": "/assets/animations/01-cafemoulu-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/01-cafemoulu-bganim.mp4",
             "soundPath": "/assets/sound/cafe-moulu-boucle.wav",
             "viewBasePosition": [-1, 0.03, -3],
             "localScale": 1.1,
-            "stage": 2
+            "stage": 2,
+            "active": true
         },
         {
             "name": "cafe-malongo",
             "modelPath": "/assets/3D/01-cafeconserve-model.glb",
             "frontAnimPath": "/assets/animations/01-cafeconserve-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/01-cafemalongo-bganim.mp4",
+            "bgAnimPath": "/assets/animations/01-cafeconserve-bganim.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
             "viewBasePosition": [0, -0.05, 1],
             "localScale": 1,
-            "stage": 2
+            "stage": 2,
+            "active": true
         },
         {
             "name": "cafe-grain",
@@ -33,97 +35,107 @@
             "soundPath": "/assets/sound/cafe-grain-boucle.wav",
             "viewBasePosition": [1, -0.08, -3],
             "localScale": 1,
-            "stage": 2
+            "stage": 2,
+            "active": true
         },
         {
             "name": "cafetiere-italienne",
             "modelPath": "/assets/3D/02-cafetiereitalienne-model.glb",
             "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/02-cafetiereitalienne-bganim.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, -2],
             "localScale": 0.9,
-            "stage": 4
+            "stage": 4,
+            "active": true
         },
         {
             "name": "cafetiere-piston",
             "modelPath": "/assets/3D/02-cafetierepiston-model.glb",
             "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/02-cafetiereitalienne-bganim.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [0, 0, 1],
             "localScale": 0.8,
-            "stage": 4
+            "stage": 4,
+            "active": true
         },
         {
             "name": "cafetiere-filtre",
             "modelPath": "/assets/3D/02-cafetierefiltre-model.glb",
             "frontAnimPath": "/assets/animations/02-cafetiereitalienne-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/02-cafetiereitalienne-bganim.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [1, 0, -2],
             "localScale": 0.8,
-            "stage": 4
+            "stage": 4,
+            "active": true
         },
         {
             "name": "gobelet-carton",
             "modelPath": "/assets/3D/03-gobeletcarton-model.glb",
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/03-tasseceramique-bganim.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [-1, 0, -3],
             "localScale": 1,
-            "stage": 6
+            "stage": 6,
+            "active": true
         },
         {
             "name": "tasse-ceramique",
             "modelPath": "/assets/3D/03-tasseceramique-model.glb",
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/03-tasseceramique-bganim.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
             "viewBasePosition": [-0.12, -0.05, 1.2],
             "localScale": 1,
-            "stage": 6
+            "stage": 6,
+            "active": true
         },
         {
             "name": "gobelet-plastique",
             "modelPath": "/assets/3D/03-gobeletplastique-model.glb",
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/03-tasseceramique-bganim.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [1, 0, -3],
             "localScale": 0.9,
-            "stage": 6
+            "stage": 6,
+            "active": true
         },
         {
             "name": "sucre",
             "modelPath": "/assets/3D/04-sucre-model.glb",
             "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/04-biscuit-bganim.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [-1, 0, -1],
             "localScale": 1,
-            "stage": 8
+            "stage": 8,
+            "active": true
         },
         {
             "name": "lait",
             "modelPath": "/assets/3D/04-lait-model.glb",
             "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/04-biscuit-bganim.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [0, 0, 0],
             "localScale": 1.2,
-            "stage": 8
+            "stage": 8,
+            "active": true
         },
         {
             "name": "biscuit",
             "modelPath": "/assets/3D/04-biscuit-model.glb",
             "frontAnimPath": "/assets/animations/04-biscuit-frontanim.mp4",
-            "bgAnimPath": "/assets/animations/test_background2048.mp4",
+            "bgAnimPath": "/assets/animations/04-biscuit-bganim.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [1, 0, -2],
             "localScale": 1,
-            "stage": 8
+            "stage": 8,
+            "active": true
         }
     ]
 }

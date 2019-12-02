@@ -6,7 +6,7 @@ import {
 import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
-import GUI from "../GUI"
+//import GUI from "../GUI"
 import { songTiming, soundsWaiting } from "../stores/xpStageStore"
 import { gsap } from "gsap"
 
@@ -81,6 +81,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     collider.name = item.name
     collider.add(fixedRotationGroup)
 
+    /*
     // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
     GUI.addColorUniform(
@@ -100,28 +101,33 @@ const StagedItem = (item, camera, scene, audioListener) => {
     )
 
     GUI.close()
+     */
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
-        soundHandler.play("playloop", sound, songTiming.value)
-        animPlane.play(songTiming.value)
         gsap.to(progress, { value: 1 })
-        bgPlane.play()
-        bgPlane.checkIfIsFocused(true)
+        if(item.active) {
+            soundHandler.play("playloop", sound, songTiming.value)
+            animPlane.play(songTiming.value)
+            bgPlane.play()
+            bgPlane.checkIfIsFocused(true)
+        }
         canAnimate = true
     }
 
     const getBackToPlace = () => {
-        gsap.killTweensOf(progress)
-        bgPlane.checkIfIsFocused(false)
-        if (!soundLooping) {
+        gsap.killTweensOf(progress);
+        if (!soundLooping && item.active) {
             soundHandler.stop("loop", sound)
         }
         gsap.to(progress, {
             value: 0,
             onComplete: () => {
                 canAnimate = false
-                animPlane.stop()
+                if(item.active) {
+                    animPlane.stop()
+                    bgPlane.checkIfIsFocused(false);
+                }
             }
         })
     }

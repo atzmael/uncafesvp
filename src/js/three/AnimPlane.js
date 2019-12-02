@@ -29,9 +29,11 @@ const AnimPlane = ({
     animPlane.renderOrder = 9999
     animPlane.material.depthTest = false
 
+    videoTexture.image.loop = true;
+
     const play = (offset = 0) => {
         if (videoTexture.image && videoTexture.image.play) {
-            videoTexture.image.loop = true;
+            console.log(videoTexture, videoTexture.image);
             videoTexture.image.currentTime = offset;
             videoTexture.image.play();
         } else {
