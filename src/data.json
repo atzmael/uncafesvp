@@ -88,7 +88,7 @@
             "modelPath": "/assets/3D/03-tasseceramique-model.glb",
             "frontAnimPath": "/assets/animations/03-tasseceramique-frontanim.mp4",
             "bgAnimPath": "/assets/animations/03-tasseceramique-bganim1024.mp4",
-            "soundPath": "/assets/sound/tasse-ceramique-ambiance-boucle.wav",
+            "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, -0.05, 1.2],
             "localScale": 1,
             "stage": 6,

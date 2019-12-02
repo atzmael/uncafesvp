@@ -47,8 +47,8 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
 
-    const animPlane = AnimPlane({ videoTexture: frontVideoTexture })
-    const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera })
+    const animPlane = AnimPlane({ videoTexture: frontVideoTexture, active: item.active })
+    const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera, active: item.active})
 
     // sound
     let sound = new THREE.Audio(audioListener)
