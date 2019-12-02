@@ -1,11 +1,4 @@
-<script>
-    import { TweenLite, Power0 } from "gsap"
-    import { onMount } from "svelte"
-
-    // TODO: CLEAN UP, find a way to import svg path properly
-    // use @svgr/parcel-plugin-svgr ???
-    // check <symbol> and <use> tags too
-    const logoPath = `<path
+<path
                     d="M46.3,263.1c-2.3-7.3-8.2-10.9-18.1-11c-8.3-0.1-16.6,0.1-25,0.2c-1.1,0.1-2.1,0.2-3.2,0.5v69.3h14
                     c-0.4-10-0.9-19.7-1.3-30.1c2.7,0,4.7,0,6.6,0c6.9-0.2,13.6-1.1,19.4-5.4C46,281.3,49.1,271.8,46.3,263.1z
                     M21.1,284.9
@@ -83,82 +76,4 @@
                 <path
                     d="M270.4,175.9c-1.9-5.8-9.8-12.4-16.2-15.6c-3.9-1.9-6.9-2.5-9.1-1.7l-6.5,2.2l35.2,25.4L270.4,175.9z" />
                 <path
-                    d="M176.9,170.2c1.1-3.3,1.9-7.8-0.3-10.9l-3.3-4.8l-17.9,35.2l8.3-2.9C169.5,184.6,174.8,176.8,176.9,170.2z" />`
-
-    export let progress
-    let fakeProgress = { value: 0 }
-    let displayedProgress = 0
-
-    const liquidYOffset = 20
-
-    onMount(() => {
-        TweenLite.to(fakeProgress, 2.5, {
-            value: 100,
-            ease: Power0.easeNone,
-            onUpdate: () => {
-                displayedProgress = Math.min(fakeProgress.value, progress)
-            }
-        })
-    })
-</script>
-
-<style>
-    .coffee-progress {
-        position: relative;
-        min-width: 200px;
-        width: 20vw;
-        overflow: hidden;
-    }
-    :global(svg) #liquid-layer {
-        animation: waterSlide 1s infinite linear;
-    }
-    :global(svg) #liquid-container {
-        transform: translateY(50%);
-    }
-    #liquid-layer {
-        animation: waterSlide;
-    }
-    svg {
-        fill: rgb(35, 17, 2);
-    }
-
-    #bg-logo {
-        fill: rgb(223, 207, 179);
-    }
-    @keyframes waterSlide {
-        0% {
-            transform: translateX(-50%);
-        }
-        100% {
-            transform: translateX(0);
-        }
-    }
-</style>
-
-<div class="coffee-progress">
-    <svg
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        x="0px"
-        y="0px"
-        viewBox="0 0 461.7 324.1"
-        style="enable-background:new 0 0 461.7 324.1;"
-        xml:space="preserve">
-        <g id="bg-logo">
-            {@html logoPath}
-        </g>
-        <clipPath
-            id="liquid-container"
-            style="transform: translateY({100 + liquidYOffset - (displayedProgress * (100 + liquidYOffset)) / 100}%)">
-            <path
-                id="liquid-layer"
-                d="M923.2-1.6V329H-0.1V-1.6C69.1-1.6,70-36,115.3-36S161.6-1.6,230.8-1.6c69.2,0,70.1-34.4,115.4-34.4
-                S392.4-1.6,461.6-1.6C530.7-1.6,531.7-36,577-36c45.3,0,46.3,34.4,115.4,34.4c69.2,0,70.1-34.4,115.4-34.4S854.1-1.6,923.2-1.6z" />
-        </clipPath>
-        <g id="logo-layer" clip-path="url(#liquid-container)">
-            {@html logoPath}
-        </g>
-
-    </svg>
-</div>
+                    d="M176.9,170.2c1.1-3.3,1.9-7.8-0.3-10.9l-3.3-4.8l-17.9,35.2l8.3-2.9C169.5,184.6,174.8,176.8,176.9,170.2z" />

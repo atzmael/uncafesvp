@@ -8,7 +8,8 @@ import {
     objectToInteract,
     soundsPlaying,
     soundsWaiting,
-    xpStageName, songTiming
+    xpStageName,
+    songTiming
 } from "../stores/xpStageStore"
 
 const SceneManager = (canvas) => {
@@ -31,7 +32,7 @@ const SceneManager = (canvas) => {
         }
     })
 
-    const buildRenderer = ({width, height}) => {
+    const buildRenderer = ({ width, height }) => {
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             antialias: true,
@@ -61,7 +62,7 @@ const SceneManager = (canvas) => {
         return lightGroup
     }
 
-    const renderer = buildRenderer({width, height})
+    const renderer = buildRenderer({ width, height })
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(
         45,
@@ -84,8 +85,8 @@ const SceneManager = (canvas) => {
     scene.add(camera)
     let songTime = 0
 
-    let clock = new THREE.Clock();
-    clock.start();
+    let clock = new THREE.Clock()
+    clock.start()
 
     const addLoadedData = (loadedData) => {
         loadedData.items.forEach((item) => {
@@ -97,13 +98,16 @@ const SceneManager = (canvas) => {
         })
 
         // TODO: static bg
-        // loadedData.textures.forEach((texture) => {
-        //     if (texture.name == "maptestTexture") {
-        //         bgPlane = BgPlane(texture)
-        //         scene.add(bgPlane.mesh)
-        //         bgPlane.onCanvasResize(camera)
-        //     }
-        // })
+        const backgroundTextures = loadedData.textures.filter((tex) =>
+            tex.name.match(/^bg/i)
+        )
+        const noiseTexture = loadedData.textures.find(
+            (tex) => tex.name === "noiseTexture"
+        )
+        console.log(backgroundTextures)
+        bgPlane = BgPlane({ bgTextures: backgroundTextures, noiseTexture })
+        scene.add(bgPlane.mesh)
+        bgPlane.onCanvasResize(camera)
 
         // loadedData.videoTextures.forEach((vt) => {
         //     if (vt.name == "animtestVideoTexture") {
@@ -141,9 +145,9 @@ const SceneManager = (canvas) => {
         songTime = time
 
         // Get the current offset of the time timeline
-        songTiming.value += clock.getDelta();
+        songTiming.value += clock.getDelta()
         if (songTiming.value > songTiming.duration) {
-            songTiming.value = 0;
+            songTiming.value = 0
         }
 
         // RAYCASTING
@@ -202,8 +206,8 @@ const SceneManager = (canvas) => {
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
-            objectIntersected.soundLooping = true;
-            soundsPlaying.push(objectIntersected);
+            objectIntersected.soundLooping = true
+            soundsPlaying.push(objectIntersected)
             xpStageIndex.next()
         }
     })

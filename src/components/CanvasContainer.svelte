@@ -18,9 +18,6 @@
     $: if ($didUserInteract && isLoaded) {
         // TODO: make it possible to update the assets/items,
         // this should remove some bugs too
-        // sceneManager.addItems(loadedData.items)
-        // sceneManager.addTextures(loadedData.textures)
-        // sceneManager.addVideoTextures(loadedData.videoTextures)
         sceneManager.addLoadedData(loadedData)
     }
 
