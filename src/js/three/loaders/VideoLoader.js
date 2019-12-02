@@ -29,7 +29,7 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
         }
 
         // TODO: actually use these different extensions and sources
-        const extensions = ['ogv', 'mp4']
+        const extensions = ['mp4']
 
         const video = document.createElement('video')
 
