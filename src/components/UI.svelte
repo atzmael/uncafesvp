@@ -2,6 +2,8 @@
     import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
     import { fade } from "svelte/transition"
 
+    import Logo from "./Logo.svelte"
+
     import Home from "./Home.svelte"
     import TextTransition from "./TextTransition.svelte"
     import StageIndicator from "./StageIndicator.svelte"
@@ -59,23 +61,39 @@
         <Home {loadingPercentage} {isLoaded} />
     {:else if $xpStageName === 'intro'}
         <TextTransition
-            duration={5000}
+            duration={2000}
             text="Et vous,<br/>quel est votre moment café ?" />
     {:else if $xpStageName === 'transition1'}
         <TextTransition
             duration={2000}
-            text="Impressive"
-            subText="This is incredible" />
+            text="Café Moulu"
+            subText="La température de l'eau est&nbsp;primordiale. <br/> La
+            température idéale se situe entre 85 et 95 degrés." />
     {:else if $xpStageName === 'transition2'}
         <TextTransition
             duration={2000}
-            text="Amazing"
-            subText="That is unbelievable" />
+            text="Cafetière Italienne"
+            subText="Une mouture fine permet d'obtenir un café fort en caféine et en
+            goût." />
     {:else if $xpStageName === 'transition3'}
         <TextTransition
             duration={2000}
-            text="Spectacoularr"
-            subText="It is superb" />
+            text="Tasse en porcelaine"
+            subText="Le plastique des gobelets altère le goût du café.<br/> De plus,
+            la tasse c'est zéro déchet&nbsp;!" />
+    {:else if $xpStageName === 'transition4'}
+        <TextTransition
+            duration={2000}
+            text="Une note sucrée"
+            subText="Lorsque vous êtes au Portugal, commandez
+            «&nbsp;un&nbsp;Bica&nbsp;»<br/> Votre expresso sera accompagné d'un
+            pastel de nata." />
+    {:else if $xpStageName === 'break'}
+        <TextTransition duration={2000} text="Votre café est prêt" />
+    {/if}
+
+    {#if $xpStageName !== 'home'}
+        <Logo />
     {/if}
 
     {#if $xpStageName === 'choice2' || $xpStageName === 'choice3' || $xpStageName === 'choice4'}

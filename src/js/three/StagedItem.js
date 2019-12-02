@@ -67,7 +67,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let progress = { value: 0 }
 
     const fixedRotationGroup = new THREE.Group()
-    model.scale.set(localScale * 1.5, localScale * 1.5, localScale * 1.5)
+    model.scale.set(localScale * 2.3, localScale * 2.3, localScale * 2.3)
     fixedRotationGroup.add(model)
 
     // Add object3D to intercept raycast
@@ -106,7 +106,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
         gsap.to(progress, { value: 1 })
-        if(item.active) {
+        if (item.active) {
             soundHandler.play("playloop", sound, songTiming.value)
             animPlane.play(songTiming.value)
             bgPlane.play()
@@ -116,7 +116,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     }
 
     const getBackToPlace = () => {
-        gsap.killTweensOf(progress);
+        gsap.killTweensOf(progress)
         if (!soundLooping && item.active) {
             soundHandler.stop("loop", sound)
         }
@@ -124,9 +124,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
             value: 0,
             onComplete: () => {
                 canAnimate = false
-                if(item.active) {
+                if (item.active) {
                     animPlane.stop()
-                    bgPlane.checkIfIsFocused(false);
+                    bgPlane.checkIfIsFocused(false)
                 }
             }
         })
@@ -141,7 +141,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         )
         applyPosition()
 
-        animPlane.scale.set(2, 2, 1)
+        animPlane.scale.set(2.6, 2.6, 2.6)
     }
 
     const applyPosition = () => {

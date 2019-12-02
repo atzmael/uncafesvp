@@ -119,7 +119,7 @@ const SmartLoader = (onProgress) => {
                 throw `The loaded object needs a property 'type' (string)`
             Object.entries(objectToLoad).forEach(([key, value]) => {
                 if (key.match(/path$/i)) {
-                    console.log(key, value)
+                    // console.log(key, value)
                     loadFromString(value, objectToLoad, key)
                 }
             })
@@ -141,7 +141,6 @@ const SmartLoader = (onProgress) => {
             Promise.all(promises)
                 .then(() => {
                     callback(loadedData)
-                    console.log("RESOLVED", loadedData)
                 })
                 .catch((error) => {
                     console.error("A promise has failed:", error)

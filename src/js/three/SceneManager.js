@@ -71,7 +71,7 @@ const SceneManager = (canvas) => {
         1000
     )
     camera.position.y = 3.5
-    camera.position.z = 19
+    camera.position.z = 30
     camera.lookAt(new THREE.Vector3(0, 0, 0))
 
     const stagedItems = []
