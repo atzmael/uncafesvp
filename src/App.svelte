@@ -35,7 +35,7 @@
             isLoaded = true
         })
 
-        sLoader.load("/assets/maps/TiledWaterColor_placeholder.png", "bg1")
+        // sLoader.load("/assets/maps/background4.jpg", "bg1")
         sLoader.load("/assets/maps/background2.jpg", "bg2")
         sLoader.load("/assets/maps/background3.jpg", "bg3")
         sLoader.load("/assets/maps/noise_center_tiled.jpg", "noise")

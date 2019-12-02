@@ -4,18 +4,27 @@
  * @param {THREE.Loader} loader
  * @param {Function} onProgress
  */
-
+const pendings = {}
 export default function promisifyLoader(loader, onProgress = undefined) {
-  function promiseLoad(toLoad) {
-    return new Promise((resolve, reject) => {
-      loader.load(toLoad, resolve, onProgress, reject)
-    })
-  }
-  return {
-    originalLoader: loader,
-    load: promiseLoad
-  }
-  // return Object.assign(loader, {
-  //   load: promiseLoad
-  // })
+    function promiseLoad(toLoad) {
+        if (pendings[toLoad]) return pendings[toLoad]
+        return (pendings[toLoad] = new Promise((resolve, reject) => {
+            loader.load(
+                toLoad,
+                (a) => {
+                    // console.log(toLoad)
+                    resolve(a)
+                },
+                onProgress,
+                reject
+            )
+        }))
+    }
+    return {
+        originalLoader: loader,
+        load: promiseLoad
+    }
+    // return Object.assign(loader, {
+    //   load: promiseLoad
+    // })
 }
