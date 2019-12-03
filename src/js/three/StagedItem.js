@@ -7,8 +7,8 @@ import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 //import GUI from "../GUI"
-import { songTiming, soundsWaiting } from "../stores/xpStageStore"
-import { gsap } from "gsap"
+import {songTiming, soundsWaiting} from "../stores/xpStageStore"
+import {gsap} from "gsap"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -47,8 +47,8 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
 
-    const animPlane = AnimPlane({ videoTexture: frontVideoTexture, active: item.active })
-    const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera, active: item.active})
+    const animPlane = AnimPlane({videoTexture: frontVideoTexture, active: item.active})
+    const bgPlane = BgAnimPlane({videoTexture: bgVideoTexture, camera, active: item.active})
 
     // sound
     let sound = new THREE.Audio(audioListener)
@@ -56,7 +56,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
     soundHandler.play("loadloop", sound)
-    soundsWaiting.push({ sound: sound, soundHandler: soundHandler })
+    soundsWaiting.push({sound: sound, soundHandler: soundHandler})
 
     // Animation
     let canAnimate = false
@@ -64,7 +64,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let highlightOffsetPos = new THREE.Vector3(0, 3, 0)
     let highlightRotation = new THREE.Vector3(0, (-45 * Math.PI) / 180, 0)
     // Tweens
-    let progress = { value: 0 }
+    let progress = {value: 0}
 
     const fixedRotationGroup = new THREE.Group()
     model.scale.set(localScale * 2.3, localScale * 2.3, localScale * 2.3)
@@ -76,7 +76,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         getHeightUnit() * 1.5,
         0.5
     ).setFromObject(model)
-    let material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
+    let material = new THREE.MeshBasicMaterial({transparent: true, opacity: 0})
     const collider = new THREE.Mesh(geometry, material)
     collider.name = item.name
     collider.add(fixedRotationGroup)
@@ -105,7 +105,11 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
-        gsap.to(progress, { value: 1 })
+        gsap.to(progress, {
+            value: 1, onUpdate: () => {
+                animPlane.material.uniforms.uAlpha.value = progress.value
+            }
+        })
         if (item.active) {
             soundHandler.play("playloop", sound, songTiming.value)
             animPlane.play(songTiming.value)
@@ -122,6 +126,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
         }
         gsap.to(progress, {
             value: 0,
+            onUpdate: () => {
+                animPlane.material.uniforms.uAlpha.value = progress.value
+            },
             onComplete: () => {
                 canAnimate = false
                 if (item.active) {
@@ -171,7 +178,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const enterView = () => {
         gsap.killTweensOf(outOffsetPos)
         isInView = true
-        gsap.to(outOffsetPos, { y: -getHeightUnit() * 0.1 })
+        gsap.to(outOffsetPos, {y: -getHeightUnit() * 0.1})
     }
     const leaveView = () => {
         gsap.killTweensOf(outOffsetPos)

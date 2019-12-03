@@ -106,7 +106,6 @@ const SceneManager = (canvas) => {
         const noiseTexture = loadedData.textures.find(
             (tex) => tex.name === "noiseTexture"
         )
-        console.log(backgroundTextures)
         bgPlane = BgPlane({ bgTextures: backgroundTextures, noiseTexture })
         scene.add(bgPlane.mesh)
         bgPlane.onCanvasResize(camera)

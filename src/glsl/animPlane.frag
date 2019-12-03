@@ -6,6 +6,7 @@ uniform sampler2D animTexture;
 uniform vec3 col1;
 uniform vec3 col2;
 uniform vec3 col3;
+uniform float uAlpha;
 varying mediump vec3 vNormal;
 varying mediump vec2 vUv;
 
@@ -22,7 +23,7 @@ void main() {
     c = mix(c, col3, textureCol.b);
     // vec3 col =  mix(c1, c2, textureCol.r * textureCol.g);
 
-    float alpha = max(max(textureCol.r, textureCol.g), textureCol.b);
+    float alpha = max(max(textureCol.r, textureCol.g), textureCol.b) * uAlpha;
 
     gl_FragColor = vec4(c, alpha);
     // gl_FragColor = vec4(c, alpha + 0.2); // debug

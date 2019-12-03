@@ -2,6 +2,7 @@ import * as THREE from "three"
 
 import frontVertexShader from "../../glsl/animPlane.vert"
 import frontFragmentShader from "../../glsl/animPlane.frag"
+import {songTiming} from "../stores/xpStageStore";
 
 const AnimPlane = ({
     videoTexture,
@@ -19,7 +20,8 @@ const AnimPlane = ({
             animTexture: { value: videoTexture },
             col1: { value: new THREE.Color(hexColor1) },
             col2: { value: new THREE.Color(hexColor2) },
-            col3: { value: new THREE.Color(hexColor3) }
+            col3: { value: new THREE.Color(hexColor3) },
+            uAlpha: {value: 0.0}
         },
         vertexShader: frontVertexShader,
         fragmentShader: frontFragmentShader,
@@ -38,7 +40,6 @@ const AnimPlane = ({
 
     const play = (offset = 0) => {
         if (videoTexture.image && videoTexture.image.play) {
-            console.log(videoTexture, videoTexture.image);
             videoTexture.image.currentTime = offset;
             videoTexture.image.play();
         } else {
