@@ -167,7 +167,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         gsap.to(progress, {
             value: 0,
             onUpdate: () => {
-                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 0), 0.25)
+                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 1), 0.25)
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
                 sprite.material.opacity = progress.value * maxHaloOpacity
@@ -192,7 +192,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         )
         applyPosition()
 
-        animPlane.scale.set(2.6, 2.6, 2.6)
+        animPlane.scale.set(3, 3, 3)
     }
 
     const applyPosition = () => {

@@ -30,7 +30,7 @@
             "colors": ["rgb(255,255,255)", "#deb984", "rgb(163,0,0)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
-            "focusedRotation": [0, 1, -0.03],
+            "focusedRotation": [0, -0.12, -0.06],
             "localScale": 1.1,
             "stage": 2,
             "active": true
@@ -58,10 +58,9 @@
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, -2],
             "colors": ["rgb(253,253,253)", "rgb(151,199,225)", "rgb(19,51,103)"],
-            "haloColor": "rgb(130,80,40)",
+            "haloColor": "rgb(150,82,65)",
             "haloVerticalScale": 1,
-
-            "focusedRotation": [0, 0.1, 0.1],
+            "focusedRotation": [0, -0.92, 0.05],
             "localScale": 0.85,
             "stage": 4,
             "active": true
@@ -76,7 +75,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
-            "focusedRotation": [0, 0.1, 0.1],
+            "focusedRotation": [0.1, 0.1, -0.1],
             "localScale": 0.8,
             "stage": 4,
             "active": false
@@ -91,7 +90,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
-            "focusedRotation": [0, 0.1, 0.1],
+            "focusedRotation": [0.03, -0.08, 0.01],
             "localScale": 0.75,
             "stage": 4,
             "active": false
@@ -106,7 +105,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
-            "focusedRotation": [0, 0.1, 0.1],
+            "focusedRotation": [-0.05, -0.1, -0.1],
             "localScale": 1,
             "stage": 6,
             "active": false
@@ -119,7 +118,7 @@
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, -0.05, 1.2],
             "colors": ["rgb(255,219,219)", "rgb(255,127,89)", "rgb(176,221,255)"],
-            "haloColor": "rgb(130,80,40)",
+            "haloColor": "rgb(84,87,117)",
             "haloVerticalScale": 0.8,
             "focusedRotation": [0, 0.1, 0.1],
             "localScale": 1,
@@ -136,7 +135,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.2,
-            "focusedRotation": [0, 0, 1],
+            "focusedRotation": [0, 0.6, -0.06],
             "localScale": 0.9,
             "stage": 6,
             "active": false
@@ -149,10 +148,9 @@
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [-1, 0, -1],
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
-            "haloColor": "rgb(130,80,40)",
+            "haloColor": "rgb(156,96,48)",
             "haloVerticalScale": 1,
-
-            "focusedRotation": [0, 0.1, 0.1],
+            "focusedRotation": [0.07, 0.06, 0.02],
             "localScale": 1,
             "stage": 8,
             "active": false
@@ -167,7 +165,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
-            "focusedRotation": [0, 0.1, 0.1],
+            "focusedRotation": [0.02, -0.92, 0.05],
             "localScale": 1.2,
             "stage": 8,
             "active": false
