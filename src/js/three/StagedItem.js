@@ -130,6 +130,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
             value: 1,
             onUpdate: () => {
                 animPlane.material.uniforms.uAlpha.value = progress.value
+                bgPlane.material.uniforms.uAlpha.value = progress.value
             }
         })
         if (item.active) {
@@ -142,15 +143,16 @@ const StagedItem = (item, camera, scene, audioListener) => {
         document.body.style.cursor = "pointer"
     }
 
-    const getBackToPlace = () => {
+    const getBackToPlace = (isLooping) => {
         gsap.killTweensOf(progress)
-        if (!soundLooping && item.active) {
+        if (!isLooping && item.active) {
             soundHandler.stop("loop", sound)
         }
         gsap.to(progress, {
             value: 0,
             onUpdate: () => {
                 animPlane.material.uniforms.uAlpha.value = progress.value
+                bgPlane.material.uniforms.uAlpha.value = progress.value
             },
             onComplete: () => {
                 canAnimate = false

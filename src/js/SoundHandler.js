@@ -25,7 +25,11 @@ const SoundHandler = () => {
         }
     };
 
-    const transition = (audio, value) => {
+    const pause = (audio) => {
+        transition(audio, 0.2)
+    }
+
+    const transition = (audio, value, completed) => {
         volume.value = audio.getVolume();
         gsap.killTweensOf(volume);
         gsap.to(volume, {
@@ -34,10 +38,8 @@ const SoundHandler = () => {
                 audio.setVolume(volume.value);
             },
 			onComplete: () => {
-            	if(value == 0) {
-            		audio.stop();
-				}
-			}
+                if(value == 0) audio.stop()
+            }
         })
     }
 
