@@ -6,7 +6,7 @@ import {
 import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
-//import GUI from "../GUI"
+import GUI from "../GUI.js"
 import { songTiming, soundsWaiting } from "../stores/xpStageStore"
 import { gsap } from "gsap"
 
@@ -18,11 +18,13 @@ import { gsap } from "gsap"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera, scene, audioListener) => {
+    console.log(item)
     const {
         models,
         videoTextures,
         sounds,
         localScale,
+        colors,
         viewBasePosition,
         stage
     } = item
@@ -47,8 +49,18 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
 
-    const animPlane = AnimPlane({ videoTexture: frontVideoTexture })
-    const bgPlane = BgAnimPlane({ videoTexture: bgVideoTexture, camera })
+    const animPlane = AnimPlane({
+        videoTexture: frontVideoTexture,
+        active: item.active,
+        hexColor1: colors[0],
+        hexColor2: colors[1],
+        hexColor3: colors[2]
+    })
+    const bgPlane = BgAnimPlane({
+        videoTexture: bgVideoTexture,
+        camera,
+        active: item.active
+    })
 
     // sound
     let sound = new THREE.Audio(audioListener)
@@ -70,6 +82,18 @@ const StagedItem = (item, camera, scene, audioListener) => {
     model.scale.set(localScale * 2.3, localScale * 2.3, localScale * 2.3)
     fixedRotationGroup.add(model)
 
+    var spriteMap = new THREE.TextureLoader().load("./assets/maps/halo.png")
+    var spriteMaterial = new THREE.SpriteMaterial({
+        map: spriteMap,
+        color: 0xffffff,
+        opacity: 0.5,
+        transparent: true
+    })
+    var sprite = new THREE.Sprite(spriteMaterial)
+    sprite.scale.set(12, 12, 12)
+    sprite.position.z = -2
+    fixedRotationGroup.add(sprite)
+
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
         getWidthUnit() * 0.6,
@@ -81,8 +105,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
     collider.name = item.name
     collider.add(fixedRotationGroup)
 
-    /*
-    // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
     GUI.addColorUniform(
         { hexColor: animPlane.hexColor1 },
@@ -100,8 +122,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         colorFolder
     )
 
-    GUI.close()
-     */
+    // GUI.close()
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)

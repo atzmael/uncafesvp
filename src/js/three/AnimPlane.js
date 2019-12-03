@@ -5,6 +5,7 @@ import frontFragmentShader from "../../glsl/animPlane.frag"
 
 const AnimPlane = ({
     videoTexture,
+    active,
     hexColor1 = 0xff00ff,
     hexColor2 = 0xffff00,
     hexColor3 = 0xee99ff
@@ -29,9 +30,11 @@ const AnimPlane = ({
     animPlane.renderOrder = 9999
     animPlane.material.depthTest = false
 
-    videoTexture.image.loop = true
+    if (!active) {
+        animPlane.visible = false
+    }
 
-    // console.log(videoTexture);
+    videoTexture.image.loop = true
 
     const play = (offset = 0) => {
         if (videoTexture.image && videoTexture.image.play) {

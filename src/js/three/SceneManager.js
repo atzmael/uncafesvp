@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
-//import GUI from "../GUI.js"
+import GUI from "../GUI.js"
 import Stats from "stats.js/src/Stats"
 import {
     xpStageIndex,
@@ -96,7 +96,7 @@ const SceneManager = (canvas) => {
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
-            //GUI.addStagedItem(stagedItem)
+            GUI.addStagedItem(stagedItem)
         })
 
         // TODO: static bg

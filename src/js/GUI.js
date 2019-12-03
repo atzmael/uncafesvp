@@ -52,6 +52,7 @@ const GUI = () => {
 
     const addColorUniform = (object, uniform, folder = datGui) => {
         folder.addColor(object, "hexColor").onChange((c) => {
+            console.log(c)
             const rgbColor = new THREE.Color(c)
             uniform.value = rgbColor
         })

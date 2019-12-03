@@ -4,7 +4,7 @@ import bgAnimVertexShader from "../../glsl/bgAnimPlane.vert"
 import bgAnimFragmentShader from "../../glsl/bgAnimPlane.frag"
 import { visibleHeightAtZDepth } from "./utils/visibleAtZDepth.js"
 
-const BgAnimPlane = ({ videoTexture, camera }) => {
+const BgAnimPlane = ({ videoTexture, camera, active }) => {
     const animPlaneGeo = new THREE.PlaneBufferGeometry(0.5, 0.5, 1)
 
     const animPlaneMat = new THREE.ShaderMaterial({
@@ -35,6 +35,10 @@ const BgAnimPlane = ({ videoTexture, camera }) => {
             Math.max(1, window.innerWidth / window.innerHeight) * viewHeight
     }
     onCanvasResize(camera)
+
+    if(!active) {
+        animPlane.visible = false
+    }
 
     videoTexture.image.loop = true;
 
