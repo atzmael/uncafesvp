@@ -1,4 +1,5 @@
 import {gsap} from "gsap";
+import {xpStageIndex} from "./stores/xpStageStore";
 
 const SoundHandler = () => {
 
@@ -39,15 +40,28 @@ const SoundHandler = () => {
                 filter.frequency.value = frequency.value
             },
             onComplete: () => {
-                transition(audio, 0)
+                gsap.killTweensOf(volume);
+                gsap.to(volume, {
+                    duration: 1,
+                    value: 0,
+                    delay: 1,
+                    onUpdate: () => {
+                        audio.setVolume(volume.value);
+                    },
+                    onComplete: () => {
+                        audio.stop();
+                        xpStageIndex.next();
+                    }
+                })
             }
         })
     }
 
-    const transition = (audio, value) => {
+    const transition = (audio, value, duration = 0.5) => {
         volume.value = audio.getVolume();
         gsap.killTweensOf(volume);
         gsap.to(volume, {
+            duration: duration,
             value: value,
 			onUpdate: () => {
                 audio.setVolume(volume.value);

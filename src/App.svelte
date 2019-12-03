@@ -41,6 +41,7 @@
         // sLoader.load("/assets/animations/test_background2048.mp4", "animtest")
         // sLoader.load("/assets/animations/sequence-png-12fps-720x1080.mp4", "animtest")
         sLoader.load('/assets/sound/climax.wav', 'climax')
+        sLoader.load('/assets/animations/climax.mp4', 'climax')
         data.items.forEach((item) => {
             sLoader.load(Object.assign(item, { type: "item" }), item.name)
         })

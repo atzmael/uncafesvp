@@ -12,6 +12,8 @@ import {
     songTiming
 } from "../stores/xpStageStore"
 import SoundHandler from "../SoundHandler";
+import BgAnimPlane from "./BgAnimPlane";
+import {gsap} from "gsap";
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
@@ -26,19 +28,29 @@ const SceneManager = (canvas) => {
     let mouse = new THREE.Vector2()
     let isRaycasting = false
 
+    let songFinished = false
+
     // TODO: unsubscribe
     const unsubscribe = xpStageName.subscribe((value) => {
         if (value == "choice1") {
             isRaycasting = true
         }
         if(value == "break") {
+            songFinished = true
             soundsPlaying.forEach(e => {
                 e.soundHandler.pause(e.sound)
             })
         }
         if(value == "climax") {
             // TODO: launch climax
-            //climax.audio.play();
+            console.log("in last stage", climax)
+            gsap.killTweensOf(climax.fadeInOpa)
+            gsap.to(climax.fadeInOpa, {
+                value: 1,
+                onUpdate: () => {
+                    climax.bgAnimPlane.material.uniforms.uAlpha.value = climax.fadeInOpa.value
+                }
+            })
         }
     })
 
@@ -96,12 +108,17 @@ const SceneManager = (canvas) => {
     camera.add(audioListener)
     scene.add(camera)
     let songTime = 0
-    let climax = {}
+    let climax = {
+        audio: null,
+        video: null,
+        fadeInOpa: {value: 0}
+    }
 
     let clock = new THREE.Clock()
     clock.start()
 
     const addLoadedData = (loadedData) => {
+        console.log(loadedData)
         loadedData.items.forEach((item) => {
             const stagedItem = StagedItem(item, camera, scene, audioListener)
             stagedItems.push(stagedItem)
@@ -113,6 +130,9 @@ const SceneManager = (canvas) => {
         climax.audio = new THREE.Audio(audioListener)
         climax.audio.setLoop(true);
         climax.audio.setBuffer(loadedData.sounds[0]);
+
+        climax.bgAnimPlane = BgAnimPlane({videoTexture: loadedData.videoTextures[0], camera, active: true})
+
 
         // TODO: static bg
         const backgroundTextures = loadedData.textures.filter((tex) =>
@@ -202,7 +222,7 @@ const SceneManager = (canvas) => {
             INTERSECTED = false
         }
 
-        if (soundsPlaying.length > 0) {
+        if (soundsPlaying.length > 0 && !songFinished) {
             soundsPlaying.forEach((e) => {
                 if (e.sound.getVolume() == 0 || !e.sound.isPlaying) {
                     e.soundHandler.play("playloop", e.sound, songTiming.value)
