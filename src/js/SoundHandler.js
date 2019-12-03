@@ -3,6 +3,7 @@ import {gsap} from "gsap";
 const SoundHandler = () => {
 
     let volume = {value: 0};
+    let frequency = {value: 22050}
 
     const play = (type, audio, offset = 0) => {
         switch (type) {
@@ -26,10 +27,24 @@ const SoundHandler = () => {
     };
 
     const pause = (audio) => {
-        transition(audio, 0.2)
+        let filter = audio.context.createBiquadFilter();
+
+        filter.type = "lowpass"
+        audio.setFilter(filter)
+        gsap.killTweensOf(frequency);
+        gsap.to(frequency, {
+            duration: 1.5,
+            value: 350,
+            onUpdate: () => {
+                filter.frequency.value = frequency.value
+            },
+            onComplete: () => {
+                transition(audio, 0)
+            }
+        })
     }
 
-    const transition = (audio, value, completed) => {
+    const transition = (audio, value) => {
         volume.value = audio.getVolume();
         gsap.killTweensOf(volume);
         gsap.to(volume, {
@@ -52,6 +67,7 @@ const SoundHandler = () => {
     return {
         play,
         stop,
+        pause,
         initSound,
         volume
     }
