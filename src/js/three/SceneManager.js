@@ -32,6 +32,11 @@ const SceneManager = (canvas) => {
 
     // TODO: unsubscribe
     const unsubscribe = xpStageName.subscribe((value) => {
+        if(value == "choice1" && interview1.isPlaying) {
+            interview1.stop()
+        } else if(value == "choice1" && interview2.isPlaying) {
+            interview2.stop()
+        }
         if (value == "choice1") {
             isRaycasting = true
         }
@@ -114,12 +119,13 @@ const SceneManager = (canvas) => {
         video: null,
         fadeInOpa: {value: 0}
     }
+    let interview1;
+    let interview2;
 
     let clock = new THREE.Clock()
     clock.start()
 
     const addLoadedData = (loadedData) => {
-        console.log(loadedData)
         loadedData.items.forEach((item) => {
             const stagedItem = StagedItem(item, camera, scene, audioListener)
             stagedItems.push(stagedItem)
@@ -127,6 +133,17 @@ const SceneManager = (canvas) => {
             objectToInteract.push(stagedItem.collider)
             GUI.addStagedItem(stagedItem)
         })
+
+        interview1 = new THREE.Audio(audioListener)
+        interview1.setBuffer(loadedData.sounds[0]);
+        interview2 = new THREE.Audio(audioListener)
+        interview2.setBuffer(loadedData.sounds[1]);
+        let choice = Math.random() > 0.5;
+        if(choice) {
+            interview1.play()
+        } else {
+            interview2.play()
+        }
 
         climax.video = BgAnimPlane({videoTexture: loadedData.videoTextures[0], camera, active: true, looping: false})
         scene.add(climax.video)

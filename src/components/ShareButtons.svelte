@@ -1,36 +1,20 @@
-<script>
-    import { fade } from "svelte/transition"
-
-    import delayBeforeNextStep from "../js/utils/delayBeforeNextStep"
-
-    export let text
-    export let subText = ""
-    export let duration
-
-    delayBeforeNextStep(duration)
-</script>
-
 <style>
-    .picto-container {
-        height: 8rem;
-        margin: auto;
-        margin-bottom: 2rem;
+    .share-buttons_inner {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
     }
-    .picto-container :global(svg) {
-        height: 100%;
+
+    button {
+        padding: 5px;
+        border: 1px solid rgb(38, 21, 6);
+        border-radius: 15px;
     }
 </style>
 
-<div transition:fade class="center">
-    <div class="picto-container">
-        <slot />
+<div class="share-buttons">
+    <div class="share-buttons_inner">
+        <button>Partager</button>
+        <button>Télécharger</button>
     </div>
-    <h3>
-        {@html text}
-    </h3>
-    {#if subText}
-        <h4>
-            {@html subText}
-        </h4>
-    {/if}
 </div>
