@@ -7,7 +7,7 @@
     export let subText = ""
     export let duration
 
-    // delayBeforeNextStep(duration)
+    delayBeforeNextStep(duration)
 </script>
 
 <style>
