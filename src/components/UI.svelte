@@ -1,5 +1,5 @@
 <script>
-    import {xpStageIndex, xpStageName} from "../js/stores/xpStageStore"
+    import {xpStageIndex, xpStageName, startReady} from "../js/stores/xpStageStore"
     import {fade} from "svelte/transition"
 
     import Logo from "./Logo.svelte"
@@ -19,6 +19,11 @@
 </script>
 
 <style>
+    @font-face {
+        font-family: "LouizeDisplay";
+        src: url("/dist/assets/fonts/LouizeDisplay.otf") format("truetype");
+    }
+
     main {
         pointer-events: none;
         color: rgb(38, 21, 6);
@@ -32,6 +37,7 @@
         grid-template-rows: 0.3fr 1fr 10fr 2fr 0.3fr;
         grid-template-columns: 0.3fr 1fr 0.3fr;
     }
+
     /* .overlay {
         background-image: url(../../dist/assets/maps/background.jpg);
         background-size: contain;
@@ -49,6 +55,7 @@
         bottom: 20px;
         left: 20px;
     }
+
     :global(.center) {
         grid-column: 2 / -2;
         grid-row: 2 / -3;
@@ -56,6 +63,7 @@
         place-content: center center;
         text-align: center;
     }
+
     :global(.top) {
         grid-column: 2 / -2;
         grid-row: 2 / 3;
@@ -64,6 +72,7 @@
         text-align: center;
         height: 100%;
     }
+
     :global(.bottom) {
         grid-column: 2 / -2;
         grid-row: -3 / -2;
@@ -71,76 +80,111 @@
         justify-content: center;
         text-align: center;
     }
+
+    :global(.btn-container) {
+        margin-top: 75px;
+    }
+
+    :global(.btn) {
+        border-radius: 40px;
+        background: none;
+        border: 2px solid rgb(38, 21, 6);
+        padding: 15px 50px;
+        font-size: 18pt;
+        font-family: "LouizeDisplay", Helvetica, sans-serif;
+        outline: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s;
+    }
+    :global(.btn:hover) {
+        transform: scale(1.1) rotateZ(-3deg);
+    }
+
+    .btn-start {
+        opacity: 0;
+        transition: opacity 0.6s;
+    }
+    .btn.active {
+        opacity: 1;
+    }
+
 </style>
 
 <main class:overlay={$xpStageName === 'home'}>
     {#if $xpStageName === 'home'}
-        <Home {loadingPercentage} {isLoaded} />
+        <Home {loadingPercentage} {isLoaded}/>
     {:else if $xpStageName === 'intro'}
         <TextTransition
-            duration={0}
-            text="Et vous,<br/>quel est votre moment café ?">
-            <button on:click={() => xpStageIndex.setName('choice1')}>Next</button>
+                duration={0}
+                text="Et vous,<br/>quel est votre moment café ?">
+            <button class="btn btn-start" class:active={$startReady} slot="btn" on:click={() => xpStageIndex.setName('choice1')}>Commencer</button>
         </TextTransition>
     {:else if $xpStageName === 'transition1'}
         <TextTransition
-            duration={4000}
-            text="Café Moulu"
-            subText="La température de l'eau est&nbsp;primordiale. <br/> La
+                duration={4000}
+                text="Café Moulu"
+                subText="La température de l'eau est&nbsp;primordiale. <br/> La
             température idéale se situe entre 85 et 95 degrés.">
-            <CafeGrainPicto />
+            <CafeGrainPicto/>
         </TextTransition>
     {:else if $xpStageName === 'transition2'}
         <TextTransition
-            duration={4000}
-            text="Cafetière Italienne"
-            subText="Une mouture fine permet d'obtenir un café fort en caféine et en
+                duration={4000}
+                text="Cafetière Italienne"
+                subText="Une mouture fine permet d'obtenir un café fort en caféine et en
             goût.">
-            <CafetierePicto />
+            <CafetierePicto/>
         </TextTransition>
     {:else if $xpStageName === 'transition3'}
         <TextTransition
-            duration={4000}
-            text="Tasse en porcelaine"
-            subText="Le plastique des gobelets altère le goût du café.<br/> De plus,
+                duration={4000}
+                text="Tasse en porcelaine"
+                subText="Le plastique des gobelets altère le goût du café.<br/> De plus,
             la tasse c'est zéro déchet&nbsp;!">
-            <TasseCeramiquePicto />
+            <TasseCeramiquePicto/>
         </TextTransition>
     {:else if $xpStageName === 'transition4'}
         <TextTransition
-            duration={4000}
-            text="Une note sucrée"
-            subText="Lorsque vous êtes au Portugal, commandez
+                duration={4000}
+                text="Une note sucrée"
+                subText="Lorsque vous êtes au Portugal, commandez
             «&nbsp;un&nbsp;Bica&nbsp;»<br/> Votre expresso sera accompagné d'un
             pastel de nata.">
-            <BiscuitPicto />
+            <BiscuitPicto/>
         </TextTransition>
     {:else if $xpStageName === 'break'}
-        <TextTransition duration={0} text="Votre café est prêt" />
-        <RecapButtons />
+        <TextTransition duration={0} text="Votre café est prêt">
+            <div class="btn-inner" slot="btn">
+                <RecapButtons/>
+            </div>
+        </TextTransition>
     {:else if $xpStageName === 'climax'}
-        <TextTransition duration={23000} text="" />
+        <TextTransition duration={22500} text=""/>
     {:else if $xpStageName === 'outro'}
-        <TextTransition duration={23000} text="" />
-        <ShareButtons />
+        <TextTransition duration={0} text="Bravo, tu as réussi à prendre le temps d'apprécier ta pause café">
+            <div class="btn-inner" slot="btn">
+                <ShareButtons/>
+            </div>
+        </TextTransition>
     {/if}
 
     {#if $xpStageName !== 'home' && $xpStageName !== "climax"}
         <div class="top" transition:fade>
-            <Logo />
+            <Logo/>
         </div>
     {/if}
 
     {#if $xpStageName === 'choice2' || $xpStageName === 'choice3' || $xpStageName === 'choice4'}
         <button
-            on:click={() => xpStageIndex.setIndex($xpStageIndex - 2)}
-            class="previous-arrow">
+                on:click={() => xpStageIndex.setIndex($xpStageIndex - 2)}
+                class="previous-arrow">
             ⬅ ⬅ ⬅
         </button>
     {/if}
 
 
-    {#if $xpStageIndex > 1 && $xpStageName !== 'climax'}
-        <StageIndicator />
+    {#if $xpStageIndex > 1 && $xpStageName !== 'climax' && $xpStageName !== 'outro'}
+        <StageIndicator/>
     {/if}
 </main>

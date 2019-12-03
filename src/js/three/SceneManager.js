@@ -9,7 +9,9 @@ import {
     soundsPlaying,
     soundsWaiting,
     xpStageName,
-    songTiming
+    songTiming,
+    coffeeReady,
+    startReady
 } from "../stores/xpStageStore"
 import SoundHandler from "../SoundHandler";
 import BgAnimPlane from "./BgAnimPlane";
@@ -45,10 +47,14 @@ const SceneManager = (canvas) => {
             soundsPlaying.forEach(e => {
                 e.soundHandler.pause(e.sound)
             })
+            setTimeout(() => {
+                coffeeReady.set(true)
+            }, 1500)
         }
         if(value == "climax") {
-            // TODO: launch climax
-            console.log("in last stage", climax)
+            soundsPlaying.forEach(e => {
+                e.soundHandler.stop("loop", e.sound)
+            })
             gsap.killTweensOf(climax.fadeInOpa)
             gsap.to(climax.fadeInOpa, {
                 value: 1,
@@ -121,6 +127,7 @@ const SceneManager = (canvas) => {
     }
     let interview1;
     let interview2;
+    let duration = 0;
 
     let clock = new THREE.Clock()
     clock.start()
@@ -141,8 +148,16 @@ const SceneManager = (canvas) => {
         let choice = Math.random() > 0.5;
         if(choice) {
             interview1.play()
+            duration = interview1.buffer.duration * 0.75;
+            setTimeout(() => {
+                startReady.set(true)
+            }, duration * 1000)
         } else {
             interview2.play()
+            duration = interview2.buffer.duration * 0.75;
+            setTimeout(() => {
+                startReady.set(true)
+            }, duration * 1000)
         }
 
         climax.video = BgAnimPlane({videoTexture: loadedData.videoTextures[0], camera, active: true, looping: false})

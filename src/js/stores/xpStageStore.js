@@ -31,10 +31,7 @@ const createStage = () => {
         })
     const previousDebug = () =>
         update((indx) => {
-            if (soundsPlaying.length > 0) {
-                let stopSound = soundsPlaying.pop()
-                stopSound.soundHandler.stop("loop", stopSound.sound)
-            }
+            previous()
             currentIndexStage = indx
             return Math.max(indx - 1, 0)
         })
@@ -54,7 +51,10 @@ const createStage = () => {
     const setName = (str) => {
         const newIndex = stageNames.indexOf(str)
         if (newIndex < currentIndexStage) {
-            previous()
+            let loop = currentIndexStage - newIndex;
+            for(let i = 0;i<loop;i++) {
+                previous()
+            }
         }
         if (newIndex === -1) throw `Could not find "${str}" in stageNames array`
         else {
@@ -81,6 +81,10 @@ export const objectToInteract = []
 export const soundsPlaying = []
 export const soundsWaiting = []
 export const songTiming = { value: 0, duration: 5.23 }
+
+export const startReady = writable(false)
+
+export const coffeeReady = writable(false)
 
 // usage : $xpStageIndex or xpStage.method()
 export const xpStageIndex = createStage()

@@ -8,6 +8,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position:relative;
+        z-index: 999;
     }
 
     [class*="step"],
@@ -18,6 +20,10 @@
         justify-content: center;
         align-items: center;
         transition: all 0.5s;
+    }
+
+    [class*="step"] {
+        cursor: pointer;
     }
 
     [class*="step"] .inner-step {
@@ -86,28 +92,36 @@
     <div
         class="step1"
         class:active={$xpStageName == 'choice1'}
-        class:selected={$xpStageIndex > 2}>
+        class:selected={$xpStageIndex > 2}
+        on:click={() => xpStageIndex.setName('choice1')}
+    >
         <div class="inner-step" />
     </div>
     <div class="separator" />
     <div
         class="step2"
         class:active={$xpStageName == 'choice2'}
-        class:selected={$xpStageIndex > 4}>
+        class:selected={$xpStageIndex > 4}
+        on:click={() => xpStageIndex.setName('choice2')}
+    >
         <div class="inner-step" />
     </div>
     <div class="separator" />
     <div
         class="step3"
         class:active={$xpStageName == 'choice3'}
-        class:selected={$xpStageIndex > 6}>
+        class:selected={$xpStageIndex > 6}
+        on:click={() => xpStageIndex.setName('choice3')}
+    >
         <div class="inner-step" />
     </div>
     <div class="separator" />
     <div
         class="step4"
         class:active={$xpStageName == 'choice4'}
-        class:selected={$xpStageIndex > 8}>
+        class:selected={$xpStageIndex > 8}
+        on:click={() => xpStageIndex.setName('choice4')}
+    >
         <div class="inner-step" />
     </div>
 </div>

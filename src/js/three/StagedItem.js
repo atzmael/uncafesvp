@@ -18,7 +18,6 @@ import { gsap } from "gsap"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera, scene, audioListener) => {
-    console.log(item)
     const {
         models,
         videoTextures,
