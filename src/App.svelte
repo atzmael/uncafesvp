@@ -30,7 +30,7 @@
         }
         const sLoader = SmartLoader(onProgress)
         sLoader.onComplete((resolvedData) => {
-            console.log("resolvedData:", resolvedData)
+            // console.log("resolvedData:", resolvedData)
             loadedData = resolvedData
             isLoaded = true
         })

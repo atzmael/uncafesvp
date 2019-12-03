@@ -25,6 +25,8 @@ const StagedItem = (item, camera, scene, audioListener) => {
         sounds,
         localScale,
         colors,
+        haloColor,
+        haloVerticalScale,
         viewBasePosition,
         stage
     } = item
@@ -85,13 +87,15 @@ const StagedItem = (item, camera, scene, audioListener) => {
     var spriteMap = new THREE.TextureLoader().load("./assets/maps/halo.png")
     var spriteMaterial = new THREE.SpriteMaterial({
         map: spriteMap,
-        color: 0xffffff,
-        opacity: 0.5,
-        transparent: true
+        color: haloColor,
+        opacity: 0.45,
+        transparent: true,
+        blending: THREE.NormalBlending
     })
     var sprite = new THREE.Sprite(spriteMaterial)
-    sprite.scale.set(12, 12, 12)
+    sprite.scale.set(12.5, 12.5 * haloVerticalScale, 12.5)
     sprite.position.z = -2
+    sprite.position.x = position.x * getHeightUnit() * 0.05
     fixedRotationGroup.add(sprite)
 
     // Add object3D to intercept raycast
