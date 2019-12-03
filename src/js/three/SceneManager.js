@@ -11,6 +11,7 @@ import {
     xpStageName,
     songTiming
 } from "../stores/xpStageStore"
+import SoundHandler from "../SoundHandler";
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
@@ -32,8 +33,12 @@ const SceneManager = (canvas) => {
         }
         if(value == "break") {
             soundsPlaying.forEach(e => {
-                e.soundHandler.pause()
+                e.soundHandler.pause(e.sound)
             })
+        }
+        if(value == "climax") {
+            // TODO: launch climax
+            //climax.audio.play();
         }
     })
 
@@ -91,6 +96,7 @@ const SceneManager = (canvas) => {
     camera.add(audioListener)
     scene.add(camera)
     let songTime = 0
+    let climax = {}
 
     let clock = new THREE.Clock()
     clock.start()
@@ -103,6 +109,10 @@ const SceneManager = (canvas) => {
             objectToInteract.push(stagedItem.collider)
             //GUI.addStagedItem(stagedItem)
         })
+
+        climax.audio = new THREE.Audio(audioListener)
+        climax.audio.setLoop(true);
+        climax.audio.setBuffer(loadedData.sounds[0]);
 
         // TODO: static bg
         const backgroundTextures = loadedData.textures.filter((tex) =>
@@ -210,8 +220,7 @@ const SceneManager = (canvas) => {
 
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
-        if (null != objectIntersected) {
-            console.log(objectIntersected, objectIntersected.name)
+        if (null != objectIntersected && objectIntersected.active) {
             objectIntersected.soundLooping = true
             soundsPlaying.push(objectIntersected)
             xpStageIndex.next()
