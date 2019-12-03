@@ -30,6 +30,11 @@ const SceneManager = (canvas) => {
         if (value == "choice1") {
             isRaycasting = true
         }
+        if(value == "break") {
+            soundsPlaying.forEach(e => {
+                e.soundHandler.pause()
+            })
+        }
     })
 
     const buildRenderer = ({ width, height }) => {
@@ -158,7 +163,6 @@ const SceneManager = (canvas) => {
 
         let lastItem = null
         if (intersects.length > 0 && isRaycasting) {
-            unsubscribe()
             if (
                 !INTERSECTED ||
                 lastIntersectedObjectName != intersects[0].object.name
@@ -177,14 +181,14 @@ const SceneManager = (canvas) => {
                 INTERSECTED = true
             }
         } else {
-            objectIntersected = null
             if (null != lastIntersectedObjectName) {
                 lastItem = stagedItems.find(
                     (elmt) => elmt.name == lastIntersectedObjectName
                 )
-                lastItem.getBackToPlace()
+                lastItem.getBackToPlace(objectIntersected.soundLooping)
                 lastIntersectedObjectName = null
             }
+            objectIntersected = null
             INTERSECTED = false
         }
 
@@ -207,6 +211,7 @@ const SceneManager = (canvas) => {
     canvas.addEventListener("click", (e) => {
         e.preventDefault()
         if (null != objectIntersected) {
+            console.log(objectIntersected, objectIntersected.name)
             objectIntersected.soundLooping = true
             soundsPlaying.push(objectIntersected)
             xpStageIndex.next()

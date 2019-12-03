@@ -121,9 +121,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
         canAnimate = true
     }
 
-    const getBackToPlace = () => {
+    const getBackToPlace = (isLooping) => {
         gsap.killTweensOf(progress)
-        if (!soundLooping && item.active) {
+        if (!isLooping && item.active) {
             soundHandler.stop("loop", sound)
         }
         gsap.to(progress, {
