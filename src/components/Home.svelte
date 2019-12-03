@@ -9,6 +9,9 @@
 </script>
 
 <style>
+    .infront {
+        z-index: 9999;
+    }
     .start-button {
         border-radius: 50%;
         background: red;
@@ -18,7 +21,7 @@
     }
 </style>
 
-<div class="center" transition:fade>
+<div class="center infront" transition:fade>
     <Loader progress={Math.round(loadingPercentage)} />
     <button
         class="start-button"
@@ -29,6 +32,17 @@
     {loadingPercentage}
 </div>
 
-<p class="bottom" transition:fade>
+<p class="bottom infront" transition:fade>
     Pour une meilleure expérience, utiliser un casque audio
 </p>
+
+<div
+    transition:fade
+    style={`
+    background: url(./assets/maps/background.jpg);
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    `} />

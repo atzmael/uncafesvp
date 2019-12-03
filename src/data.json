@@ -12,7 +12,7 @@
             "bgAnimPath": "/assets/animations/01-cafeconserve-bganim1024.mp4",
             "soundPath": "/assets/sound/cafe-malongo-boucle.wav",
             "viewBasePosition": [-1, -0.05, -2.5],
-            "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
+            "colors": ["rgb(233,142,77)", "rgb(88,200,19)", "rgb(225,75,43)"],
             "localScale": 1,
             "stage": 2,
             "active": true
@@ -24,7 +24,7 @@
             "bgAnimPath": "/assets/animations/01-cafemoulu-bganim1024.mp4",
             "soundPath": "/assets/sound/cafe-moulu-boucle.wav",
             "viewBasePosition": [0, -0.05, 0.2],
-            "colors": ["rgb(255,180,0)", "#deb984", "rgb(163,0,0)"],
+            "colors": ["rgb(255,255,255)", "#deb984", "rgb(163,0,0)"],
             "localScale": 1.1,
             "stage": 2,
             "active": true
@@ -48,7 +48,7 @@
             "bgAnimPath": "/assets/animations/02-cafetiereitalienne-bganim1024.mp4",
             "soundPath": "/assets/sound/cafetiere-italienne-boucle.wav",
             "viewBasePosition": [-1, 0, -2],
-            "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
+            "colors": ["rgb(253,253,253)", "rgb(151,199,225)", "rgb(19,51,103)"],
             "localScale": 0.9,
             "stage": 4,
             "active": true
@@ -96,7 +96,7 @@
             "bgAnimPath": "/assets/animations/03-tasseceramique-bganim1024.mp4",
             "soundPath": "/assets/sound/tasse-ceramique-boucle.wav",
             "viewBasePosition": [0, -0.05, 1.2],
-            "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
+            "colors": ["rgb(255,219,219)", "rgb(255,127,89)", "rgb(176,221,255)"],
             "localScale": 1,
             "stage": 6,
             "active": true
@@ -144,7 +144,7 @@
             "bgAnimPath": "/assets/animations/04-biscuit-bganim1024.mp4",
             "soundPath": "/assets/sound/biscuit-boucle.wav",
             "viewBasePosition": [1, 0, -2],
-            "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
+            "colors": ["rgb(248,89,89)", "rgb(230,102,73)", "rgb(230,230,200)"],
             "localScale": 1,
             "stage": 8,
             "active": true

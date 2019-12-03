@@ -126,7 +126,12 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
-        gsap.to(progress, { value: 1 })
+        gsap.to(progress, {
+            value: 1,
+            onUpdate: () => {
+                animPlane.material.uniforms.uAlpha.value = progress.value
+            }
+        })
         if (item.active) {
             soundHandler.play("playloop", sound, songTiming.value)
             animPlane.play(songTiming.value)
@@ -144,6 +149,9 @@ const StagedItem = (item, camera, scene, audioListener) => {
         }
         gsap.to(progress, {
             value: 0,
+            onUpdate: () => {
+                animPlane.material.uniforms.uAlpha.value = progress.value
+            },
             onComplete: () => {
                 canAnimate = false
                 if (item.active) {
