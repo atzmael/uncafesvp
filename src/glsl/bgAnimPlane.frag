@@ -2,8 +2,8 @@
 
 // uniform vec2 resolution;
 uniform float time;
-uniform float opacity;
 uniform sampler2D animTexture;
+uniform float uAlpha;
 
 varying mediump vec3 vNormal;
 varying mediump vec2 vUv;
@@ -17,5 +17,5 @@ void main() {
     
     vec3 c = animCol.rgb;
 
-    gl_FragColor = vec4(c.rgb, opacity);
+    gl_FragColor = vec4(c.rgb, uAlpha);
 }

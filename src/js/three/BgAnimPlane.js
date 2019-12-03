@@ -11,7 +11,8 @@ const BgAnimPlane = ({ videoTexture, camera, active }) => {
         uniforms: {
             time: { value: 1.0 },
             animTexture: { value: videoTexture },
-            opacity: { value: 0.0 }
+            opacity: { value: 0.0 },
+            uAlpha: {value: 0.0}
         },
         vertexShader: bgAnimVertexShader,
         fragmentShader: bgAnimFragmentShader,
