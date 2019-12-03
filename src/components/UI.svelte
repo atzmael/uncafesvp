@@ -112,7 +112,7 @@
             <BiscuitPicto />
         </TextTransition>
     {:else if $xpStageName === 'break'}
-        <TextTransition duration={2500} text="Votre café est prêt" />
+        <TextTransition duration={4000} text="Votre café est prêt" />
     {/if}
 
     {#if $xpStageName !== 'home'}

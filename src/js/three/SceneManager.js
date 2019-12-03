@@ -48,7 +48,8 @@ const SceneManager = (canvas) => {
             gsap.to(climax.fadeInOpa, {
                 value: 1,
                 onUpdate: () => {
-                    climax.bgAnimPlane.material.uniforms.uAlpha.value = climax.fadeInOpa.value
+                    climax.video.play()
+                    climax.video.material.uniforms.uAlpha.value = climax.fadeInOpa.value
                 }
             })
         }
@@ -127,12 +128,8 @@ const SceneManager = (canvas) => {
             GUI.addStagedItem(stagedItem)
         })
 
-        climax.audio = new THREE.Audio(audioListener)
-        climax.audio.setLoop(true);
-        climax.audio.setBuffer(loadedData.sounds[0]);
-
-        climax.bgAnimPlane = BgAnimPlane({videoTexture: loadedData.videoTextures[0], camera, active: true})
-
+        climax.video = BgAnimPlane({videoTexture: loadedData.videoTextures[0], camera, active: true, looping: false})
+        scene.add(climax.video)
 
         // TODO: static bg
         const backgroundTextures = loadedData.textures.filter((tex) =>

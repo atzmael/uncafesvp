@@ -44,13 +44,12 @@ const SoundHandler = () => {
                 gsap.to(volume, {
                     duration: 1,
                     value: 0,
-                    delay: 1,
+                    delay: 1.5,
                     onUpdate: () => {
                         audio.setVolume(volume.value);
                     },
                     onComplete: () => {
                         audio.stop();
-                        xpStageIndex.next();
                     }
                 })
             }
