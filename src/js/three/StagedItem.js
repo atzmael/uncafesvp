@@ -28,6 +28,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         haloColor,
         haloVerticalScale,
         viewBasePosition,
+        focusedRotation,
         stage
     } = item
     const model = models[0]
@@ -76,7 +77,11 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let canAnimate = false
     let hasRotated = false
     let highlightOffsetPos = new THREE.Vector3(0, 3, 0)
-    let highlightRotation = new THREE.Vector3(0, (-45 * Math.PI) / 180, 0)
+    let highlightRotation = new THREE.Vector3(
+        focusedRotation[0] * 2 * Math.PI,
+        focusedRotation[1] * 2 * Math.PI,
+        focusedRotation[2] * 2 * Math.PI
+    )
     // Tweens
     let progress = { value: 0 }
 
@@ -84,17 +89,18 @@ const StagedItem = (item, camera, scene, audioListener) => {
     model.scale.set(localScale * 2.3, localScale * 2.3, localScale * 2.3)
     fixedRotationGroup.add(model)
 
-    var spriteMap = new THREE.TextureLoader().load("./assets/maps/halo.png")
-    var spriteMaterial = new THREE.SpriteMaterial({
+    const spriteMap = new THREE.TextureLoader().load("./assets/maps/halo.png")
+    const maxHaloOpacity = 0.5
+    const spriteMaterial = new THREE.SpriteMaterial({
         map: spriteMap,
         color: haloColor,
-        opacity: 0.45,
+        opacity: 0.0,
         transparent: true,
         blending: THREE.NormalBlending
     })
-    var sprite = new THREE.Sprite(spriteMaterial)
-    sprite.scale.set(12.5, 12.5 * haloVerticalScale, 12.5)
-    sprite.position.z = -2
+    const sprite = new THREE.Sprite(spriteMaterial)
+    sprite.scale.set(13.5, 13.5 * haloVerticalScale, 13.5)
+    sprite.position.z = -3
     sprite.position.x = position.x * getHeightUnit() * 0.05
     fixedRotationGroup.add(sprite)
 
@@ -133,8 +139,14 @@ const StagedItem = (item, camera, scene, audioListener) => {
         gsap.to(progress, {
             value: 1,
             onUpdate: () => {
+                model.rotation.set(
+                    highlightRotation.x * progress.value,
+                    highlightRotation.y * progress.value,
+                    highlightRotation.z * progress.value
+                )
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
+                sprite.material.opacity = progress.value * maxHaloOpacity
             }
         })
         if (item.active) {
@@ -155,8 +167,10 @@ const StagedItem = (item, camera, scene, audioListener) => {
         gsap.to(progress, {
             value: 0,
             onUpdate: () => {
+                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 0), 0.25)
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
+                sprite.material.opacity = progress.value * maxHaloOpacity
             },
             onComplete: () => {
                 canAnimate = false
@@ -185,10 +199,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
         collider.position.copy(_basePos).add(outOffsetPos)
         fixedRotationGroup.position.y =
             _basePos.y + floatOffsetPos.y + highlightOffsetPos.y * progress.value
-    }
-
-    const applyRotation = () => {
-        model.rotation.y = highlightRotation.y * progress.value
     }
 
     const onCanvasResize = () => {
@@ -223,7 +233,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const update = (time) => {
         if (!isInView) return
         applyPosition()
-        applyRotation()
         if (!canAnimate) return
         floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
     }

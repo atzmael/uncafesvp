@@ -15,6 +15,7 @@
             "colors": ["rgb(233,142,77)", "rgb(88,200,19)", "rgb(225,75,43)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.1,
+            "focusedRotation": [0, -0.9, 0.05],
             "localScale": 1,
             "stage": 2,
             "active": true
@@ -29,6 +30,7 @@
             "colors": ["rgb(255,255,255)", "#deb984", "rgb(163,0,0)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
+            "focusedRotation": [0, 1, -0.03],
             "localScale": 1.1,
             "stage": 2,
             "active": true
@@ -43,6 +45,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1,
+            "focusedRotation": [0.02, 0.2, 0.1],
             "localScale": 1,
             "stage": 2,
             "active": true
@@ -57,7 +60,9 @@
             "colors": ["rgb(253,253,253)", "rgb(151,199,225)", "rgb(19,51,103)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1,
-            "localScale": 0.9,
+
+            "focusedRotation": [0, 0.1, 0.1],
+            "localScale": 0.85,
             "stage": 4,
             "active": true
         },
@@ -71,6 +76,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
+            "focusedRotation": [0, 0.1, 0.1],
             "localScale": 0.8,
             "stage": 4,
             "active": false
@@ -85,7 +91,8 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
-            "localScale": 0.8,
+            "focusedRotation": [0, 0.1, 0.1],
+            "localScale": 0.75,
             "stage": 4,
             "active": false
         },
@@ -99,6 +106,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
+            "focusedRotation": [0, 0.1, 0.1],
             "localScale": 1,
             "stage": 6,
             "active": false
@@ -113,6 +121,7 @@
             "colors": ["rgb(255,219,219)", "rgb(255,127,89)", "rgb(176,221,255)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 0.8,
+            "focusedRotation": [0, 0.1, 0.1],
             "localScale": 1,
             "stage": 6,
             "active": true
@@ -127,6 +136,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.2,
+            "focusedRotation": [0, 0, 1],
             "localScale": 0.9,
             "stage": 6,
             "active": false
@@ -141,6 +151,8 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1,
+
+            "focusedRotation": [0, 0.1, 0.1],
             "localScale": 1,
             "stage": 8,
             "active": false
@@ -155,6 +167,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.4,
+            "focusedRotation": [0, 0.1, 0.1],
             "localScale": 1.2,
             "stage": 8,
             "active": false
@@ -169,6 +182,7 @@
             "colors": ["rgb(248,89,89)", "rgb(230,102,73)", "rgb(230,230,200)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1,
+            "focusedRotation": [0, 0.1, 0.1],
             "localScale": 1,
             "stage": 8,
             "active": true
