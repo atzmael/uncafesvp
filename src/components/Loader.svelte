@@ -170,7 +170,7 @@
     }
 
     #bg-logo {
-        fill: rgb(223, 207, 179);
+        fill: rgb(221, 177, 130);
     }
     @keyframes waterSlide {
         0% {

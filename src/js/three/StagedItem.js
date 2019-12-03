@@ -6,9 +6,9 @@ import {
 import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
-//import GUI from "../GUI"
-import {songTiming, soundsWaiting} from "../stores/xpStageStore"
-import {gsap} from "gsap"
+import GUI from "../GUI.js"
+import { songTiming, soundsWaiting } from "../stores/xpStageStore"
+import { gsap } from "gsap"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -18,12 +18,17 @@ import {gsap} from "gsap"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera, scene, audioListener) => {
+    console.log(item)
     const {
         models,
         videoTextures,
         sounds,
         localScale,
+        colors,
+        haloColor,
+        haloVerticalScale,
         viewBasePosition,
+        focusedRotation,
         stage
     } = item
     const model = models[0]
@@ -47,8 +52,18 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let floatOffsetPos = new THREE.Vector3(0, 0, 0)
     let outOffsetPos = outOfViewMaxOffsetPos
 
-    const animPlane = AnimPlane({videoTexture: frontVideoTexture, active: item.active})
-    const bgPlane = BgAnimPlane({videoTexture: bgVideoTexture, camera, active: item.active})
+    const animPlane = AnimPlane({
+        videoTexture: frontVideoTexture,
+        active: item.active,
+        hexColor1: colors[0],
+        hexColor2: colors[1],
+        hexColor3: colors[2]
+    })
+    const bgPlane = BgAnimPlane({
+        videoTexture: bgVideoTexture,
+        camera,
+        active: item.active
+    })
 
     // sound
     let sound = new THREE.Audio(audioListener)
@@ -56,33 +71,50 @@ const StagedItem = (item, camera, scene, audioListener) => {
     let soundHandler = SoundHandler()
     soundHandler.initSound(audio, item.name, sound)
     soundHandler.play("loadloop", sound)
-    soundsWaiting.push({sound: sound, soundHandler: soundHandler})
+    soundsWaiting.push({ sound: sound, soundHandler: soundHandler })
 
     // Animation
     let canAnimate = false
     let hasRotated = false
     let highlightOffsetPos = new THREE.Vector3(0, 3, 0)
-    let highlightRotation = new THREE.Vector3(0, (-45 * Math.PI) / 180, 0)
+    let highlightRotation = new THREE.Vector3(
+        focusedRotation[0] * 2 * Math.PI,
+        focusedRotation[1] * 2 * Math.PI,
+        focusedRotation[2] * 2 * Math.PI
+    )
     // Tweens
-    let progress = {value: 0}
+    let progress = { value: 0 }
 
     const fixedRotationGroup = new THREE.Group()
     model.scale.set(localScale * 2.3, localScale * 2.3, localScale * 2.3)
     fixedRotationGroup.add(model)
 
+    const spriteMap = new THREE.TextureLoader().load("./assets/maps/halo.png")
+    const maxHaloOpacity = 0.5
+    const spriteMaterial = new THREE.SpriteMaterial({
+        map: spriteMap,
+        color: haloColor,
+        opacity: 0.0,
+        transparent: true,
+        blending: THREE.NormalBlending
+    })
+    const sprite = new THREE.Sprite(spriteMaterial)
+    sprite.scale.set(13.5, 13.5 * haloVerticalScale, 13.5)
+    sprite.position.z = -3
+    sprite.position.x = position.x * getHeightUnit() * 0.05
+    fixedRotationGroup.add(sprite)
+
     // Add object3D to intercept raycast
     let geometry = new THREE.BoxBufferGeometry(
-        getWidthUnit(),
+        getWidthUnit() * 0.6,
         getHeightUnit() * 1.5,
         0.5
     ).setFromObject(model)
-    let material = new THREE.MeshBasicMaterial({transparent: true, opacity: 0})
+    let material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
     const collider = new THREE.Mesh(geometry, material)
     collider.name = item.name
     collider.add(fixedRotationGroup)
 
-    /*
-    // GUI.addAnimationColors(animPlane)
     const colorFolder = GUI.addFolder(`${item.name}Color`)
     GUI.addColorUniform(
         { hexColor: animPlane.hexColor1 },
@@ -100,16 +132,21 @@ const StagedItem = (item, camera, scene, audioListener) => {
         colorFolder
     )
 
-    GUI.close()
-     */
+    // GUI.close()
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
         gsap.to(progress, {
             value: 1,
             onUpdate: () => {
+                model.rotation.set(
+                    highlightRotation.x * progress.value,
+                    highlightRotation.y * progress.value,
+                    highlightRotation.z * progress.value
+                )
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
+                sprite.material.opacity = progress.value * maxHaloOpacity
             }
         })
         if (item.active) {
@@ -119,6 +156,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
             bgPlane.checkIfIsFocused(true)
         }
         canAnimate = true
+        document.body.style.cursor = "pointer"
     }
 
     const getBackToPlace = (isLooping) => {
@@ -129,8 +167,10 @@ const StagedItem = (item, camera, scene, audioListener) => {
         gsap.to(progress, {
             value: 0,
             onUpdate: () => {
+                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 0), 0.25)
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
+                sprite.material.opacity = progress.value * maxHaloOpacity
             },
             onComplete: () => {
                 canAnimate = false
@@ -140,6 +180,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
                 }
             }
         })
+        document.body.style.cursor = "auto"
     }
 
     const positionFromCamera = () => {
@@ -160,10 +201,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
             _basePos.y + floatOffsetPos.y + highlightOffsetPos.y * progress.value
     }
 
-    const applyRotation = () => {
-        model.rotation.y = highlightRotation.y * progress.value
-    }
-
     const onCanvasResize = () => {
         positionFromCamera()
         outOfViewMaxOffsetPos = getOutOfStagePosOffset()
@@ -181,7 +218,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const enterView = () => {
         gsap.killTweensOf(outOffsetPos)
         isInView = true
-        gsap.to(outOffsetPos, {y: -getHeightUnit() * 0.1})
+        gsap.to(outOffsetPos, { y: -getHeightUnit() * 0.1 })
     }
     const leaveView = () => {
         gsap.killTweensOf(outOffsetPos)
@@ -196,7 +233,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const update = (time) => {
         if (!isInView) return
         applyPosition()
-        applyRotation()
         if (!canAnimate) return
         floatOffsetPos.y = Math.cos(time * 1.7 + position.x) * 0.3
     }

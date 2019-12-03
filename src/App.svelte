@@ -30,16 +30,16 @@
         }
         const sLoader = SmartLoader(onProgress)
         sLoader.onComplete((resolvedData) => {
+            // console.log("resolvedData:", resolvedData)
             loadedData = resolvedData
             isLoaded = true
         })
 
-        // sLoader.load("/assets/maps/background4.jpg", "bg1")
+        sLoader.load("/assets/maps/background4.jpg", "bg1")
         sLoader.load("/assets/maps/background2.jpg", "bg2")
         sLoader.load("/assets/maps/background3.jpg", "bg3")
         sLoader.load("/assets/maps/noise_center_tiled.jpg", "noise")
-        // sLoader.load("/assets/animations/test_background2048.mp4", "animtest")
-        // sLoader.load("/assets/animations/sequence-png-12fps-720x1080.mp4", "animtest")
+
         sLoader.load('/assets/sound/climax.wav', 'climax')
         sLoader.load('/assets/animations/climax.mp4', 'climax')
         data.items.forEach((item) => {
