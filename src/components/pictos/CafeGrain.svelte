@@ -1,3 +1,17 @@
+<style>
+    .cls-1 {
+        filter: url(#filter-grain);
+    }
+
+    .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-width: 8px;
+        fill-rule: evenodd;
+    }
+</style>
+
 <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -5,26 +19,13 @@
     height="161.62"
     viewBox="0 0 214.56 161.62">
     <defs>
-        <style>
-            .cls-1 {
-                filter: url(#filter);
-            }
-
-            .cls-2 {
-                fill: none;
-                stroke: #fff;
-                stroke-linecap: round;
-                stroke-width: 8px;
-                fill-rule: evenodd;
-            }
-        </style>
-        <filter id="filter" filterUnits="userSpaceOnUse">
+        <filter id="filter-grain" filterUnits="userSpaceOnUse">
             <feFlood result="flood" flood-color="#261000" />
             <feComposite result="composite" operator="in" in2="SourceGraphic" />
             <feBlend result="blend" in2="SourceGraphic" />
         </filter>
     </defs>
-    <g id="graind" class="cls-1">
+    <g id="grain" class="cls-1">
         <path
             class="cls-2"
             d="M5049.17,3166.72l-39.72,38.83"

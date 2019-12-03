@@ -52,10 +52,6 @@ const BgPlane = ({ bgTextures, noiseTexture }) => {
             {
                 value: 1,
                 onStart: () => {
-                    console.log(
-                        Math.floor(globalTime / transitionDuration) %
-                            bgTextures.length
-                    )
                     planeMat.uniforms.bgTexturesFrom.value =
                         bgTextures[
                             Math.floor(globalTime / transitionDuration - 1) %

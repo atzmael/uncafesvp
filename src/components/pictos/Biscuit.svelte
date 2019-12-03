@@ -1,3 +1,26 @@
+<style>
+    .cls-1 {
+        filter: url(#filter-biscuit);
+    }
+
+    .cls-2,
+    .cls-3 {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-width: 8px;
+        stroke-dasharray: 32 16;
+    }
+
+    .cls-2 {
+        stroke-linejoin: round;
+    }
+
+    .cls-3 {
+        fill-rule: evenodd;
+    }
+</style>
+
 <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -5,29 +28,7 @@
     height="172"
     viewBox="0 0 171 172">
     <defs>
-        <style>
-            .cls-1 {
-                filter: url(#filter);
-            }
-
-            .cls-2,
-            .cls-3 {
-                fill: none;
-                stroke: #fff;
-                stroke-linecap: round;
-                stroke-width: 8px;
-                stroke-dasharray: 32 16;
-            }
-
-            .cls-2 {
-                stroke-linejoin: round;
-            }
-
-            .cls-3 {
-                fill-rule: evenodd;
-            }
-        </style>
-        <filter id="filter" filterUnits="userSpaceOnUse">
+        <filter id="filter-biscuit" filterUnits="userSpaceOnUse">
             <feFlood result="flood" flood-color="#261000" />
             <feComposite result="composite" operator="in" in2="SourceGraphic" />
             <feBlend result="blend" in2="SourceGraphic" />

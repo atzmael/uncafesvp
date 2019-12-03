@@ -12,7 +12,7 @@ const BgAnimPlane = ({ videoTexture, camera, active, looping = true }) => {
             time: { value: 1.0 },
             animTexture: { value: videoTexture },
             opacity: { value: 0.0 },
-            uAlpha: {value: 0.0}
+            uAlpha: { value: 0.0 }
         },
         vertexShader: bgAnimVertexShader,
         fragmentShader: bgAnimFragmentShader,
@@ -37,11 +37,11 @@ const BgAnimPlane = ({ videoTexture, camera, active, looping = true }) => {
     }
     onCanvasResize(camera)
 
-    if(!active) {
+    if (!active) {
         animPlane.visible = false
     }
 
-    videoTexture.image.loop = looping;
+    videoTexture.image.loop = looping
 
     const play = () => {
         if (videoTexture.image && videoTexture.image.play) {

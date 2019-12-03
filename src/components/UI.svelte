@@ -1,6 +1,6 @@
 <script>
-    import {xpStageIndex, xpStageName} from "../js/stores/xpStageStore"
-    import {fade} from "svelte/transition"
+    import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
+    import { fade } from "svelte/transition"
 
     import Logo from "./Logo.svelte"
     import CafeGrainPicto from "./pictos/CafeGrain.svelte"
@@ -11,8 +11,8 @@
     import Home from "./Home.svelte"
     import TextTransition from "./TextTransition.svelte"
     import StageIndicator from "./StageIndicator.svelte"
-    import ShareButtons from "./ShareButtons.svelte";
-    import RecapButtons from "./RecapButtons.svelte";
+    import ShareButtons from "./ShareButtons.svelte"
+    import RecapButtons from "./RecapButtons.svelte"
 
     export let loadingPercentage
     export let isLoaded
@@ -49,9 +49,26 @@
         bottom: 20px;
         left: 20px;
     }
+
+    .start-button {
+        background: transparent;
+        box-shadow: 0px 0px 0.5px 2.5px var(--color-brown);
+        border: none;
+        margin: auto;
+        margin-top: 4rem;
+        padding: 0 3rem;
+        border-radius: 2.5rem;
+        height: 2.5rem;
+        transition: all 0.4s;
+    }
+
+    .start-button:hover {
+        color: white;
+        background: var(--color-brown);
+    }
     :global(.center) {
         grid-column: 2 / -2;
-        grid-row: 2 / -3;
+        grid-row: 3 / -3;
         display: grid;
         place-content: center center;
         text-align: center;
@@ -80,7 +97,12 @@
         <TextTransition
             duration={0}
             text="Et vous,<br/>quel est votre moment café ?">
-            <button on:click={() => xpStageIndex.setName('choice1')}>Next</button>
+            <button
+                slot="button"
+                class="start-button"
+                on:click={() => xpStageIndex.setName('choice1')}>
+                Next
+            </button>
         </TextTransition>
     {:else if $xpStageName === 'transition1'}
         <TextTransition
@@ -125,8 +147,11 @@
         <ShareButtons />
     {/if}
 
-    {#if $xpStageName !== 'home' && $xpStageName !== "climax"}
-        <div class="top" transition:fade>
+    {#if $xpStageName !== 'home' && $xpStageName !== 'climax'}
+        <div
+            class="top"
+            in:fade={{ delay: 600, duration: 600 }}
+            out:fade={{ duration: 600 }}>
             <Logo />
         </div>
     {/if}
@@ -139,8 +164,7 @@
         </button>
     {/if}
 
-
-    {#if $xpStageIndex > 1 && $xpStageName !== 'climax'}
+    {#if $xpStageIndex > 1 && $xpStageName !== 'climax' && $xpStageName !== 'outro'}
         <StageIndicator />
     {/if}
 </main>
