@@ -1,6 +1,6 @@
 <script>
-    import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
-    import { fade } from "svelte/transition"
+    import {xpStageIndex, xpStageName} from "../js/stores/xpStageStore"
+    import {fade} from "svelte/transition"
 
     import Logo from "./Logo.svelte"
     import CafeGrainPicto from "./pictos/CafeGrain.svelte"
@@ -11,6 +11,8 @@
     import Home from "./Home.svelte"
     import TextTransition from "./TextTransition.svelte"
     import StageIndicator from "./StageIndicator.svelte"
+    import ShareButtons from "./ShareButtons.svelte";
+    import RecapButtons from "./RecapButtons.svelte";
 
     export let loadingPercentage
     export let isLoaded
@@ -76,11 +78,13 @@
         <Home {loadingPercentage} {isLoaded} />
     {:else if $xpStageName === 'intro'}
         <TextTransition
-            duration={2500}
-            text="Et vous,<br/>quel est votre moment café ?" />
+            duration={0}
+            text="Et vous,<br/>quel est votre moment café ?">
+            <button on:click={() => xpStageIndex.setName('choice1')}>Next</button>
+        </TextTransition>
     {:else if $xpStageName === 'transition1'}
         <TextTransition
-            duration={2500}
+            duration={4000}
             text="Café Moulu"
             subText="La température de l'eau est&nbsp;primordiale. <br/> La
             température idéale se situe entre 85 et 95 degrés.">
@@ -88,7 +92,7 @@
         </TextTransition>
     {:else if $xpStageName === 'transition2'}
         <TextTransition
-            duration={2500}
+            duration={4000}
             text="Cafetière Italienne"
             subText="Une mouture fine permet d'obtenir un café fort en caféine et en
             goût.">
@@ -96,7 +100,7 @@
         </TextTransition>
     {:else if $xpStageName === 'transition3'}
         <TextTransition
-            duration={2500}
+            duration={4000}
             text="Tasse en porcelaine"
             subText="Le plastique des gobelets altère le goût du café.<br/> De plus,
             la tasse c'est zéro déchet&nbsp;!">
@@ -104,7 +108,7 @@
         </TextTransition>
     {:else if $xpStageName === 'transition4'}
         <TextTransition
-            duration={2500}
+            duration={4000}
             text="Une note sucrée"
             subText="Lorsque vous êtes au Portugal, commandez
             «&nbsp;un&nbsp;Bica&nbsp;»<br/> Votre expresso sera accompagné d'un
@@ -112,10 +116,16 @@
             <BiscuitPicto />
         </TextTransition>
     {:else if $xpStageName === 'break'}
-        <TextTransition duration={4000} text="Votre café est prêt" />
+        <TextTransition duration={0} text="Votre café est prêt" />
+        <RecapButtons />
+    {:else if $xpStageName === 'climax'}
+        <TextTransition duration={23000} text="" />
+    {:else if $xpStageName === 'outro'}
+        <TextTransition duration={23000} text="" />
+        <ShareButtons />
     {/if}
 
-    {#if $xpStageName !== 'home'}
+    {#if $xpStageName !== 'home' && $xpStageName !== "climax"}
         <div class="top" transition:fade>
             <Logo />
         </div>
@@ -129,7 +139,8 @@
         </button>
     {/if}
 
-    {#if $xpStageIndex > 1}
+
+    {#if $xpStageIndex > 1 && $xpStageName !== 'climax'}
         <StageIndicator />
     {/if}
 </main>
