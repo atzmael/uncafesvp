@@ -19,10 +19,10 @@
 </script>
 
 <style>
-    @font-face {
+    /* @font-face {
         font-family: "LouizeDisplay";
         src: url("/dist/assets/fonts/LouizeDisplay.otf") format("truetype");
-    }
+    } */
 
     main {
         pointer-events: none;
@@ -34,7 +34,7 @@
         right: 0;
         display: grid;
         place-content: center center;
-        grid-template-rows: 0.3fr 1fr 10fr 2fr 0.3fr;
+        grid-template-rows: 0.3fr 1fr 11fr 2fr 0.3fr;
         grid-template-columns: 0.3fr 1fr 0.3fr;
     }
 
@@ -42,36 +42,7 @@
         background-image: url(../../dist/assets/maps/background.jpg);
         background-size: contain;
     } */
-    :global(button) {
-        pointer-events: auto;
-        cursor: pointer;
-        transition: all 0.5s;
-        visibility: visible;
-        opacity: 1;
-    }
 
-    .previous-arrow {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-    }
-
-    .start-button {
-        background: transparent;
-        box-shadow: 0px 0px 0.5px 2.5px var(--color-brown);
-        border: none;
-        margin: auto;
-        margin-top: 4rem;
-        padding: 0 3rem;
-        border-radius: 2.5rem;
-        height: 2.5rem;
-        transition: all 0.4s;
-    }
-
-    .start-button:hover {
-        color: white;
-        background: var(--color-brown);
-    }
     :global(.center) {
         grid-column: 2 / -2;
         grid-row: 3 / -3;
@@ -92,6 +63,7 @@
     :global(.bottom) {
         grid-column: 2 / -2;
         grid-row: -3 / -2;
+        font-size: 1.75rem;
         display: flex;
         justify-content: center;
         text-align: center;
@@ -99,22 +71,6 @@
 
     :global(.btn-container) {
         margin-top: 75px;
-    }
-
-    :global(.btn) {
-        border-radius: 40px;
-        background: none;
-        border: 2px solid rgb(38, 21, 6);
-        padding: 15px 50px;
-        font-size: 18pt;
-        font-family: "LouizeDisplay", Helvetica, sans-serif;
-        outline: none;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.4s;
-    }
-    :global(.btn:hover) {
-        transform: scale(1.1) rotateZ(-3deg);
     }
 
     .btn-start {
@@ -132,13 +88,14 @@
     {:else if $xpStageName === 'intro'}
         <TextTransition
             duration={0}
+            isSas={true}
             text="Et vous,<br/>quel est votre moment café ?">
             <button
                 class="btn btn-start start-button"
                 class:active={$startReady}
                 slot="btn"
                 on:click={() => xpStageIndex.setName('choice1')}>
-                Commencer
+                Continuer
             </button>
         </TextTransition>
     {:else if $xpStageName === 'transition1'}
@@ -201,15 +158,7 @@
         </div>
     {/if}
 
-    {#if $xpStageName === 'choice2' || $xpStageName === 'choice3' || $xpStageName === 'choice4'}
-        <button
-            on:click={() => xpStageIndex.setIndex($xpStageIndex - 2)}
-            class="previous-arrow">
-            ⬅ ⬅ ⬅
-        </button>
-    {/if}
-
-    {#if $xpStageIndex > 1 && $xpStageName !== 'climax' && $xpStageName !== 'outro'}
+    {#if $xpStageIndex > 1 && $xpStageName !== 'climax' && $xpStageName !== 'outro' && $xpStageName !== 'break'}
         <StageIndicator />
     {/if}
 </main>

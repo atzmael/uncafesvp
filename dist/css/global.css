@@ -11,6 +11,34 @@ body {
     font-size: calc((24px + 1.8vw) * 0.5);
 }
 
+button {
+    font-family: "angie-sans";
+    letter-spacing: 0.02em;
+    margin: auto;
+    margin-top: 7rem;
+    pointer-events: auto;
+    cursor: pointer;
+    /* font-family: "LouizeDisplay", Helvetica, sans-serif; */
+    font-size: 17pt;
+    height: 2em;
+    width: fit-content;
+    padding: 0 2.5rem;
+    border-radius: 2.5rem;
+    border: none;
+    box-shadow: 0px 0px 0.5px 2px var(--color-brown);
+    position: relative;
+    overflow: hidden;
+    outline: none;
+
+    background: transparent;
+    transition: all 0.4s;
+}
+
+button:hover {
+    color: white;
+    background: var(--color-brown);
+}
+
 .hidden {
     visibility: hidden;
     opacity: 0;

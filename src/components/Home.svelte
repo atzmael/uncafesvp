@@ -12,22 +12,6 @@
     .infront {
         z-index: 9999;
     }
-    .start-button {
-        background: transparent;
-        box-shadow: 0px 0px 0.5px 2.5px var(--color-brown);
-        border: none;
-        margin: auto;
-        margin-top: 4rem;
-        padding: 0 3rem;
-        border-radius: 2.5rem;
-        height: 2.5rem;
-        transition: all 0.4s;
-    }
-
-    .start-button:hover {
-        color: white;
-        background: var(--color-brown);
-    }
 
     #headphones {
         height: 1.5em;
@@ -45,7 +29,7 @@
         class="start-button"
         on:click={() => xpStageIndex.setName('intro')}
         class:hidden={!isLoaded}>
-        Next
+        Commencer
     </button>
     <!-- {loadingPercentage} -->
 </div>

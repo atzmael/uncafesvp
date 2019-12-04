@@ -18,7 +18,7 @@
     } from "./js/stores/xpStageStore.js"
 
     // TODO: use store for debugging variables ?
-    const isDebugging = true
+    const isDebugging = false
 
     let loadedData = {}
     let isLoaded = false
@@ -40,9 +40,9 @@
         sLoader.load("/assets/maps/background3.jpg", "bg3")
         sLoader.load("/assets/maps/noise_center_tiled.jpg", "noise")
 
-        sLoader.load('/assets/sound/temoignage1.mp3', 'temoignage1')
-        sLoader.load('/assets/sound/temoignage2.mp3', 'temoignage2')
-        sLoader.load('/assets/animations/climax.mp4', 'climax')
+        sLoader.load("/assets/sound/temoignage1.mp3", "temoignage1")
+        sLoader.load("/assets/sound/temoignage2.mp3", "temoignage2")
+        sLoader.load("/assets/animations/climax.mp4", "climax")
         data.items.forEach((item) => {
             sLoader.load(Object.assign(item, { type: "item" }), item.name)
         })

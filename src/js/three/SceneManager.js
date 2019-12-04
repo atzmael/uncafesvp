@@ -149,13 +149,13 @@ const SceneManager = (canvas) => {
         let choice = Math.random() > 0.5
         if (choice) {
             interview1.play()
-            duration = interview1.buffer.duration * 0.75
+            duration = interview1.buffer.duration * 0.4
             setTimeout(() => {
                 startReady.set(true)
             }, duration * 1000)
         } else {
             interview2.play()
-            duration = interview2.buffer.duration * 0.75
+            duration = interview2.buffer.duration * 0.4
             setTimeout(() => {
                 startReady.set(true)
             }, duration * 1000)

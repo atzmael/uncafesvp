@@ -26,7 +26,7 @@ const createStage = () => {
     // Debug purpose only
     const next = () =>
         update((indx) => {
-            currentIndexStage = indx
+            currentIndexStage = indx + 1
             return Math.min(indx + 1, stageNames.length - 1)
         })
     const previousDebug = () =>
@@ -50,9 +50,12 @@ const createStage = () => {
     }
     const setName = (str) => {
         const newIndex = stageNames.indexOf(str)
+        console.log(newIndex, currentIndexStage)
         if (newIndex < currentIndexStage) {
-            let loop = currentIndexStage - newIndex;
-            for(let i = 0;i<loop;i++) {
+            let indexDifference = currentIndexStage - newIndex
+            console.log(Math.ceil(indexDifference / 2))
+            for (let i = 0; i < Math.ceil(indexDifference / 2); i++) {
+                console.log("PREVIOUS")
                 previous()
             }
         }

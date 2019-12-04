@@ -42,6 +42,8 @@
     .selected {
         transform: scale(2.5);
         box-shadow: 0px 0px 0.5px 1px var(--color-brown);
+        pointer-events: auto;
+        cursor: pointer;
     }
     .selected :global(svg) {
         opacity: 1;
@@ -58,7 +60,6 @@
         class:selected={$xpStageIndex > 2}
         on:click={() => xpStageIndex.setName('choice1')}>
         <CafeGrainPicto />
-        <div class="inner-step" />
     </div>
     <div
         class="container"
@@ -66,7 +67,6 @@
         class:selected={$xpStageIndex > 4}
         on:click={() => xpStageIndex.setName('choice2')}>
         <CafetierePicto />
-        <div class="inner-step" />
     </div>
     <div
         class="container"
@@ -74,7 +74,6 @@
         on:click={() => xpStageIndex.setName('choice3')}
         class:selected={$xpStageIndex > 6}>
         <TasseCeramiquePicto />
-        <div class="inner-step" />
     </div>
     <div
         class="container"
@@ -82,6 +81,5 @@
         class:selected={$xpStageIndex > 8}
         on:click={() => xpStageIndex.setName('choice4')}>
         <BiscuitPicto />
-        <div class="inner-step" />
     </div>
 </div>
