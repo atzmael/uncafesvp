@@ -22,7 +22,7 @@ const BgPlane = ({ bgTextures, noiseTexture }) => {
     let globalTime = 0
     time.subscribe((t) => (globalTime = t)) // TODO: needs unsubscribe
 
-    const transitionDuration = 3 // in seconds
+    const transitionDuration = 5 // in seconds
 
     const planeGeo = new THREE.PlaneBufferGeometry(1, 1, 1)
     const planeMat = new THREE.ShaderMaterial({
