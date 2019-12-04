@@ -1,10 +1,14 @@
+:root {
+    --color-brown: rgb(35, 17, 2);
+}
+
 .dg.main {
     opacity: 0.7;
 }
 
 body {
     font-family: "angie-sans";
-    font-size: 24px;
+    font-size: calc((24px + 1.8vw) * 0.5);
 }
 
 .hidden {

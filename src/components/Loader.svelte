@@ -166,7 +166,7 @@
         animation: waterSlide;
     }
     svg {
-        fill: rgb(35, 17, 2);
+        fill: var(--color-brown);
     }
 
     #bg-logo {

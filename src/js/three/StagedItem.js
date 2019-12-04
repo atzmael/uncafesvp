@@ -6,9 +6,9 @@ import {
 import AnimPlane from "./AnimPlane.js"
 import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
-import GUI from "../GUI.js"
+// import GUI from "../GUI.js"
 import { songTiming, soundsWaiting } from "../stores/xpStageStore"
-import { gsap } from "gsap"
+import { gsap, Power1, Power3 } from "gsap"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -18,7 +18,7 @@ import { gsap } from "gsap"
  * @returns {Object} an object containing the staged item and some animations / methods related to it
  */
 const StagedItem = (item, camera, scene, audioListener) => {
-    console.log(item)
+    // console.log(item)
     const {
         models,
         videoTextures,
@@ -75,7 +75,6 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     // Animation
     let canAnimate = false
-    let hasRotated = false
     let highlightOffsetPos = new THREE.Vector3(0, 3, 0)
     let highlightRotation = new THREE.Vector3(
         focusedRotation[0] * 2 * Math.PI,
@@ -84,6 +83,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     )
     // Tweens
     let progress = { value: 0 }
+    const staggerDelay = 0.27
 
     const fixedRotationGroup = new THREE.Group()
     model.scale.set(localScale * 2.3, localScale * 2.3, localScale * 2.3)
@@ -115,22 +115,22 @@ const StagedItem = (item, camera, scene, audioListener) => {
     collider.name = item.name
     collider.add(fixedRotationGroup)
 
-    const colorFolder = GUI.addFolder(`${item.name}Color`)
-    GUI.addColorUniform(
-        { hexColor: animPlane.hexColor1 },
-        animPlane.material.uniforms.col1,
-        colorFolder
-    )
-    GUI.addColorUniform(
-        { hexColor: animPlane.hexColor2 },
-        animPlane.material.uniforms.col2,
-        colorFolder
-    )
-    GUI.addColorUniform(
-        { hexColor: animPlane.hexColor3 },
-        animPlane.material.uniforms.col3,
-        colorFolder
-    )
+    // const colorFolder = GUI.addFolder(`${item.name}Color`)
+    // GUI.addColorUniform(
+    //     { hexColor: animPlane.hexColor1 },
+    //     animPlane.material.uniforms.col1,
+    //     colorFolder
+    // )
+    // GUI.addColorUniform(
+    //     { hexColor: animPlane.hexColor2 },
+    //     animPlane.material.uniforms.col2,
+    //     colorFolder
+    // )
+    // GUI.addColorUniform(
+    //     { hexColor: animPlane.hexColor3 },
+    //     animPlane.material.uniforms.col3,
+    //     colorFolder
+    // )
 
     // GUI.close()
 
@@ -156,10 +156,12 @@ const StagedItem = (item, camera, scene, audioListener) => {
             bgPlane.checkIfIsFocused(true)
         }
         canAnimate = true
+        isActive = true
         document.body.style.cursor = "pointer"
     }
 
     const getBackToPlace = (isLooping) => {
+        isActive = false
         gsap.killTweensOf(progress)
         if (!isLooping && item.active) {
             soundHandler.stop("loop", sound)
@@ -167,7 +169,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         gsap.to(progress, {
             value: 0,
             onUpdate: () => {
-                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 1), 0.25)
+                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 1), 0.22)
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
                 sprite.material.opacity = progress.value * maxHaloOpacity
@@ -216,14 +218,24 @@ const StagedItem = (item, camera, scene, audioListener) => {
     }
 
     const enterView = () => {
-        gsap.killTweensOf(outOffsetPos)
-        isInView = true
-        gsap.to(outOffsetPos, { y: -getHeightUnit() * 0.1 })
+        setTimeout(() => {
+            gsap.killTweensOf(outOffsetPos)
+            isInView = true
+            gsap.to(outOffsetPos, {
+                y: -getHeightUnit() * 0.1,
+                duration: 1.3,
+                delay: 0.2,
+                ease: Power3.easeOut
+            })
+        }, staggerDelay)
     }
     const leaveView = () => {
+        console.log()
         gsap.killTweensOf(outOffsetPos)
         gsap.to(outOffsetPos, {
             y: getOutOfStagePosOffset().y,
+            delay: isActive ? staggerDelay : 0, // add a delay if it is hovered
+            ease: Power1.easeIn,
             onComplete: () => {
                 isInView = false
             }

@@ -135,7 +135,7 @@
             "colors": ["rgb(252,245,233)", "rgb(163,0,0)", "rgb(207,122,116)"],
             "haloColor": "rgb(130,80,40)",
             "haloVerticalScale": 1.2,
-            "focusedRotation": [0, 0.6, -0.06],
+            "focusedRotation": [0, 0.7, -0.06],
             "localScale": 0.9,
             "stage": 6,
             "active": false

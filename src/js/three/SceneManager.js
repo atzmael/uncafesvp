@@ -1,8 +1,8 @@
 import * as THREE from "three"
 import BgPlane from "./BgPlane.js"
 import StagedItem from "./StagedItem.js"
-import GUI from "../GUI.js"
-import Stats from "stats.js/src/Stats"
+// import GUI from "../GUI.js"
+// import Stats from "stats.js/src/Stats"
 import {
     xpStageIndex,
     objectToInteract,
@@ -11,17 +11,17 @@ import {
     xpStageName,
     songTiming
 } from "../stores/xpStageStore"
-import SoundHandler from "../SoundHandler";
-import BgAnimPlane from "./BgAnimPlane";
-import {gsap} from "gsap";
+import SoundHandler from "../SoundHandler"
+import BgAnimPlane from "./BgAnimPlane"
+import { gsap } from "gsap"
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
     let height = canvas.parentNode.offsetHeight // assuming canvas height: 100%
 
-    let stats = Stats()
-    stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild(stats.dom)
+    // let stats = Stats()
+    // stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+    // document.body.appendChild(stats.dom)
 
     // Raycast settings
     let raycaster = new THREE.Raycaster()
@@ -32,21 +32,21 @@ const SceneManager = (canvas) => {
 
     // TODO: unsubscribe
     const unsubscribe = xpStageName.subscribe((value) => {
-        if(value == "choice1" && interview1.isPlaying) {
+        if (value == "choice1" && interview1.isPlaying) {
             interview1.stop()
-        } else if(value == "choice1" && interview2.isPlaying) {
+        } else if (value == "choice1" && interview2.isPlaying) {
             interview2.stop()
         }
         if (value == "choice1") {
             isRaycasting = true
         }
-        if(value == "break") {
+        if (value == "break") {
             songFinished = true
-            soundsPlaying.forEach(e => {
+            soundsPlaying.forEach((e) => {
                 e.soundHandler.pause(e.sound)
             })
         }
-        if(value == "climax") {
+        if (value == "climax") {
             // TODO: launch climax
             console.log("in last stage", climax)
             gsap.killTweensOf(climax.fadeInOpa)
@@ -54,7 +54,8 @@ const SceneManager = (canvas) => {
                 value: 1,
                 onUpdate: () => {
                     climax.video.play()
-                    climax.video.material.uniforms.uAlpha.value = climax.fadeInOpa.value
+                    climax.video.material.uniforms.uAlpha.value =
+                        climax.fadeInOpa.value
                 }
             })
         }
@@ -117,10 +118,10 @@ const SceneManager = (canvas) => {
     let climax = {
         audio: null,
         video: null,
-        fadeInOpa: {value: 0}
+        fadeInOpa: { value: 0 }
     }
-    let interview1;
-    let interview2;
+    let interview1
+    let interview2
 
     let clock = new THREE.Clock()
     clock.start()
@@ -131,21 +132,26 @@ const SceneManager = (canvas) => {
             stagedItems.push(stagedItem)
             scene.add(stagedItem.collider)
             objectToInteract.push(stagedItem.collider)
-            GUI.addStagedItem(stagedItem)
+            // GUI.addStagedItem(stagedItem)
         })
 
         interview1 = new THREE.Audio(audioListener)
-        interview1.setBuffer(loadedData.sounds[0]);
+        interview1.setBuffer(loadedData.sounds[0])
         interview2 = new THREE.Audio(audioListener)
-        interview2.setBuffer(loadedData.sounds[1]);
-        let choice = Math.random() > 0.5;
-        if(choice) {
+        interview2.setBuffer(loadedData.sounds[1])
+        let choice = Math.random() > 0.5
+        if (choice) {
             interview1.play()
         } else {
             interview2.play()
         }
 
-        climax.video = BgAnimPlane({videoTexture: loadedData.videoTextures[0], camera, active: true, looping: false})
+        climax.video = BgAnimPlane({
+            videoTexture: loadedData.videoTextures[0],
+            camera,
+            active: true,
+            looping: false
+        })
         scene.add(climax.video)
 
         // TODO: static bg
@@ -191,7 +197,7 @@ const SceneManager = (canvas) => {
     let objectIntersected = null
     const update = (time) => {
         // Debug
-        stats.begin()
+        // stats.begin()
 
         songTime = time
 
@@ -250,7 +256,7 @@ const SceneManager = (canvas) => {
 
         renderer.render(scene, camera)
 
-        stats.end()
+        // stats.end()
     }
 
     canvas.addEventListener("click", (e) => {

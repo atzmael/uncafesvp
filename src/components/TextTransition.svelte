@@ -7,24 +7,28 @@
     export let subText = ""
     export let duration
 
-    if(duration > 0) delayBeforeNextStep(duration)
+    if (duration > 0) delayBeforeNextStep(duration)
 </script>
 
 <style>
     .picto-container {
-        height: 8rem;
         margin: auto;
-        margin-bottom: 2rem;
     }
     .picto-container :global(svg) {
-        height: 100%;
+        margin-bottom: 2rem;
+        height: 8rem;
     }
 </style>
 
-<div transition:fade class="center">
+<div
+    class="center"
+    in:fade={{ delay: 400, duration: 600 }}
+    out:fade={{ duration: 600 }}>
+
     <div class="picto-container">
         <slot />
     </div>
+
     <h3>
         {@html text}
     </h3>
@@ -33,4 +37,5 @@
             {@html subText}
         </h4>
     {/if}
+    <slot name="button" />
 </div>

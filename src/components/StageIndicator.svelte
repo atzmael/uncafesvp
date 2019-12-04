@@ -1,113 +1,79 @@
 <script>
     import { fade } from "svelte/transition"
     import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
+
+    import CafeGrainPicto from "./pictos/CafeGrain.svelte"
+    import CafetierePicto from "./pictos/CafetiereItalienne.svelte"
+    import TasseCeramiquePicto from "./pictos/TasseCeramique.svelte"
+    import BiscuitPicto from "./pictos/Biscuit.svelte"
 </script>
 
 <style>
     .stage-indicator {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        width: calc((300px + 25vw) / 2);
+        margin: auto;
     }
 
-    [class*="step"],
-    .home {
-        width: 20px;
-        height: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .container {
+        border-radius: 50%;
+        box-shadow: 0px 0px 0.5px 2.5px var(--color-brown);
         transition: all 0.5s;
-    }
-
-    [class*="step"] .inner-step {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        border: 1px solid rgb(188, 132, 89);
-        position: relative;
-    }
-
-    [class*="step"] .inner-step::before {
-        content: "";
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        border: 1px solid rgb(188, 132, 89);
-        top: 30%;
-        left: 70%;
-        transform: translate(-50%, -50%) scale(0);
-        transition: transform 0.5s ease-in;
-        position: absolute;
-    }
-
-    [class*="step"] .inner-step::after {
-        content: "";
         width: 25px;
         height: 25px;
-        border-radius: 50%;
-        border: 1px solid rgb(188, 132, 89);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        transition: transform 0.5s ease-in;
-        position: absolute;
+        display: grid;
+        place-items: center center;
     }
 
-    [class*="step"].active .inner-step {
-        background-color: rgb(196, 80, 37);
-        border-color: rgb(196, 80, 37);
+    .container :global(svg) {
+        width: 70%;
+        min-height: 0;
+        height: 70%;
+        opacity: 0;
+        transition: all 0.8s 0.5s;
     }
 
-    [class*="step"].selected .inner-step::before,
-    [class*="step"].selected .inner-step::after {
-        transform: translate(-50%, -50%) scale(1);
+    .active {
+        transform: scale(2.5);
+        box-shadow: 0px 0px 0.5px 1px var(--color-brown);
     }
-
-    [class*="step"].selected {
-        width: 23px;
-        height: 23px;
+    .selected {
+        transform: scale(2.5);
+        box-shadow: 0px 0px 0.5px 1px var(--color-brown);
     }
-
-    .separator {
-        height: 2px;
-        width: 40px;
-        background-color: rgb(188, 132, 89);
-        margin-left: 5px;
-        margin-right: 5px;
+    .selected :global(svg) {
+        opacity: 1;
     }
 </style>
 
-<div class="stage-indicator bottom" transition:fade>
-    <div class="home">
-        <img src="test.svg" alt=" " />
-    </div>
-    <div class="separator" />
+<div
+    class="stage-indicator bottom"
+    in:fade={{ delay: 600, duration: 600 }}
+    out:fade={{ duration: 600 }}>
     <div
-        class="step1"
+        class="container"
         class:active={$xpStageName == 'choice1'}
         class:selected={$xpStageIndex > 2}>
-        <div class="inner-step" />
+        <CafeGrainPicto />
     </div>
-    <div class="separator" />
     <div
-        class="step2"
+        class="container"
         class:active={$xpStageName == 'choice2'}
         class:selected={$xpStageIndex > 4}>
-        <div class="inner-step" />
+        <CafetierePicto />
     </div>
-    <div class="separator" />
     <div
-        class="step3"
+        class="container"
         class:active={$xpStageName == 'choice3'}
         class:selected={$xpStageIndex > 6}>
-        <div class="inner-step" />
+        <TasseCeramiquePicto />
     </div>
-    <div class="separator" />
     <div
-        class="step4"
+        class="container"
         class:active={$xpStageName == 'choice4'}
         class:selected={$xpStageIndex > 8}>
-        <div class="inner-step" />
+        <BiscuitPicto />
     </div>
 </div>
