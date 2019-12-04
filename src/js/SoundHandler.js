@@ -34,24 +34,10 @@ const SoundHandler = () => {
         audio.setFilter(filter)
         gsap.killTweensOf(frequency);
         gsap.to(frequency, {
-            duration: 1.5,
+            duration: 2,
             value: 350,
             onUpdate: () => {
                 filter.frequency.value = frequency.value
-            },
-            onComplete: () => {
-                gsap.killTweensOf(volume);
-                gsap.to(volume, {
-                    duration: 1,
-                    value: 0,
-                    delay: 1.5,
-                    onUpdate: () => {
-                        audio.setVolume(volume.value);
-                    },
-                    onComplete: () => {
-                        audio.stop();
-                    }
-                })
             }
         })
     }

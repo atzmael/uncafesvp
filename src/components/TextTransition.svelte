@@ -37,5 +37,7 @@
             {@html subText}
         </h4>
     {/if}
-    <slot name="button" />
+    <div class="btn-container">
+        <slot name="btn" />
+    </div>
 </div>

@@ -1,5 +1,5 @@
 <script>
-    import { xpStageIndex, xpStageName } from "../js/stores/xpStageStore"
+    import { xpStageIndex, xpStageName, startReady } from "../js/stores/xpStageStore"
     import { fade } from "svelte/transition"
 
     import Logo from "./Logo.svelte"
@@ -19,6 +19,11 @@
 </script>
 
 <style>
+    @font-face {
+        font-family: "LouizeDisplay";
+        src: url("/dist/assets/fonts/LouizeDisplay.otf") format("truetype");
+    }
+
     main {
         pointer-events: none;
         color: rgb(38, 21, 6);
@@ -32,6 +37,7 @@
         grid-template-rows: 0.3fr 1fr 10fr 2fr 0.3fr;
         grid-template-columns: 0.3fr 1fr 0.3fr;
     }
+
     /* .overlay {
         background-image: url(../../dist/assets/maps/background.jpg);
         background-size: contain;
@@ -73,6 +79,7 @@
         place-content: center center;
         text-align: center;
     }
+
     :global(.top) {
         grid-column: 2 / -2;
         grid-row: 2 / 3;
@@ -81,12 +88,41 @@
         text-align: center;
         height: 100%;
     }
+
     :global(.bottom) {
         grid-column: 2 / -2;
         grid-row: -3 / -2;
         display: flex;
         justify-content: center;
         text-align: center;
+    }
+
+    :global(.btn-container) {
+        margin-top: 75px;
+    }
+
+    :global(.btn) {
+        border-radius: 40px;
+        background: none;
+        border: 2px solid rgb(38, 21, 6);
+        padding: 15px 50px;
+        font-size: 18pt;
+        font-family: "LouizeDisplay", Helvetica, sans-serif;
+        outline: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s;
+    }
+    :global(.btn:hover) {
+        transform: scale(1.1) rotateZ(-3deg);
+    }
+
+    .btn-start {
+        opacity: 0;
+        transition: opacity 0.6s;
+    }
+    .btn.active {
+        opacity: 1;
     }
 </style>
 
@@ -98,10 +134,11 @@
             duration={0}
             text="Et vous,<br/>quel est votre moment café ?">
             <button
-                slot="button"
-                class="start-button"
+                class="btn btn-start start-button"
+                class:active={$startReady}
+                slot="btn"
                 on:click={() => xpStageIndex.setName('choice1')}>
-                Next
+                Commencer
             </button>
         </TextTransition>
     {:else if $xpStageName === 'transition1'}
@@ -138,13 +175,21 @@
             <BiscuitPicto />
         </TextTransition>
     {:else if $xpStageName === 'break'}
-        <TextTransition duration={0} text="Votre café est prêt" />
-        <RecapButtons />
+        <TextTransition duration={0} text="Votre café est prêt">
+            <div class="btn-inner" slot="btn">
+                <RecapButtons />
+            </div>
+        </TextTransition>
     {:else if $xpStageName === 'climax'}
-        <TextTransition duration={23000} text="" />
+        <TextTransition duration={22500} text="" />
     {:else if $xpStageName === 'outro'}
-        <TextTransition duration={23000} text="" />
-        <ShareButtons />
+        <TextTransition
+            duration={0}
+            text="Bravo, tu as réussi à prendre le temps d'apprécier ta pause café">
+            <div class="btn-inner" slot="btn">
+                <ShareButtons />
+            </div>
+        </TextTransition>
     {/if}
 
     {#if $xpStageName !== 'home' && $xpStageName !== 'climax'}

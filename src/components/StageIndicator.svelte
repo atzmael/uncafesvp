@@ -55,25 +55,33 @@
     <div
         class="container"
         class:active={$xpStageName == 'choice1'}
-        class:selected={$xpStageIndex > 2}>
+        class:selected={$xpStageIndex > 2}
+        on:click={() => xpStageIndex.setName('choice1')}>
         <CafeGrainPicto />
+        <div class="inner-step" />
     </div>
     <div
         class="container"
         class:active={$xpStageName == 'choice2'}
-        class:selected={$xpStageIndex > 4}>
+        class:selected={$xpStageIndex > 4}
+        on:click={() => xpStageIndex.setName('choice2')}>
         <CafetierePicto />
+        <div class="inner-step" />
     </div>
     <div
         class="container"
         class:active={$xpStageName == 'choice3'}
+        on:click={() => xpStageIndex.setName('choice3')}
         class:selected={$xpStageIndex > 6}>
         <TasseCeramiquePicto />
+        <div class="inner-step" />
     </div>
     <div
         class="container"
         class:active={$xpStageName == 'choice4'}
-        class:selected={$xpStageIndex > 8}>
+        class:selected={$xpStageIndex > 8}
+        on:click={() => xpStageIndex.setName('choice4')}>
         <BiscuitPicto />
+        <div class="inner-step" />
     </div>
 </div>
