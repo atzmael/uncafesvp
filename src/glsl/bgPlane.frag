@@ -27,7 +27,7 @@ void main() {
 
     float smoothinterval = .4;
 
-    vec2 nv1 = vec2(uv.x, uv.y - time * 0.005) * 0.73;
+    vec2 nv1 = vec2(uv.x, uv.y - time * 0.008) * 0.73;
     vec2 nv2 = uv * 1.66;
     vec2 nv3 = uv;
     nv1.y -= .003;

@@ -15,7 +15,6 @@
     import RecapButtons from "./RecapButtons.svelte"
 
     export let loadingPercentage
-    export let isLoaded
 </script>
 
 <style>
@@ -63,7 +62,7 @@
     :global(.bottom) {
         grid-column: 2 / -2;
         grid-row: -3 / -2;
-        font-size: 1.75rem;
+        font-size: 1.6rem;
         display: flex;
         justify-content: center;
         text-align: center;
@@ -76,15 +75,17 @@
     .btn-start {
         opacity: 0;
         transition: opacity 0.6s;
+        cursor: default;
     }
     .btn.active {
         opacity: 1;
+        cursor: pointer;
     }
 </style>
 
 <main class:overlay={$xpStageName === 'home'}>
     {#if $xpStageName === 'home'}
-        <Home {loadingPercentage} {isLoaded} />
+        <Home {loadingPercentage} />
     {:else if $xpStageName === 'intro'}
         <TextTransition
             duration={0}

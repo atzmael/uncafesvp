@@ -1,6 +1,6 @@
 <script>
     import { TweenLite, Power0 } from "gsap"
-    import { onMount } from "svelte"
+    import { onMount, createEventDispatcher } from "svelte"
 
     // TODO: CLEAN UP, find a way to import svg path properly
     // use @svgr/parcel-plugin-svgr ???
@@ -138,6 +138,14 @@
 
     const liquidYOffset = 20
 
+    const dispatch = createEventDispatcher()
+
+    $: if (displayedProgress == 100) finishedLoading()
+
+    function finishedLoading() {
+        dispatch("loaded")
+    }
+
     onMount(() => {
         TweenLite.to(fakeProgress, 2.5, {
             value: 100,
@@ -200,8 +208,8 @@
             style="transform: translateY({100 + liquidYOffset - (displayedProgress * (100 + liquidYOffset)) / 100}%)">
             <path
                 id="liquid-layer"
-                d="M923.3-0.1v181.9H0V-0.1C69.2-0.1,70.1-19,115.4-19S161.7-0.1,230.9-0.1S301-19,346.3-19S392.5-0.1,461.7-0.1
-                c69.1,0,70.1-18.9,115.4-18.9S623.4-0.1,692.5-0.1c69.2,0,70.1-18.9,115.4-18.9S854.2-0.1,923.3-0.1z" />
+                d="M764.2-0.1v181.9H0V-0.1C57.3-0.1,58-19,95.5-19s38.3,18.9,95.6,18.9s58-18.9,95.5-18.9s38.2,18.9,95.5,18.9
+                c57.2,0,58-18.9,95.5-18.9S516-0.1,573.2-0.1c57.3,0,58-18.9,95.5-18.9C706.2-19,707-0.1,764.2-0.1z" />
         </clipPath>
         <g id="logo-layer" clip-path="url(#liquid-container)">
             {@html logoPath}

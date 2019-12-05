@@ -8,7 +8,7 @@ import BgAnimPlane from "./BgAnimPlane.js"
 import SoundHandler from "../SoundHandler.js"
 // import GUI from "../GUI.js"
 import { songTiming, soundsWaiting } from "../stores/xpStageStore"
-import { gsap, Power1, Power3 } from "gsap"
+import { TweenLite, gsap, Power1, Power3 } from "gsap"
 
 /**
  * This return an object with the model positionned, and an animation associated to it, plus some functionnality
@@ -41,7 +41,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         visibleHeightAtZDepth(model.position.z, camera) * 0.33
     const getWidthUnit = () => visibleWidthAtZDepth(model.position.z, camera) * 0.33
     const getOutOfStagePosOffset = () =>
-        new THREE.Vector3(0, getHeightUnit() * -3, 0)
+        new THREE.Vector3(0, getHeightUnit() * -3.5, 0)
     let outOfViewMaxOffsetPos = getOutOfStagePosOffset()
 
     let isInView = false
@@ -136,7 +136,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
 
     const hasBeenTouched = () => {
         gsap.killTweensOf(progress)
-        gsap.to(progress, {
+        TweenLite.to(progress, 0.5, {
             value: 1,
             onUpdate: () => {
                 model.rotation.set(
@@ -166,10 +166,11 @@ const StagedItem = (item, camera, scene, audioListener) => {
         if (!isLooping && item.active) {
             soundHandler.stop("loop", sound)
         }
-        gsap.to(progress, {
+        TweenLite.to(progress, 0.5, {
             value: 0,
             onUpdate: () => {
-                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 1), 0.22)
+                // TODO: slerp: this 0.25 value is dependant on framerate, use deltaTime or something instead
+                model.quaternion.slerp(new THREE.Quaternion(0, 0, 0, 1), 0.25)
                 animPlane.material.uniforms.uAlpha.value = progress.value
                 bgPlane.material.uniforms.uAlpha.value = progress.value
                 sprite.material.opacity = progress.value * maxHaloOpacity
@@ -221,7 +222,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
         setTimeout(() => {
             gsap.killTweensOf(outOffsetPos)
             isInView = true
-            gsap.to(outOffsetPos, {
+            TweenLite.to(outOffsetPos, {
                 y: -getHeightUnit() * 0.1,
                 duration: 1.3,
                 delay: 0.2,
@@ -232,7 +233,7 @@ const StagedItem = (item, camera, scene, audioListener) => {
     const leaveView = () => {
         console.log()
         gsap.killTweensOf(outOffsetPos)
-        gsap.to(outOffsetPos, {
+        TweenLite.to(outOffsetPos, {
             y: getOutOfStagePosOffset().y,
             delay: isActive ? staggerDelay : 0, // add a delay if it is hovered
             ease: Power1.easeIn,

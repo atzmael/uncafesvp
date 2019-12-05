@@ -1,7 +1,7 @@
 /*
  heavily based on THREE.ImageLoader
 */
-import { Loader, Cache } from 'three'
+import { Loader, Cache } from "three"
 
 function VideoLoader(manager) {
     Loader.call(this, manager)
@@ -29,21 +29,21 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
         }
 
         // TODO: actually use these different extensions and sources
-        const extensions = ['mp4']
+        const extensions = ["mp4"]
 
-        const video = document.createElement('video')
-
-        // TODO: set options for video (loop, etc.) ???
+        const video = document.createElement("video")
+        video.preload = "auto"
+        // TODO: set more options for video (loop, etc.) ???
 
         const sources = extensions.map(() => {
-            const source = document.createElement('source')
+            const source = document.createElement("source")
             video.appendChild(source)
             return source
         })
 
         function onVideoLoad() {
-            video.removeEventListener('canplaythrough', onVideoLoad, false)
-            video.removeEventListener('error', onVideoError, false)
+            video.removeEventListener("canplaythrough", onVideoLoad, false)
+            video.removeEventListener("error", onVideoError, false)
 
             Cache.add(url, this)
 
@@ -53,10 +53,10 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
         }
 
         function onVideoError(event) {
-            video.removeEventListener('canplaythrough', onVideoLoad, false)
-            video.removeEventListener('error', onVideoError, false)
+            video.removeEventListener("canplaythrough", onVideoLoad, false)
+            video.removeEventListener("error", onVideoError, false)
             sources.forEach((s) =>
-                s.removeEventListener('error', onVideoError, false)
+                s.removeEventListener("error", onVideoError, false)
             )
 
             if (onError) onError(event)
@@ -65,11 +65,11 @@ VideoLoader.prototype = Object.assign(Object.create(Loader.prototype), {
             scope.manager.itemEnd(url)
         }
 
-        video.addEventListener('canplaythrough', onVideoLoad, false)
-        video.addEventListener('error', onVideoError, false)
-        sources.forEach((s) => s.addEventListener('error', onVideoError, false))
+        video.addEventListener("canplaythrough", onVideoLoad, false)
+        video.addEventListener("error", onVideoError, false)
+        sources.forEach((s) => s.addEventListener("error", onVideoError, false))
 
-        if (url.substr(0, 5) !== 'data:') {
+        if (url.substr(0, 5) !== "data:") {
             if (this.crossOrigin !== undefined) video.crossOrigin = this.crossOrigin
         }
 

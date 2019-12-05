@@ -5,7 +5,7 @@
     import { xpStageIndex } from "../js/stores/xpStageStore"
 
     export let loadingPercentage
-    export let isLoaded
+    let isButtonVisible = false
 </script>
 
 <style>
@@ -24,11 +24,13 @@
     class="center infront"
     in:fade={{ delay: 600, duration: 600 }}
     out:fade={{ duration: 600 }}>
-    <Loader progress={Math.round(loadingPercentage)} />
+    <Loader
+        progress={Math.round(loadingPercentage)}
+        on:loaded={() => (isButtonVisible = true)} />
     <button
         class="start-button"
         on:click={() => xpStageIndex.setName('intro')}
-        class:hidden={!isLoaded}>
+        class:hidden={!isButtonVisible}>
         Commencer
     </button>
     <!-- {loadingPercentage} -->

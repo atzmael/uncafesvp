@@ -15,7 +15,7 @@ import {
 } from "../stores/xpStageStore"
 import SoundHandler from "../SoundHandler"
 import BgAnimPlane from "./BgAnimPlane"
-import { gsap } from "gsap"
+import { TweenLite, gsap } from "gsap"
 
 const SceneManager = (canvas) => {
     let width = canvas.parentNode.offsetWidth // assuming canvas width: 100%
@@ -56,7 +56,7 @@ const SceneManager = (canvas) => {
                 e.soundHandler.stop("loop", e.sound)
             })
             gsap.killTweensOf(climax.fadeInOpa)
-            gsap.to(climax.fadeInOpa, {
+            TweenLite.to(climax.fadeInOpa, {
                 value: 1,
                 onUpdate: () => {
                     climax.video.play()

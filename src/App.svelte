@@ -62,5 +62,5 @@
 {#if isDebugging}
     <Debugger />
 {/if}
-<UI {loadingPercentage} {isLoaded} />
+<UI {loadingPercentage} />
 <CanvasContainer {loadedData} {isLoaded} />

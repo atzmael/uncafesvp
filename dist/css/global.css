@@ -8,7 +8,7 @@
 
 body {
     font-family: "angie-sans";
-    font-size: calc((24px + 1.8vw) * 0.5);
+    font-size: calc((20px + 1.8vw) * 0.5);
 }
 
 button {
@@ -42,14 +42,15 @@ button:hover {
 .hidden {
     visibility: hidden;
     opacity: 0;
+    transition: all 0.5s;
 }
 
 h3 {
-    font-size: 2.8rem;
+    font-size: 2.6rem;
     line-height: 1.4em;
 }
 
 h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     line-height: 1.4em;
 }
