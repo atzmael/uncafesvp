@@ -1,17 +1,13 @@
 <style>
     svg {
         height: 100%;
+        min-height: 40px;
+        max-height: 7vh;
+        opacity: 0.85;
     }
 </style>
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 382 178.46">
-    <defs>
-        <style>
-            .logo {
-                opacity: 0.85;
-            }
-        </style>
-    </defs>
     <title>Fichier 2</title>
     <g id="Calque_2" data-name="Calque 2">
         <g id="Calque_1-2" data-name="Calque 1">

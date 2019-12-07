@@ -7,7 +7,10 @@
 const pendings = {}
 export default function promisifyLoader(loader, onProgress = undefined) {
     function promiseLoad(toLoad) {
-        if (pendings[toLoad]) return pendings[toLoad]
+        if (pendings[toLoad]) {
+            console.warn(`Trying to load this asset several times :`, toLoad)
+            return pendings[toLoad]
+        }
         return (pendings[toLoad] = new Promise((resolve, reject) => {
             loader.load(
                 toLoad,
